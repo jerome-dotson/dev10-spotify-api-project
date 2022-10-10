@@ -14,13 +14,13 @@ create table app_user(
 
 create table app_role(
 	role_id		int primary key auto_increment,
-    name		varchar(50) not null
+    `name`		varchar(50) not null
 );
 
 create table playlist(
 	playlist_id		int primary key auto_increment,
-    name			varchar(100) not null,
-    description		varchar(500),
+    `name`			varchar(100) not null,
+    `description`		varchar(1000),
     
     user_id			int not null,
     constraint fk_playlist_user foreign key (user_id) references app_user(user_id)
@@ -28,13 +28,13 @@ create table playlist(
 
 create table track(
 	track_id		int primary key auto_increment,
-    name			varchar(250) not null,
+    `name`			varchar(250) not null,
     duration_ms		bigint not null
 );
 
 create table artist(
 	artist_id		int primary key auto_increment,
-    name			varchar(250) not null
+    `name`			varchar(250) not null
 );
 
 create table tag(
@@ -65,7 +65,7 @@ create table user_playlist(
 	user_id			int not null,
     playlist_id		int not null,
     
-    isDeleted	boolean default 0,
+    accepted	boolean default 0,
     
     constraint pk_user_playlist primary key (user_id, playlist_id),
     constraint fk_user_playlist_user foreign key (user_id) references app_user(user_id),
@@ -75,6 +75,9 @@ create table user_playlist(
 create table track_playlist(
 	track_id		int not null,
     playlist_id		int not null,
+    
+    user_id			int not null,
+    constraint fk_user_track_playlist foreign key (user_id) references app_user(user_id),
     
     constraint pk_track_playlist primary key (track_id, playlist_id),
     constraint fk_track_playlist_track foreign key (track_id) references track(track_id),
