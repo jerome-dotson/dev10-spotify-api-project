@@ -56,9 +56,9 @@ create table user_role(
 	app_user_id		int not null,
     app_role_id			int not null,
     
-    constraint pk_user_role primary key (app_user_id, role_id),
+    constraint pk_user_role primary key (app_user_id, app_role_id),
     constraint fk_user_role_user foreign key (app_user_id) references app_user(app_user_id),
-    constraint fk_user_role_role foreign key (role_id) references app_role(role_id)
+    constraint fk_user_role_role foreign key (app_role_id) references app_role(app_role_id) 
 );
 
 create table user_playlist(
