@@ -3,11 +3,11 @@ create database APIc_spotify_playlist_test;
 use APIc_spotify_playlist_test;
 
 create table app_user(
-	user_id 		int primary key auto_increment,
+	app_user_id 	int primary key auto_increment,
     first_name		varchar(100) not null,
     last_name		varchar(100) not null,
     username		varchar(100) not null unique,
-    passwordhash		char(100) not null,
+    password_hash	char(100) not null,
     email			varchar(200) not null unique,
     isDeleted		boolean default 0
 );
@@ -22,8 +22,8 @@ create table playlist(
     `name`			varchar(100) not null,
     `description`		varchar(1000),
     
-    user_id			int not null,
-    constraint fk_playlist_user foreign key (user_id) references app_user(user_id)
+    app_user_id			int not null,
+    constraint fk_playlist_user foreign key (app_user_id) references app_user(app_user_id)
 );
 
 create table track(
@@ -41,8 +41,8 @@ create table tag(
 	tag_id 			int primary key auto_increment,
     content			varchar(250) not null,
     
-    user_id			int not null,
-    constraint fk_tag_user foreign key (user_id) references app_user(user_id)
+    app_user_id			int not null,
+    constraint fk_tag_user foreign key (app_user_id) references app_user(app_user_id)
 );
 
 create table image(
@@ -53,22 +53,22 @@ create table image(
 );
 
 create table user_role(
-	user_id		int not null,
-    role_id		int not null,
+	app_user_id		int not null,
+    role_id			int not null,
     
-    constraint pk_user_role primary key (user_id, role_id),
-    constraint fk_user_role_user foreign key (user_id) references app_user(user_id),
+    constraint pk_user_role primary key (app_user_id, role_id),
+    constraint fk_user_role_user foreign key (app_user_id) references app_user(app_user_id),
     constraint fk_user_role_role foreign key (role_id) references app_role(role_id)
 );
 
 create table user_playlist(
-	user_id			int not null,
+	app_user_id		int not null,
     playlist_id		int not null,
     
     accepted	boolean default 0,
     
-    constraint pk_user_playlist primary key (user_id, playlist_id),
-    constraint fk_user_playlist_user foreign key (user_id) references app_user(user_id),
+    constraint pk_user_playlist primary key (app_user_id, playlist_id),
+    constraint fk_user_playlist_user foreign key (app_user_id) references app_user(app_user_id),
     constraint fk_user_playlist_playlist foreign key (playlist_id) references playlist(playlist_id)
 );
 
@@ -76,8 +76,8 @@ create table track_playlist(
 	track_id		int not null,
     playlist_id		int not null,
     
-    user_id			int not null,
-    constraint fk_user_track_playlist foreign key (user_id) references app_user(user_id),
+    app_user_id		int not null,
+    constraint fk_user_track_playlist foreign key (app_user_id) references app_user(app_user_id),
     
     constraint pk_track_playlist primary key (track_id, playlist_id),
     constraint fk_track_playlist_track foreign key (track_id) references track(track_id),
@@ -136,7 +136,7 @@ begin
     delete from app_user;
     alter table app_user auto_increment = 1;
     
-    insert into app_user (user_id, first_name, last_name, username, passhash, email, isDeleted) values
+    insert into app_user (app_user_id, first_name, last_name, username, passhash, email, isDeleted) values
 		('1', 'Alice', 'Ayers', 'AAyers', '12345asdfg', 'aayers@apple.com', 0),
         ('2', 'Bob', 'Bobberson', 'BBobers', '23456sdfgh', 'bbobberson@bob.bob', 0),
         ('3', 'Clyde', 'Clemens', 'CClems', '34567dfghj', 'cclemens@clementine.net', 0),
@@ -147,7 +147,7 @@ begin
         ('2', 'GROUP-ADMIN'),
         ('3', 'APP-ADMIN');
         
-	insert into playlist (playlist_id, `name`, `description`, user_id) values
+	insert into playlist (playlist_id, `name`, `description`, app_user_id) values
 		('1', 'Jazzy jazz', 'Smooth, classic, and always fresh', '1'),
         ('2', 'Jam rock', 'A fusion of rock and long-winded jam sessions', '2');
     
@@ -174,7 +174,7 @@ begin
         ('8', 'Goose'),
         ('9', 'Lawrence');
     
-    insert into tag (tag_id, content, user_id) values
+    insert into tag (tag_id, content, app_user_id) values
 		('1', 'Jazz', '1'),
         ('2', 'Good vibes', '2'),
         ('3', 'Rockin', '2');
@@ -183,7 +183,7 @@ begin
 		('1', 'https://placekitten.com/300/300', '300', '300'),
 		('2', 'https://placekitten.com/300/300', '300', '300');
     
-    insert into user_role (user_id, role_id) values
+    insert into user_role (app_user_id, role_id) values
 		('1', '1'),
         ('1', '2'),
         ('2', '1'),
@@ -191,14 +191,14 @@ begin
         ('3', '1'),
         ('4', '3');
 
-	insert into user_playlist (user_id, playlist_id, accepted) values
+	insert into user_playlist (app_user_id, playlist_id, accepted) values
 		('1', '1', '1'),
         ('1', '2', '1'),
         ('2', '2', '1'),
         ('2', '1', '0'),
         ('3', '2', '1');
         
-	insert into track_playlist (track_id, playlist_id, user_id) values
+	insert into track_playlist (track_id, playlist_id, app_user_id) values
 		('1', '1', '1'),
         ('2', '1', '1'),
         ('3', '1', '1'),
