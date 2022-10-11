@@ -110,3 +110,6 @@ create table track_artist(
     constraint fk_track_artist_track foreign key (track_id) references track(track_id),
     constraint fk_track_artist_artist foreign key (artist_id) references artist(artist_id)
 );
+
+-- INSERT INTO app_user (first_name, last_name, username, password_hash, email, disabled) VALUES
+-- ("John", "Johnson", "john@smith.com", "$2a$10$mYiGgDqELKZgnqH4sGmYJ.g3R3IhNmKJdjp66HxQtakN.wNZjlcmS", "john@smith.com", 0);
