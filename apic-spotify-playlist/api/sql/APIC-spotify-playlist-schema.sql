@@ -9,7 +9,7 @@ create table app_user(
     username		varchar(100) not null unique,
     password_hash	char(100) not null,
     email			varchar(200) not null unique,
-    isDeleted		boolean default 0
+    disabled		boolean default 0
 );
 
 create table app_role(

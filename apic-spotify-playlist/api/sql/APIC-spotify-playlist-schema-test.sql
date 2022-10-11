@@ -9,7 +9,7 @@ create table app_user(
     username		varchar(100) not null unique,
     password_hash	char(100) not null,
     email			varchar(200) not null unique,
-    isDeleted		boolean default 0
+    disabled		boolean default 0
 );
 
 create table app_role(
@@ -136,7 +136,7 @@ begin
     delete from app_user;
     alter table app_user auto_increment = 1;
     
-    insert into app_user (app_user_id, first_name, last_name, username, passhash, email, isDeleted) values
+    insert into app_user (app_user_id, first_name, last_name, username, passhash, email, disabled) values
 		('1', 'Alice', 'Ayers', 'AAyers', '12345asdfg', 'aayers@apple.com', 0),
         ('2', 'Bob', 'Bobberson', 'BBobers', '23456sdfgh', 'bbobberson@bob.bob', 0),
         ('3', 'Clyde', 'Clemens', 'CClems', '34567dfghj', 'cclemens@clementine.net', 0),
