@@ -14,7 +14,7 @@ import AuthContext from "./context/AuthContext";
 
 
 // NEW: Define a variable for the localStorage token item key
-const LOCAL_STORAGE_TOKEN_KEY = "bugSafariToken";
+const LOCAL_STORAGE_TOKEN_KEY = "spotifyPlaylistToken";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -86,9 +86,6 @@ function App() {
                 <NavBar />
 
                 <Switch>
-                    <Route path={["/edit/:id", "/add"]}>
-                        {/* {user ? <SightingForm /> : <Redirect to="/login" />} */}
-                    </Route>
 
                     <Route path="/confirmation">
                         <Confirmation />
