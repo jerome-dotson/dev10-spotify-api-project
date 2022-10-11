@@ -27,7 +27,7 @@ public class AppUserRepository {
 
         final String sql = "select app_user_id, username, password_hash, disabled "
                 + "from app_user "
-                + "where username = ?;";
+                + "where username = ?;";  //Probably update to add all fields
 
         return jdbcTemplate.query(sql, new AppUserMapper(roles), username)
                 .stream()
@@ -37,13 +37,17 @@ public class AppUserRepository {
     @Transactional
     public AppUser create(AppUser user) {
 
-        final String sql = "insert into app_user (username, password_hash) values (?, ?);";
+        final String sql = "insert into app_user (first_name, last_name, username, password_hash" +
+                ", email values (?, ?, ?, ?, ?);";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getUsername());
+            ps.setString(4, user.getPassword());
+            ps.setString(5, user.getEmail());
             return ps;
         }, keyHolder);
 
@@ -64,7 +68,7 @@ public class AppUserRepository {
         final String sql = "update app_user set "
                 + "username = ?, "
                 + "disabled = ? "
-                + "where app_user_id = ?";
+                + "where app_user_id = ?"; //probably update to add all fields
 
         jdbcTemplate.update(sql,
                 user.getUsername(), !user.isEnabled(), user.getAppUserId());

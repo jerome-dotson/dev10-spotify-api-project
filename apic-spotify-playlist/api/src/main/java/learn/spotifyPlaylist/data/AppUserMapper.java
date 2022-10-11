@@ -18,8 +18,11 @@ public class AppUserMapper implements RowMapper<AppUser> {
     public AppUser mapRow(ResultSet rs, int i) throws SQLException {
         return new AppUser(
                 rs.getInt("app_user_id"),
+                rs.getString("first_name"),
+                rs.getString("last_name"),
                 rs.getString("username"),
                 rs.getString("password_hash"),
+                rs.getString("email"),
                 rs.getBoolean("disabled"),
                 roles);
     }
