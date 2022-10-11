@@ -3,13 +3,13 @@ create database APIc_spotify_playlist;
 use APIc_spotify_playlist;
 
 create table app_user(
-	user_id 	int primary key auto_increment,
-    first_name	varchar(100) not null,
-    last_name	varchar(100) not null,
-    username	varchar(100) not null unique,
-    passhash	char(100) not null,
-    email		varchar(200) not null unique,
-    isDeleted	boolean default 0
+	user_id 		int primary key auto_increment,
+    first_name		varchar(100) not null,
+    last_name		varchar(100) not null,
+    username		varchar(100) not null unique,
+    passwordhash	char(100) not null,
+    email			varchar(200) not null unique,
+    isDeleted		boolean default 0
 );
 
 create table app_role(

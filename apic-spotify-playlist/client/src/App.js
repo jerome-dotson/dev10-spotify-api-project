@@ -10,11 +10,15 @@ import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 import AuthContext from "./context/AuthContext";
 
+
 const LOCAL_STORAGE_TOKEN_KEY = "spotifyPlaylistToken";
 
+
 function App() {
+
     const [user, setUser] = useState(null);
     const [restoreLoginAttemptCompleted, setRestoreLoginAttemptCompleted] = useState(false);
+
 
     useEffect(() => {
         const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
@@ -23,6 +27,7 @@ function App() {
         }
         setRestoreLoginAttemptCompleted(true);
     }, []);
+
 
     const login = (token) => {
         localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
@@ -47,10 +52,12 @@ function App() {
         return user;
     };
 
+
     const logout = () => {
         setUser(null);
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
     };
+
 
     const auth = {
         user: user ? { ...user } : null,
@@ -58,10 +65,12 @@ function App() {
         logout
     };
 
+
     if (!restoreLoginAttemptCompleted) {
         return null;
     }
 
+    
     return (
         <AuthContext.Provider value={auth}>
             <Router>
