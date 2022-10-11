@@ -13,8 +13,8 @@ create table app_user(
 );
 
 create table app_role(
-	role_id		int primary key auto_increment,
-    `name`		varchar(50) not null
+	app_role_id		int primary key auto_increment,
+    `name`			varchar(50) not null
 );
 
 create table playlist(
@@ -54,11 +54,11 @@ create table image(
 
 create table user_role(
 	app_user_id		int not null,
-    role_id			int not null,
+    app_role_id			int not null,
     
-    constraint pk_user_role primary key (app_user_id, role_id),
+    constraint pk_user_role primary key (app_user_id, app_role_id),
     constraint fk_user_role_user foreign key (app_user_id) references app_user(app_user_id),
-    constraint fk_user_role_role foreign key (role_id) references app_role(role_id)
+    constraint fk_user_role_role foreign key (app_role_id) references app_role(app_role_id)
 );
 
 create table user_playlist(
@@ -142,7 +142,7 @@ begin
         ('3', 'Clyde', 'Clemens', 'CClems', '34567dfghj', 'cclemens@clementine.net', 0),
         ('4', 'Danielle', 'Davison', 'DDavis', '45678fghjk', 'ddavison@dmail.web', 0);
         
-	insert into app_role (role_id, `name`) values
+	insert into app_role (app_role_id, `name`) values
 		('1', 'USER'),
         ('2', 'GROUP-ADMIN'),
         ('3', 'APP-ADMIN');
@@ -183,7 +183,7 @@ begin
 		('1', 'https://placekitten.com/300/300', '300', '300'),
 		('2', 'https://placekitten.com/300/300', '300', '300');
     
-    insert into user_role (app_user_id, role_id) values
+    insert into user_role (app_user_id, app_role_id) values
 		('1', '1'),
         ('1', '2'),
         ('2', '1'),
