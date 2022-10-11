@@ -25,7 +25,7 @@ public class AppUserRepository {
     public AppUser findByUsername(String username) {
         List<String> roles = getRolesByUsername(username);
 
-        final String sql = "select app_user_id, username, password_hash, disabled "
+        final String sql = "select first_name, last_name, email, app_user_id, username, password_hash, disabled "
                 + "from app_user "
                 + "where username = ?;";  //Probably update to add all fields
 
