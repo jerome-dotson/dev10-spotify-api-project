@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import NavBar from "./components/NavBar";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import AuthContext from "./context/AuthContext";
 
 
@@ -70,7 +71,7 @@ function App() {
         return null;
     }
 
-    
+
     return (
         <AuthContext.Provider value={auth}>
             <Router>
@@ -88,6 +89,10 @@ function App() {
 
                     <Route path="/login">
                         {!user ? <Login /> : <Redirect to="/" />}
+                    </Route>
+
+                    <Route path="/register">
+                        {!user ? <Register /> : <Redirect to="/" />}
                     </Route>
 
                     <Route exact path="/">
