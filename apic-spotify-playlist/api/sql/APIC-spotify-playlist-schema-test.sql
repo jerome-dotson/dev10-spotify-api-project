@@ -137,10 +137,10 @@ begin
     alter table app_user auto_increment = 1;
     
     insert into app_user (app_user_id, first_name, last_name, username, passhash, email, disabled) values
-		('1', 'Alice', 'Ayers', 'AAyers', '12345asdfg', 'aayers@apple.com', 0),
-        ('2', 'Bob', 'Bobberson', 'BBobers', '23456sdfgh', 'bbobberson@bob.bob', 0),
-        ('3', 'Clyde', 'Clemens', 'CClems', '34567dfghj', 'cclemens@clementine.net', 0),
-        ('4', 'Danielle', 'Davison', 'DDavis', '45678fghjk', 'ddavison@dmail.web', 0);
+		('1', 'Alice', 'Ayers', 'AAyers', '$2a$10$FWWWxxj3ohyWsPQxyTpPGe05HohbzHBZUW9eeDWHAw7GjCEmzV.cu', 'aayers@apple.com', 0),
+        ('2', 'Bob', 'Bobberson', 'BBobers', '$2a$10$FWWWxxj3ohyWsPQxyTpPGe05HohbzHBZUW9eeDWHAw7GjCEmzV.cu', 'bbobberson@bob.bob', 0),
+        ('3', 'Clyde', 'Clemens', 'CClems', '$2a$10$FWWWxxj3ohyWsPQxyTpPGe05HohbzHBZUW9eeDWHAw7GjCEmzV.cu', 'cclemens@clementine.net', 0),
+        ('4', 'Danielle', 'Davison', 'DDavis', '$2a$10$FWWWxxj3ohyWsPQxyTpPGe05HohbzHBZUW9eeDWHAw7GjCEmzV.cu', 'ddavison@dmail.web', 0);
         
 	insert into app_role (app_role_id, `name`) values
 		('1', 'USER'),
