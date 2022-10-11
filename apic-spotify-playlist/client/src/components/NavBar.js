@@ -1,18 +1,11 @@
-// NEW: import the useContext hook.
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-// NEW: import the AuthContext
 import AuthContext from "../context/AuthContext";
 import React from "react";
 
 function NavBar() {
-  // NEW: grab the value attribute from AuthContext.Provider
   const auth = useContext(AuthContext);
 
-  // NEW: If we have an auth.user, render an "Add" link,
-  // the user's username, and a logout button.
-  // If we don't have an auth.user, render "Login"
-  // and "Register" navigation.
   return (
     <nav>
       <ul>
@@ -22,9 +15,8 @@ function NavBar() {
         {auth.user ? (
           <li>
             <Link to="/add">Add</Link>
-          </li>
-        ) : (
-          <>
+          </li> ) : 
+          ( <>
             <li>
               <Link to="/login">Login</Link>
             </li>

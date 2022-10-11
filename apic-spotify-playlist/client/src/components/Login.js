@@ -1,9 +1,7 @@
-// NEW: import useContext
+
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
-
 import Error from "./Error";
-// NEW: import AuthContext
 import AuthContext from "../context/AuthContext";
 
 export default function Login() {
@@ -11,7 +9,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
-  // NEW: grab the value attribute from AuthContext.Provider
   const auth = useContext(AuthContext);
 
   const history = useHistory();
@@ -30,11 +27,9 @@ export default function Login() {
       }),
     });
   
-    // This code executes if the request is successful
     if (response.status === 200) {
       const { jwt_token } = await response.json();
       console.log(jwt_token);
-      // NEW: login!
       auth.login(jwt_token);
       history.push("/");
     } else if (response.status === 403) {
@@ -52,7 +47,6 @@ export default function Login() {
       ))}
       <form onSubmit={handleSubmit}>
         <div>
-          {/* Includes for/id attributes for basic HTML accessibility ♿. */}
           <label htmlFor="username">Username:</label>
           <input
             type="text"

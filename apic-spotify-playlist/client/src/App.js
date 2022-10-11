@@ -1,4 +1,3 @@
-// NEW: Import the useEffect hook
 import React from "react"; 
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
@@ -8,22 +7,15 @@ import Error from "./components/Error";
 import Home from "./components/Home";
 import NavBar from "./components/NavBar";
 import NotFound from "./components/NotFound";
-// import SightingForm from "./components/SightingForm";
 import Login from "./components/Login";
 import AuthContext from "./context/AuthContext";
 
-
-// NEW: Define a variable for the localStorage token item key
 const LOCAL_STORAGE_TOKEN_KEY = "spotifyPlaylistToken";
 
 function App() {
     const [user, setUser] = useState(null);
-    // NEW: Define a state variable to track if 
-    // the restore login attempt has completed
     const [restoreLoginAttemptCompleted, setRestoreLoginAttemptCompleted] = useState(false);
 
-    // NEW: Define a useEffect hook callback function to attempt
-    // to restore the user's token from localStorage
     useEffect(() => {
         const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
         if (token) {
@@ -33,16 +25,12 @@ function App() {
     }, []);
 
     const login = (token) => {
-        // NEW: set the token in localStorage
         localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
 
-        // Decode the token
         const { sub: username, authorities: authoritiesString } = jwtDecode(token);
 
-        // Split the authorities string into an array of roles
         const roles = authoritiesString.split(',');
 
-        // Create the "user" object
         const user = {
             username,
             roles,
@@ -52,19 +40,15 @@ function App() {
             }
         };
 
-        // Log the user for debugging purposes
         console.log(user);
 
-        // Update the user state
         setUser(user);
 
-        // Return the user to the caller
         return user;
     };
 
     const logout = () => {
         setUser(null);
-        // NEW: remove the token from localStorage
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
     };
 
@@ -74,8 +58,6 @@ function App() {
         logout
     };
 
-    // NEW: If we haven't attempted to restore the login yet...
-    // then don't render the App component
     if (!restoreLoginAttemptCompleted) {
         return null;
     }
