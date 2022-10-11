@@ -13,8 +13,8 @@ create table app_user(
 );
 
 create table app_role(
-	role_id		int primary key auto_increment,
-    `name`		varchar(50) not null
+	app_role_id		int primary key auto_increment,
+    `name`			varchar(50) not null
 );
 
 create table playlist(
@@ -54,7 +54,7 @@ create table image(
 
 create table user_role(
 	app_user_id		int not null,
-    role_id			int not null,
+    app_role_id			int not null,
     
     constraint pk_user_role primary key (app_user_id, role_id),
     constraint fk_user_role_user foreign key (app_user_id) references app_user(app_user_id),
