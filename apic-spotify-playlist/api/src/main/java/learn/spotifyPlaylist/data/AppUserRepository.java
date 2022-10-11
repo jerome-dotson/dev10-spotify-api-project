@@ -38,7 +38,7 @@ public class AppUserRepository {
     public AppUser create(AppUser user) {
 
         final String sql = "insert into app_user (first_name, last_name, username, password_hash" +
-                ", email values (?, ?, ?, ?, ?);";
+                ", email) values (?, ?, ?, ?, ?);";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
