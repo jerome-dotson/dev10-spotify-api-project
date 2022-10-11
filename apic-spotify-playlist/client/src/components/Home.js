@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
+import React from "react";
 
 
 function Home() {
 
   return(
-    <div><h1>Welcome to APIc's Collaborative Spotify Playlist Builder</h1></div>
+    <h1>Welcome to Collaborative Spotify Playlist Creation</h1>
   );
 }
 
