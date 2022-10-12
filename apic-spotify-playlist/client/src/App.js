@@ -91,6 +91,10 @@ function App() {
                         {!user ? <Login /> : <Redirect to="/" />}
                     </Route>
 
+                    <Route path="/playlists">
+                        <Playlists />
+                    </Route>
+
                     <Route path="/register">
                         {!user ? <Register /> : <Redirect to="/" />}
                     </Route>
