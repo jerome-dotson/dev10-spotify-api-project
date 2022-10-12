@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Playlist from "./Playlist";
+import Playlist from "./Playlist";
 
 function Playlists() {
 
@@ -10,7 +11,7 @@ function Playlists() {
     const searchPlaylists = async (evt) => {
         evt.preventDefault();
 
-        const {data} = await fetch("http://localhost:8080/playlists", {
+        const {data} = await fetch("http://localhost:8080/api/playlists", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
