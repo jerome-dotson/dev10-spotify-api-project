@@ -23,7 +23,7 @@ function Playlists() {
         setPlaylists(data.playlists.items);
     }
 
-    //render playlists function
+    //clicking on playlist name or creator will take user to Playlist page, all important playlist information
     const renderPlaylists = () => {
         return playlists.map( playlist => (
             <div key={playlist.playlist_id} >
