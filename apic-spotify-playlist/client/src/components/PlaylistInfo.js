@@ -1,19 +1,22 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Songs from "./Songs";
+import AuthContext from "../context/AuthContext";
 
 
 //do we need to use props or pull from id params?
-function PlaylistInfo(props) {
+function PlaylistInfo() {
 
     const { id } = useParams();
 
-    const [playlist, setPlaylist] = useState(null)
+    const [playlist, setPlaylist] = useState(null);
 
-    const [error, setError] = useState([])
+    // const [errors, setErrors] = useState([]);
 
-    const history = useHistory();
+    const auth = useContext(AuthContext);
+
+    // const history = useHistory();
 
     useEffect(() => {
         fetch("http://localhost:8080/api/playlist/" + id)
@@ -36,17 +39,30 @@ function PlaylistInfo(props) {
     //tags
     //conditional rendering:
     //<Add to favorites(clone) button> and <go to playlist on spotify button>
-    return(<div>
+    return(
+    <div>
         <h2>Playlist Info</h2>
-        {errors.map((error, i) => (
+        {/* {errors.map((error, i) => (
         <Error key={i} msg={error} />
-      ))}
+      ))} */}
       <img src={playlist.image} alt="Playlist image" />
       <h3>{playlist.name}</h3>
       <h3>{playlist.username}</h3>
       <h3>{playlist.collaborators.length} Collaborators</h3>
       <Songs></Songs>
-    </div>);
+      <p>{playlist.tags}</p>
+      <div>
+        {auth ? 
+        <button onClick={clonePlaylist}>Add to Favorites</button>
+        : null }
+      </div>
+      <div>
+        {auth ?
+        <button onClick={redirect}>Open Playlist in Spotify</button> 
+        : null }
+      </div>
+    </div>
+    );
 }
 
 export default PlaylistInfo;
