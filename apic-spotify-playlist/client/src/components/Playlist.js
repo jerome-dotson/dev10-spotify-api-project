@@ -1,14 +1,12 @@
 import React from "react";
 
-function Playlist() {
-
-
-    //display image, playlist name, creator username, number of accepted collaborators
-    //list of tracks on playlist (song name, artist name, length)
-    //tags
-    //conditional rendering:
-    //<Add to favorites(clone) button> and <go to playlist on spotify button>
-    return(<></>);
+function Playlist(props) {
+    //display playlist name and username associated with app_user_id attached
+    //on click links to playlistinfo page for selected playlist
+    return(<Link to={`/playlist/${props.playlistData.playlist_id}`}>
+        <h5>{props.playlistData.name}</h5>
+        <p>{props.playlistData.username}</p>
+    </Link>);
 }
 
 export default Playlist;
