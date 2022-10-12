@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Error from "./Error";
-import AuthContext from "../context/AuthContext";
+// import AuthContext from "../context/AuthContext";
 
 function Register() {
 
@@ -13,36 +13,36 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState([]);
 
-    const auth = useContext(AuthContext);
+    // const auth = useContext(AuthContext);
 
-    const history = useHistory();
+    // const history = useHistory();
 
-    function login() {
+    // function login() {
 
-        
 
-        const response = fetch("http://localhost:8080/authenticate", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            password,
-          }),
-        });
+
+    //     const response = fetch("http://localhost:8080/authenticate", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         username,
+    //         password,
+    //       }),
+    //     });
       
-        if (response.status === 200) {
-          const { jwt_token } = response.json();
-          console.log(jwt_token);
-          auth.login(jwt_token);
-          history.push("/");
-        } else if (response.status === 403) {
-          setErrors(["Login failed."]);
-        } else {
-          setErrors(["Unknown error."]);
-        }
-    }
+    //     if (response.status === 200) {
+    //       const { jwt_token } = response.json();
+    //       console.log(jwt_token);
+    //       auth.login(jwt_token);
+    //       history.push("/");
+    //     } else if (response.status === 403) {
+    //       setErrors(["Login failed."]);
+    //     } else {
+    //       setErrors(["Unknown error."]);
+    //     }
+    // }
 
     //include checking if password===confirmPassword, failure prevents fetch and returns error message
     const handleSubmit = async (event) => {
@@ -68,7 +68,7 @@ function Register() {
 
         if (response.status === 201) {
           console.log("Account Created");
-          login();
+            <Link to="/login"/>
         } else if (response.status === 403) {
           setErrors(["Registration failed."]);
         } else {
