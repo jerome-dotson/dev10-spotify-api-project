@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
@@ -89,6 +89,10 @@ function App() {
 
                     <Route path="/login">
                         {!user ? <Login /> : <Redirect to="/" />}
+                    </Route>
+
+                    <Route path="/playlists">
+                        <Playlists />
                     </Route>
 
                     <Route path="/register">

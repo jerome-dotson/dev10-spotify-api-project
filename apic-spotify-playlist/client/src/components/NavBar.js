@@ -12,11 +12,14 @@ function NavBar() {
         <li>
           <Link to="/">Home</Link>
         </li>
+        <li>
+          <Link to="/playlists">Playlists</Link>
+        </li>
         {auth.user ? (
           <li>
             <Link to="/add">Add</Link>
-          </li> ) : 
-          ( <>
+          </li>) :
+          (<>
             <li>
               <Link to="/login">Login</Link>
             </li>
@@ -24,7 +27,7 @@ function NavBar() {
               <Link to="/register">Register</Link>
             </li>
           </>
-        )}
+          )}
       </ul>
       {auth.user && (
         <div>
