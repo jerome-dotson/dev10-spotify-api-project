@@ -39,29 +39,29 @@ function PlaylistInfo() {
     //tags
     //conditional rendering:
     //<Add to favorites(clone) button> and <go to playlist on spotify button>
-    return(
-    <div>
-        <h2>Playlist Info</h2>
-        {/* {errors.map((error, i) => (
+    return (
+        <div>
+            <h2>Playlist Info</h2>
+            {/* {errors.map((error, i) => (
         <Error key={i} msg={error} />
       ))} */}
-      <img src={playlist.image} alt="Playlist image" />
-      <h3>{playlist.name}</h3>
-      <h3>{playlist.username}</h3>
-      <h3>{playlist.collaborators.length} Collaborators</h3>
-      <Songs></Songs>
-      <p>{playlist.tags}</p>
-      <div>
-        {auth ? 
-        <button onClick={clonePlaylist}>Add to Favorites</button>
-        : null }
-      </div>
-      <div>
-        {auth ?
-        <button onClick={redirect}>Open Playlist in Spotify</button> 
-        : null }
-      </div>
-    </div>
+            <img src={playlist.image} alt="Playlist image" />
+            <h3>{playlist.name}</h3>
+            <h3>{playlist.username}</h3>
+            <h3>{playlist.collaborators.length} Collaborators</h3>
+            <Songs></Songs>
+            <p>{playlist.tags}</p>
+            <div>
+                {auth ?
+                    <button onClick={clonePlaylist}>Add to Favorites</button>
+                    : null}
+            </div>
+            <div>
+                {auth ?
+                    <button onClick={redirect}>Open Playlist in Spotify</button>
+                    : null}
+            </div>
+        </div>
     );
 }
 

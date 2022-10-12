@@ -18,8 +18,8 @@ function NavBar() {
         {auth.user ? (
           <li>
             <Link to="/add">Add</Link>
-          </li> ) : 
-          ( <>
+          </li>) :
+          (<>
             <li>
               <Link to="/login">Login</Link>
             </li>
@@ -27,7 +27,7 @@ function NavBar() {
               <Link to="/register">Register</Link>
             </li>
           </>
-        )}
+          )}
       </ul>
       {auth.user && (
         <div>
