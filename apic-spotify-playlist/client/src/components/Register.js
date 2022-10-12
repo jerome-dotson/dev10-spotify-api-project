@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Error from "./Error";
 // import AuthContext from "../context/AuthContext";
 
@@ -15,7 +15,7 @@ function Register() {
 
     // const auth = useContext(AuthContext);
 
-    // const history = useHistory();
+    const history = useHistory();
 
     // function login() {
 
@@ -47,8 +47,10 @@ function Register() {
     //include checking if password===confirmPassword, failure prevents fetch and returns error message
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setErrors([]);
 
         if(password != confirmPassword) {
+            console.log("Mismatch password");
             return setErrors(["Password does not match Confirm Password"]);
         }
     
@@ -68,7 +70,7 @@ function Register() {
 
         if (response.status === 201) {
           console.log("Account Created");
-            <Link to="/login"/>
+            history.push("/login");
         } else if (response.status === 403) {
           setErrors(["Registration failed."]);
         } else {
