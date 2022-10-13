@@ -20,7 +20,8 @@ public class PlaylistService {
     }
 
     public Playlist findById(int playlistId) {
-        return repository.findById(playlistId);
+//        return repository.findById(playlistId);
+        throw new UnsupportedOperationException();
     }
 
     public Result<Playlist> add(Playlist playlist) {

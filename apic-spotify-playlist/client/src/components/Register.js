@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import Error from "./Error";
+import MessageDisplay from "./MessageDisplay";
+// import Error from "./Error";
 // import AuthContext from "../context/AuthContext";
 
 function Register() {
@@ -11,20 +12,20 @@ function Register() {
     const [lastName, setLastName] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errors, setErrors] = useState([]);
+    const [error, setError] = useState([]);
 
     const history = useHistory();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setErrors([]);
+        setError([]);
 
         if (password != confirmPassword) {
             console.log("Mismatch password");
-            return setErrors(["Password does not match Confirm Password"]);
+            return setError(["Password does not match Confirm Password"]);
         }
 
-        const response = await fetch("http://localhost:8080/create_account", {
+        fetch("http://localhost:8080/create_account", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -36,24 +37,33 @@ function Register() {
                 lastName,
                 password
             }),
-        });
-
-        if (response.status === 201) {
-            console.log("Account Created");
-            history.push("/login");
-        } else if (response.status === 403) {
-            setErrors(["Registration failed."]);
-        } else {
-            setErrors(["Unknown error."]);
-        }
+        })
+            .then(response => {
+                if (response.status === 201) {
+                    console.log("Account Created");
+                    history.push("/login");
+                } else {
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                setError(data);
+            })
+            .catch((err) => {
+                console.log(err);
+                setError["Unknown Error"];
+            });
     };
 
     return (
         <div>
             <h2>Register</h2>
-            {errors.map((error, i) => (
-                <Error key={i} msg={error} />
-            ))}
+            {/* {errors.map((error, i) => (
+            <Error key={i} msg={error} />
+        ))} */}
+            <div>
+                {error.length > 0 ? <MessageDisplay key={error} error={error} /> : null}
+            </div>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="username">Username:</label>
