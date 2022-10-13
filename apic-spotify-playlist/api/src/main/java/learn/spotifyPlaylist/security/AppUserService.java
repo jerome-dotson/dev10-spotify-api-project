@@ -36,6 +36,9 @@ public class AppUserService implements UserDetailsService {
     public AppUser create(String firstName, String lastName, String username, String password, String email) {
         validate(username);
         validatePassword(password);
+        validateName(firstName);
+        validateName(lastName);
+        validateEmail(email);
 
         password = encoder.encode(password);
 
@@ -51,6 +54,26 @@ public class AppUserService implements UserDetailsService {
 
         if (username.length() > 50) {
             throw new ValidationException("username must be less than 50 characters");
+        }
+    }
+
+    private void validateName(String name) {
+        if ( name == null || name.isBlank() ) {
+            throw new ValidationException("first and last name are required");
+        }
+
+        if ( name.length() > 100 ) {
+            throw new ValidationException("first and last name must be less that 100 characters");
+        }
+    }
+
+    private void validateEmail(String email) {
+        if ( email == null || email.isBlank() ) {
+            throw new ValidationException("email is required");
+        }
+
+        if ( email.length() > 100 ) {
+            throw new ValidationException("email must be less that 200 characters");
         }
     }
 

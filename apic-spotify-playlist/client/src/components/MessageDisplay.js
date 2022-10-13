@@ -1,11 +1,11 @@
 import React from "react";
 
-function MessageDisplay(props) {
+function MessageDisplay(errors) {
 
     const error = (
         <ul className="list-unstyled">
-            {props.error.map( error => 
-            <li>
+            {errors.error.map( error => 
+            <li key={error}>
                 {error}
             </li>
             )}

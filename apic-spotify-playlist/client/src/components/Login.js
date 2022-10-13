@@ -1,13 +1,13 @@
 
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Error from "./Error";
+import MessageDisplay from "./MessageDisplay";
 import AuthContext from "../context/AuthContext";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [error, setError] = useState([]);
 
   const auth = useContext(AuthContext);
 
@@ -33,18 +33,21 @@ export default function Login() {
       auth.login(jwt_token);
       history.push("/");
     } else if (response.status === 403) {
-      setErrors(["Login failed."]);
+      setError(["Login failed."]);
     } else {
-      setErrors(["Unknown error."]);
+      setError(["Unknown error."]);
     }
   };
 
   return (
     <div>
       <h2>Login</h2>
-      {errors.map((error, i) => (
+      {/* {errors.map((error, i) => (
         <Error key={i} msg={error} />
-      ))}
+      ))} */}
+      <div>
+                {error.length > 0 ? <MessageDisplay error={error} /> : null}
+            </div>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>
