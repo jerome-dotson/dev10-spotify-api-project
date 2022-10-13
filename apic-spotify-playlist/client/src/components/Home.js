@@ -1,9 +1,34 @@
 // import { useState, useEffect, useContext } from "react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import SpotifyWebApi from "spotify-web-api-js";
+import { getTokenFromUrl } from "./getTokenFromUrl";
 // import AuthContext from "../context/AuthContext";
 // import { useHistory } from "react-router-dom";
+import SpotifyAuthButton from "./SpotifyAuthButton";
+
 
 function Home() {
+
+  const spotify = new SpotifyWebApi();
+  const [spotifyToken, setSpotifyToken] = useState("");
+
+  useEffect(() =>{
+    console.log("This is what we derived from the URL: ", getTokenFromUrl());
+    const _spotifyToken = getTokenFromUrl().access_token;
+    window.location.hash = "";
+
+    console.log("This is our Spotify Token.", spotifyToken);
+
+    if(_spotifyToken){
+      setSpotifyToken(_spotifyToken);
+      spotify.setAccessToken(_spotifyToken);
+
+      spotify.getMe().then((user) => {
+        console.log("This is you: ", user);
+      });
+    }
+  }
+  );
 
   // const [userPlaylists, setUserPlaylists] = useState([]);
 
@@ -22,8 +47,11 @@ function Home() {
   //   fetch("http://localhost:8080/playlist/home/" + {auth.user.id} )
   // })
 
-  return(
+  return(<>
     <h1>Welcome to Collaborative Spotify Playlist Creation</h1>
+    <SpotifyAuthButton />
+    </>
+
   );
 }
 
