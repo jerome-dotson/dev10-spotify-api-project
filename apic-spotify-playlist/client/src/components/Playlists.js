@@ -15,10 +15,7 @@ function Playlists() {
             headers: {
                 "Content-Type": "application/json",
             },
-            params: searchKey,
-            body: JSON.stringify({
-
-            })
+            params: searchKey
         });
         setPlaylists(data.playlists.items);
     };
