@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import Playlist from "./Playlist";
-import Playlist from "./Playlist";
 
 function Playlists() {
 
@@ -18,19 +17,18 @@ function Playlists() {
             },
             params: searchKey,
             body: JSON.stringify({
-                playlistName,
-                createdBy
+
             })
-        })
+        });
         setPlaylists(data.playlists.items);
-    }
+    };
 
     //clicking on playlist name or creator will take user to Playlist page, all important playlist information
     const renderPlaylists = () => {
         return playlists.map(playlist => (
             <Playlist key={playlist.playlist_id} playlistData={playlist} />
-        ))
-    }
+        ));
+    };
 
     return (
         <div>
