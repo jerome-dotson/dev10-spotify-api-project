@@ -32,7 +32,7 @@ public class PlaylistController {
 
     @PostMapping
     public ResponseEntity<Object> add( @RequestBody Playlist playlist ) {
-        Result<Playlist> result = service.add();
+        Result<Playlist> result = service.add(playlist);
         if( result.isSuccess() ) {
             return new ResponseEntity<>( result.getPayload(), HttpStatus.CREATED );
         }
