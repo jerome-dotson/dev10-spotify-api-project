@@ -1,6 +1,7 @@
 package learn.spotifyPlaylist.controllers;
 
 import learn.spotifyPlaylist.models.Playlist;
+import learn.spotifyPlaylist.domain.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
