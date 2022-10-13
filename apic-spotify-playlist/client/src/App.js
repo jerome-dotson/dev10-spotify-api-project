@@ -10,6 +10,7 @@ import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import AuthContext from "./context/AuthContext";
+import Playlists from "./components/Playlists";
 
 
 const LOCAL_STORAGE_TOKEN_KEY = "spotifyPlaylistToken";

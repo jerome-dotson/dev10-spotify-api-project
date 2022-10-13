@@ -1,17 +1,17 @@
-import { useEffect, useState, useContext } from "react";
+// import { useState, useEffect, useContext } from "react";
 import React from "react";
-import AuthContext from "../context/AuthContext";
-import { useHistory } from "react-router-dom";
+// import AuthContext from "../context/AuthContext";
+// import { useHistory } from "react-router-dom";
 
 function Home() {
 
-  const [userPlaylists, setUserPlaylists] = useState([]);
+  // const [userPlaylists, setUserPlaylists] = useState([]);
 
-  const [savedPlaylists, setSavedPlaylists] = useState([]);
+  // const [savedPlaylists, setSavedPlaylists] = useState([]);
 
-  const auth = useContext(AuthContext);
+  // const auth = useContext(AuthContext);
 
-  const history = useHistory();
+  // const history = useHistory();
 
   //we want to display:
   // - playlists the user has accepted collaboration requests on
