@@ -11,6 +11,7 @@ public class Playlist {
     private String description;
 
     private int appUserId;
+    private AppUser appUser;
 
     private List<Track> tracks;
 
@@ -18,7 +19,7 @@ public class Playlist {
 
     private Image image;
 
-
+    private List<UserPlaylist> collaborators;
 
     public int getPlaylistId() {
         return playlistId;
@@ -52,6 +53,14 @@ public class Playlist {
         this.appUserId = appUserId;
     }
 
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
+    }
+
     public List<Track> getTracks() {
         return tracks;
     }
@@ -74,5 +83,13 @@ public class Playlist {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public List<UserPlaylist> getCollaborators() {
+        return collaborators;
+    }
+
+    public void setCollaborators(List<UserPlaylist> collaborators) {
+        this.collaborators = collaborators;
     }
 }

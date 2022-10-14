@@ -8,6 +8,8 @@ import java.util.List;
 public interface PlaylistRepository {
     List<Playlist> findAll();
 
+    Playlist findById(int playlistId);
+
     Playlist add(Playlist playlist);
 
     boolean update(Playlist playlist);
