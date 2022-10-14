@@ -12,23 +12,36 @@ import Register from "./components/Register";
 import AuthContext from "./context/AuthContext";
 import PlaylistSearch from "./components/PlaylistSearch";
 import UserPage from "./components/UserPage";
+import SongSearch from "./components/SongSearch";
 
 
-const LOCAL_STORAGE_TOKEN_KEY = "spotifyPlaylistToken";
+const LOCAL_STORAGE_TOKEN_KEY = "ourAppToken";
+const LOCAL_STORAGE_SPOTIFY_KEY = "spotifyToken";
 
 
 function App() {
 
     const [user, setUser] = useState(null);
+    const [spotToken, setSpotToken] = useState(null);
     const [restoreLoginAttemptCompleted, setRestoreLoginAttemptCompleted] = useState(false);
 
 
     useEffect(() => {
         const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+        let spotifyToken = localStorage.getItem(LOCAL_STORAGE_SPOTIFY_KEY);
         if (token) {
             login(token);
+        }else{
+            spotifyToken = null;
+            localStorage.setItem(LOCAL_STORAGE_SPOTIFY_KEY, null);
         }
+        
+        if (spotifyToken){
+            setSpotToken(spotifyToken);
+        }
+
         setRestoreLoginAttemptCompleted(true);
+
     }, []);
 
 
@@ -58,12 +71,16 @@ function App() {
 
     const logout = () => {
         setUser(null);
+        setSpotToken(null);
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+        localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
     };
 
 
     const auth = {
         user: user ? { ...user } : null,
+        spotifyToken : spotToken,
+
         login,
         logout
     };
@@ -102,7 +119,11 @@ function App() {
                     </Route>
 
                     <Route path="/userpage">
-                        <UserPage />
+                        <UserPage onSpotifyTokenUpdated ={setSpotToken} onLogout={logout} />
+                    </Route>
+
+                    <Route path="/songsearch">
+                        <SongSearch />
                     </Route>
 
                     <Route exact path="/">
