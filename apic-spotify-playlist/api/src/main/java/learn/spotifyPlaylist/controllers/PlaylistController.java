@@ -25,6 +25,22 @@ public class PlaylistController {
         return service.findAll();
     }
 
+    @GetMapping("/appUserId")
+    public List<Playlist> findAllByUserId(@PathVariable int appUserId) {
+        return service.findAllByUserId(appUserId);
+    }
+
+    @GetMapping("/appUserId")
+    public List<Playlist> findCollaboratingPlaylists(int appUserId) {
+        return service.findCollaboratingPlaylists(appUserId);
+    }
+
+    @GetMapping("/appUserId")
+    public List<Playlist> findPendingCollaboratingPlaylists(@PathVariable int appUserId) {
+        return service.findPendingCollaboratingPlaylists(appUserId);
+    }
+
+
     @GetMapping("/playlistId")
     public Playlist findById( @PathVariable int playlistId ){
         return service.findById( playlistId );

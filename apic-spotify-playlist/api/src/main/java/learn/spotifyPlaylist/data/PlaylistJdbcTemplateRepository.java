@@ -39,14 +39,14 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     }
 
     @Override
-    public List<Playlist> findAllById(int appUserId) {
+    public List<Playlist> findAllByUserId(int appUserId) {
 
         final String sql = "select playlist_id, `name`, `description`, app_user_id from playlist where app_user_id = ?;";
 
-        List<Playlist> all = jdbcTemplate.query(sql, new PlaylistMapper(), appUserId);
-        all.forEach(p -> addPlaylistCreator(p));
+        List<Playlist> playlists = jdbcTemplate.query(sql, new PlaylistMapper(), appUserId);
+        playlists.forEach(p -> addPlaylistCreator(p));
 
-        return all;
+        return playlists;
     }
 
     @Override
@@ -59,10 +59,10 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         //also filters out playlists they actually created
         //so the playlists returned are ones that they're ONLY a collaborator on, NOT the creator
 
-        List<Playlist> all = jdbcTemplate.query(sql, new PlaylistMapper(), appUserId);
-        all.forEach(p -> addPlaylistCreator(p));
+        List<Playlist> playlists = jdbcTemplate.query(sql, new PlaylistMapper(), appUserId);
+        playlists.forEach(p -> addPlaylistCreator(p));
 
-        return all;
+        return playlists;
     }
 
     @Override
@@ -75,10 +75,10 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         //also filters out playlists they actually created
         //so the playlists returned are ones that they're ONLY a collaborator on, NOT the creator
 
-        List<Playlist> all = jdbcTemplate.query(sql, new PlaylistMapper(), appUserId);
-        all.forEach(p -> addPlaylistCreator(p));
+        List<Playlist> playlists = jdbcTemplate.query(sql, new PlaylistMapper(), appUserId);
+        playlists.forEach(p -> addPlaylistCreator(p));
 
-        return all;
+        return playlists;
     }
 
     @Override
