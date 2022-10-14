@@ -6,6 +6,7 @@ import AuthContext from '../context/AuthContext';
 function UserPage({ onSpotifyTokenUpdated, onLogout }) {
     const auth = useContext(AuthContext);
 
+
     const CLIENT_ID = "79a14f37fcfe47e9b518dacd49de5bef";
     const REDIRECT_URI = "http://localhost:3000/userpage";
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
@@ -13,6 +14,7 @@ function UserPage({ onSpotifyTokenUpdated, onLogout }) {
 
     const [searchKey, setSearchKey] = useState("");
     const [artists, setArtists] = useState([]);
+    const auth = useContext(AuthContext);
 
     useEffect(() => {
         const hash = window.location.hash;
@@ -60,8 +62,34 @@ function UserPage({ onSpotifyTokenUpdated, onLogout }) {
     };
 
     return (
-        <div className="App">
-            <header className="App-header">
+
+        <div className="card m-5 container">
+            <div className='card-header text-center mt-2 mb-3'>
+                <h1>Account Information</h1>
+            </div>
+            <div className='row mb-2'>
+                <div className='col-sm-6'>
+                    <div className='card container'>
+                        <div className='card-body'>
+                            <div>
+                                <h3>Username</h3>
+                                <p>{auth.user.username}</p>
+                            </div>
+                            <div>
+                                <h3>Name</h3>
+                                <p>{auth.user.firstName} {auth.user.lastName}</p>
+                            </div>
+                            <div>
+                                <h3>Email</h3>
+                                <p>{auth.user.email}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='col-sm-6'>
+                    <div className='card container'>
+                        <div className='card-body'>
+                                   <header className="App-header">
                 <h1>Spotify React</h1>
                 {!auth.spotifyToken ?
                     <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
@@ -80,6 +108,10 @@ function UserPage({ onSpotifyTokenUpdated, onLogout }) {
                 {renderArtists()}
 
             </header>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
