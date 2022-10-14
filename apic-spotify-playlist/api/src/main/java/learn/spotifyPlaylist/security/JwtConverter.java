@@ -3,6 +3,7 @@ package learn.spotifyPlaylist.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import learn.spotifyPlaylist.models.AppUser;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,7 +27,7 @@ public class JwtConverter {
     private final int EXPIRATION_MINUTES = 15; //15 represents the amount input
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000; //simple conversion
 
-    public String getTokenFromUser(User user) {
+    public String getTokenFromUser(AppUser user) {
         String authorities = user.getAuthorities().stream()
                 .map(i -> i.getAuthority())
                 .collect(Collectors.joining(","));
@@ -36,6 +37,7 @@ public class JwtConverter {
                 .setIssuer(ISSUER)
                 .setSubject(user.getUsername())
                 .claim("authorities", authorities)
+                .setId(user.getAppUserId() + "")
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MILLIS))
                 .signWith(key)
                 .compact();
