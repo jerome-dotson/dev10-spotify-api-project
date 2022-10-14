@@ -1,32 +1,98 @@
-// import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import React from "react";
-// import AuthContext from "../context/AuthContext";
+import AuthContext from "../context/AuthContext";
+import UserPlaylists from "./UserPlaylists";
+import CollabPlaylists from "./CollabPlaylists";
+import PlaylistInvites from "./PlaylistInvites";
 // import { useHistory } from "react-router-dom";
 
 function Home() {
 
-  // const [userPlaylists, setUserPlaylists] = useState([]);
+  const auth = useContext(AuthContext);
 
-  // const [collabPlaylists, setCollabPlaylists] = useState([]);
+  const [userPlaylists, setUserPlaylists] = useState([]);
 
-  // const [playlistInvites, setPlaylistInvites] = useState([]);
+  const [collabPlaylists, setCollabPlaylists] = useState([]);
 
-  // const auth = useContext(AuthContext);
+  const [playlistInvites, setPlaylistInvites] = useState([]);
 
   // const history = useHistory();
 
-  //we want to display:
-  // - playlists the user is hosting (userPlaylists)
-  // - playlists the user has accepted collaboration requests on (collabPlaylists)
-  // - playlists the user has been invited to collaborate (playlistInvites) (onChange should re render the accepted playlists list)
+  function loadUserPlaylists() {
+    fetch("http://localhost:8080/playlist/hosting/" + auth.user.app_user_id)
+      .then(
+        response => {
+          if (response.status === 200) {
+            return response.json();
+          } else {
+            return response.json();
+          }
+        }
+      )
+      .then(data => setUserPlaylists(data))
+      .catch(err => console.log(err));
+  }
 
-  // useEffect(() => {
-  //   fetch("http://localhost:8080/playlist/home/" + {auth.user.id} )
-  // })
+  function loadCollabPlaylists() {
+    fetch("http://localhost8080/playlist/collaborating/" + auth.user.app_user_id)
+      .then(
+        response => {
+          if (response.status === 200) {
+            return response.json();
+          } else {
+            return response.json();
+          }
+        }
+      )
+      .then(data => setCollabPlaylists(data))
+      .catch(err => console.log(err));
+  }
 
-  return(
+  function loadPlaylistInvites() {
+    fetch("http://localhost8080/playlist/invited/" + auth.user.app_user_id)
+      .then(
+        response => {
+          if (response.status === 200) {
+            return response.json();
+          } else {
+            return response.json();
+          }
+        }
+      )
+      .then(data => setPlaylistInvites(data))
+      .catch(err => console.log(err));
+  }
+
+  useEffect(() => {
+    loadUserPlaylists();
+    loadCollabPlaylists();
+    loadPlaylistInvites();
+  }, []);
+
+
+
+  return (
     <div className="container text-center">
-    <h1>Collaborative Spotify Playlist Creation</h1>
+      <h1>Collaborative Spotify Playlist Creation</h1>
+      {auth ?
+        <div>
+          <div>
+            {userPlaylists.length > 0 ?
+              userPlaylists.map(u => <UserPlaylists key={u.playlistId} playlistData={u} />)
+              : null}
+          </div>
+          <div>
+            {collabPlaylists.length > 0 ?
+              collabPlaylists.map(c => <CollabPlaylists key={c.playlistId} playlistData={c} />)
+              : null}
+          </div>
+          <div>
+            {playlistInvites.length > 0 ?
+              playlistInvites.map(i => <PlaylistInvites key={i.playlistId} playlistData={i} />)
+              : null}
+          </div>
+        </div>
+        : null}
     </div>
   );
 }
