@@ -32,7 +32,53 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 
         final String sql = "select playlist_id, `name`, `description`, app_user_id from playlist;";
 
-        return jdbcTemplate.query(sql, new PlaylistMapper());
+        List<Playlist> all = jdbcTemplate.query(sql, new PlaylistMapper());
+        all.forEach(p -> addPlaylistCreator(p)); //also returning username by adding playlist creator
+
+        return all;
+    }
+
+    @Override
+    public List<Playlist> findAllByUserId(int appUserId) {
+
+        final String sql = "select playlist_id, `name`, `description`, app_user_id from playlist where app_user_id = ?;";
+
+        List<Playlist> playlists = jdbcTemplate.query(sql, new PlaylistMapper(), appUserId);
+        playlists.forEach(p -> addPlaylistCreator(p));
+
+        return playlists;
+    }
+
+    @Override
+    public List<Playlist> findCollaboratingPlaylists(int appUserId) {
+
+        final String sql = "select p.playlist_id, p.`name`, p.`description`, p.app_user_id "
+                + "from playlist p "
+                + "inner join user_playlist up on p.playlist_id = up.playlist_id "
+                + "where up.app_user_id = ? and up.accepted = 1 and p.app_user_id != up.app_user_id;";
+        //also filters out playlists they actually created
+        //so the playlists returned are ones that they're ONLY a collaborator on, NOT the creator
+
+        List<Playlist> playlists = jdbcTemplate.query(sql, new PlaylistMapper(), appUserId);
+        playlists.forEach(p -> addPlaylistCreator(p));
+
+        return playlists;
+    }
+
+    @Override
+    public List<Playlist> findPendingCollaboratingPlaylists(int appUserId) {
+
+        final String sql = "select p.playlist_id, p.`name`, p.`description`, p.app_user_id "
+                + "from playlist p "
+                + "inner join user_playlist up on p.playlist_id = up.playlist_id "
+                + "where up.app_user_id = ? and up.accepted = 0 and p.app_user_id != up.app_user_id;";
+        //also filters out playlists they actually created
+        //so the playlists returned are ones that they're ONLY a collaborator on, NOT the creator
+
+        List<Playlist> playlists = jdbcTemplate.query(sql, new PlaylistMapper(), appUserId);
+        playlists.forEach(p -> addPlaylistCreator(p));
+
+        return playlists;
     }
 
     @Override
@@ -58,8 +104,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Override
     public Playlist add(Playlist playlist) {
 
-        final String sql = "insert into playlist (`name`, `description`, app_user_id) " +
-                "values ( ?, ?, ?);";
+        final String sql = "insert into playlist (`name`, `description`, app_user_id) values ( ?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
             int rowsAffected = jdbcTemplate.update(connection -> {
@@ -115,8 +160,6 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 
         Image playlistImage = jdbcTemplate.query(sql, new ImageMapper(), playlist.getPlaylistId()).stream()
                         .findFirst().orElse(null);
-
-
         playlist.setImage(playlistImage);
     }
 
@@ -143,9 +186,9 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         List<UserPlaylist> collaborators = jdbcTemplate.query(sql, new UserPlaylistMapper(), playlist.getPlaylistId());
         playlist.setCollaborators(collaborators);
     }
+
     private void addPlaylistCreator(Playlist playlist) {
 
-        //first, get user roles
         final String sqlForRoles = "select ar.`name` "
                 + "from user_role ur "
                 + "inner join app_role ar on ur.app_role_id = ar.app_role_id "
@@ -161,19 +204,5 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         AppUser playlistCreator = jdbcTemplate.query(sql, new AppUserMapper(roles), playlist.getPlaylistId()).stream()
                 .findFirst().orElse(null);
         playlist.setAppUser(playlistCreator);
-
     }
-
-//    private void addCollaborators(Playlist playlist) {
-//
-//        final String sql = "select au.username " +
-//                "from user_playlist up " +
-//                "inner join app_user au on up.app_user_id = au.app_user_id " +
-//                "inner join playlist p on up.playlist_id = p.playlist_id " +
-//                "where p.playlist_id = ?;";
-//
-//        List<AppUser> appUser = jdbcTemplate.query(sql, new AppUserMapper(), playlist.getPlaylistId());
-//
-//    }
-
 }

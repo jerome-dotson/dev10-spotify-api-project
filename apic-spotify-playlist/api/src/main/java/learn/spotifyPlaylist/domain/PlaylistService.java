@@ -19,9 +19,20 @@ public class PlaylistService {
         return repository.findAll();
     }
 
+    public List<Playlist> findAllByUserId(int appUserId) {
+        return repository.findAllByUserId(appUserId);
+    }
+
+    public List<Playlist> findCollaboratingPlaylists(int appUserId) {
+        return repository.findCollaboratingPlaylists(appUserId);
+    }
+
+    public List<Playlist> findPendingCollaboratingPlaylists(int appUserId) {
+        return repository.findPendingCollaboratingPlaylists(appUserId);
+    }
+
     public Playlist findById(int playlistId) {
-//        return repository.findById(playlistId);
-        throw new UnsupportedOperationException();
+        return repository.findById(playlistId);
     }
 
     public Result<Playlist> add(Playlist playlist) {
