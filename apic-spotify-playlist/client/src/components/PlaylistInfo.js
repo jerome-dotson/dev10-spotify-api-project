@@ -1,6 +1,6 @@
 import React from "react";
-import { useState, useContext } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Songs from "./Songs";
 import AuthContext from "../context/AuthContext";
 
@@ -45,7 +45,7 @@ function PlaylistInfo() {
             {/* {errors.map((error, i) => (
         <Error key={i} msg={error} />
       ))} */}
-            <img src={playlist.image} alt="Playlist image" />
+            {/* <img src={playlist.image} alt="Playlist image" /> */}
             <h3>{playlist.name}</h3>
             <h3>{playlist.username}</h3>
             <h3>{playlist.collaborators.length} Collaborators</h3>
@@ -53,12 +53,12 @@ function PlaylistInfo() {
             <p>{playlist.tags}</p>
             <div>
                 {auth ?
-                    <button onClick={clonePlaylist}>Add to Favorites</button>
+                    <button>Add to Favorites</button>
                     : null}
             </div>
             <div>
                 {auth ?
-                    <button onClick={redirect}>Open Playlist in Spotify</button>
+                    <button>Open Playlist in Spotify</button>
                     : null}
             </div>
         </div>
