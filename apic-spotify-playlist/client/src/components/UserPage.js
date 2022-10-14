@@ -1,11 +1,13 @@
 import '../App.css';
 import { React, useContext, useEffect, useState } from "react";
+import { useHistory } from 'react-router-dom';
 import axios from "axios";
 import AuthContext from '../context/AuthContext';
 
 function UserPage({ onSpotifyTokenUpdated, onLogout }) {
     const auth = useContext(AuthContext);
 
+    const history = useHistory();
 
     const CLIENT_ID = "79a14f37fcfe47e9b518dacd49de5bef";
     const REDIRECT_URI = "http://localhost:3000/userpage";
@@ -92,7 +94,7 @@ function UserPage({ onSpotifyTokenUpdated, onLogout }) {
                                 {!auth.spotifyToken ?
                                     <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`} className="btn btn-primary">Login
                                         to Spotify</a>
-                                    : <button onClick={onLogout} className="btn btn-danger">Logout</button>}
+                                    : null }
 
                                 {auth.spotifyToken ?
                                     <form onSubmit={searchArtists}>

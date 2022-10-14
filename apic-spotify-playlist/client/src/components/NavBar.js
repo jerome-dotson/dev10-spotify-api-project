@@ -1,10 +1,11 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import React from "react";
 
 function NavBar() {
   const auth = useContext(AuthContext);
+  const history = useHistory();
 
   return (
     <div className="container">
@@ -28,7 +29,7 @@ function NavBar() {
                     <Link to="/userpage" className="nav-link active">Account</Link>
                   </li>
                   <li className="nav-item ms-2">
-                    <button onClick={() => auth.logout()} className="nav-link active btn btn-warning">Logout</button>
+                    <button onClick={() => {auth.logout(); history.push("/"); }} className="nav-link active btn btn-warning">Logout</button>
                   </li>
                 </>) :
                 (<>

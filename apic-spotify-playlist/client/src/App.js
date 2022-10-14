@@ -77,7 +77,7 @@ function App() {
         setSpotToken(null);
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
         localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
-        // history.push("/login");
+        // history.push("/");
     };
 
 
