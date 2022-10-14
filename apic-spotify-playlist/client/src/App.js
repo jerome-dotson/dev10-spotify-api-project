@@ -13,6 +13,7 @@ import AuthContext from "./context/AuthContext";
 import PlaylistSearch from "./components/PlaylistSearch";
 import UserPage from "./components/UserPage";
 import SongSearch from "./components/SongSearch";
+import PlaylistInfo from "./components/PlaylistInfo";
 
 
 
@@ -128,6 +129,10 @@ function App() {
 
                     <Route path="/songsearch">
                         <SongSearch />
+                    </Route>
+
+                    <Route path="/playlist/:id">
+                        <PlaylistInfo />
                     </Route>
 
                     <Route exact path="/">
