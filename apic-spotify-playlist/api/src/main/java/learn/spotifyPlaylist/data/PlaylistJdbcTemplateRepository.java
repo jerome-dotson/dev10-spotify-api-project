@@ -31,6 +31,8 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         final String sql = "select playlist_id, `name`, `description`, app_user_id from playlist;";
 
         return jdbcTemplate.query(sql, new PlaylistMapper());
+
+        //TODO: attach username of playlist creator
     }
 
     @Override
