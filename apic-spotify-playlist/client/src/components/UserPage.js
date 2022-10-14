@@ -1,6 +1,7 @@
 import '../App.css';
-import { React, useEffect, useState } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import AuthContext from '../context/AuthContext';
 
 function UserPage() {
     const CLIENT_ID = "79a14f37fcfe47e9b518dacd49de5bef";
@@ -11,6 +12,7 @@ function UserPage() {
     const [token, setToken] = useState("");
     const [searchKey, setSearchKey] = useState("");
     const [artists, setArtists] = useState([]);
+    const auth = useContext(AuthContext);
 
     useEffect(() => {
         const hash = window.location.hash;
@@ -60,26 +62,53 @@ function UserPage() {
     };
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <h1>Spotify React</h1>
-                {!token ?
-                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
-                        to Spotify</a>
-                    : <button onClick={logout}>Logout</button>}
+        <div className="card m-5 container">
+            <div className='card-header text-center mt-2 mb-3'>
+                <h1>Account Information</h1>
+            </div>
+            <div className='row mb-2'>
+                <div className='col-sm-6'>
+                    <div className='card container'>
+                        <div className='card-body'>
+                            <div>
+                                <h3>Username</h3>
+                                <p>{auth.user.username}</p>
+                            </div>
+                            <div>
+                                <h3>Name</h3>
+                                <p>{auth.user.firstName} {auth.user.lastName}</p>
+                            </div>
+                            <div>
+                                <h3>Email</h3>
+                                <p>{auth.user.email}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='col-sm-6'>
+                    <div className='card container'>
+                        <div className='card-body'>
+                        <header className="text-center">
+                            {!token ?
+                                <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`} className="btn btn-primary">Login
+                                    to Spotify</a>
+                                : <button onClick={logout} className="btn btn-danger">Logout</button>}
 
-                {token ?
-                    <form onSubmit={searchArtists}>
-                        <input type="text" onChange={e => setSearchKey(e.target.value)} />
-                        <button type={"submit"}>Search</button>
-                    </form>
+                            {token ?
+                                <form onSubmit={searchArtists}>
+                                    <input type="text" onChange={e => setSearchKey(e.target.value)} />
+                                    <button type={"submit"} className="btn btn-primary">Search</button>
+                                </form>
 
-                    : <h2>Please login</h2>
-                }
+                                : null
+                            }
 
-                {renderArtists()}
-
-            </header>
+                            {renderArtists()}
+                        </header>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
