@@ -25,17 +25,17 @@ public class PlaylistController {
         return service.findAll();
     }
 
-    @GetMapping("/appUserId")
+    @GetMapping("/hosting/appUserId")
     public List<Playlist> findAllByUserId(@PathVariable int appUserId) {
         return service.findAllByUserId(appUserId);
     }
 
-    @GetMapping("/appUserId")
-    public List<Playlist> findCollaboratingPlaylists(int appUserId) {
+    @GetMapping("/collaborating/appUserId")
+    public List<Playlist> findCollaboratingPlaylists(@PathVariable int appUserId) {
         return service.findCollaboratingPlaylists(appUserId);
     }
 
-    @GetMapping("/appUserId")
+    @GetMapping("/invited/appUserId")
     public List<Playlist> findPendingCollaboratingPlaylists(@PathVariable int appUserId) {
         return service.findPendingCollaboratingPlaylists(appUserId);
     }
