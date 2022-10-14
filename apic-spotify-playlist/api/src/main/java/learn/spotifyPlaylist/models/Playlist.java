@@ -18,7 +18,7 @@ public class Playlist {
 
     private Image image;
 
-
+    private List<UserPlaylist> collaborators;
 
     public int getPlaylistId() {
         return playlistId;
@@ -74,5 +74,13 @@ public class Playlist {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public List<UserPlaylist> getCollaborators() {
+        return collaborators;
+    }
+
+    public void setCollaborators(List<UserPlaylist> collaborators) {
+        this.collaborators = collaborators;
     }
 }
