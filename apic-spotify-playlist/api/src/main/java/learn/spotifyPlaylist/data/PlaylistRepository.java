@@ -8,6 +8,12 @@ import java.util.List;
 public interface PlaylistRepository {
     List<Playlist> findAll();
 
+    List<Playlist> findAllById(int appUserId);
+
+    List<Playlist> findCollaboratingPlaylists(int appUserId);
+
+    List<Playlist> findPendingCollaboratingPlaylists(int appUserId);
+
     Playlist findById(int playlistId);
 
     Playlist add(Playlist playlist);
