@@ -87,26 +87,27 @@ function UserPage({ onSpotifyTokenUpdated, onLogout }) {
                 </div>
                 <div className='col-sm-6'>
                     <div className='card container'>
-                        <div className='card-body'>
-                                   <header className="App-header">
-                <h1>Spotify React</h1>
-                {!auth.spotifyToken ?
-                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
-                        to Spotify</a>
-                    : <button onClick={onLogout}>Logout</button>}
+                        <div className='card-body text-center'>
+                            <header className="App-header">
+                                {!auth.spotifyToken ?
+                                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`} className="btn btn-primary">Login
+                                        to Spotify</a>
+                                    : <button onClick={onLogout} className="btn btn-danger">Logout</button>}
 
-                {auth.spotifyToken ?
-                    <form onSubmit={searchArtists}>
-                        <input type="text" onChange={e => setSearchKey(e.target.value)} />
-                        <button type={"submit"}>Search</button>
-                    </form>
+                                {auth.spotifyToken ?
+                                    <form onSubmit={searchArtists}>
+                                        <input type="text" 
+                                        className="form-control"
+                                        onChange={e => setSearchKey(e.target.value)} />
+                                        <button type={"submit"} className="btn btn-success">Search</button>
+                                    </form>
 
-                    : <h2>Please login</h2>
-                }
+                                    : null
+                                }
 
-                {renderArtists()}
+                                {renderArtists()}
 
-            </header>
+                            </header>
                         </div>
                     </div>
                 </div>

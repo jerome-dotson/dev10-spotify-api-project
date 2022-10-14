@@ -15,11 +15,14 @@ import UserPage from "./components/UserPage";
 import SongSearch from "./components/SongSearch";
 
 
+
 const LOCAL_STORAGE_TOKEN_KEY = "ourAppToken";
 const LOCAL_STORAGE_SPOTIFY_KEY = "spotifyToken";
 
 
 function App() {
+
+    // const history = useHistory();
 
     const [user, setUser] = useState(null);
     const [spotToken, setSpotToken] = useState(null);
@@ -74,6 +77,7 @@ function App() {
         setSpotToken(null);
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
         localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
+        // history.push("/login");
     };
 
 
