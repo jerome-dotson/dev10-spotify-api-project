@@ -11,6 +11,7 @@ public class Playlist {
     private String description;
 
     private int appUserId;
+    private AppUser appUser;
 
     private List<Track> tracks;
 
@@ -50,6 +51,14 @@ public class Playlist {
 
     public void setAppUserId(int appUserId) {
         this.appUserId = appUserId;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 
     public List<Track> getTracks() {
