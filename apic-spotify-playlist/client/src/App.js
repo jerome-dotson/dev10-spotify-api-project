@@ -11,6 +11,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import AuthContext from "./context/AuthContext";
 import Playlists from "./components/Playlists";
+import UserPage from "./components/UserPage";
 
 
 const LOCAL_STORAGE_TOKEN_KEY = "spotifyPlaylistToken";
@@ -98,6 +99,10 @@ function App() {
 
                     <Route path="/register">
                         {!user ? <Register /> : <Redirect to="/" />}
+                    </Route>
+
+                    <Route path="/userpage">
+                        <UserPage />
                     </Route>
 
                     <Route exact path="/">
