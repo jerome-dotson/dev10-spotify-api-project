@@ -14,7 +14,6 @@ function UserPage({ onSpotifyTokenUpdated, onLogout }) {
 
     const [searchKey, setSearchKey] = useState("");
     const [artists, setArtists] = useState([]);
-    const auth = useContext(AuthContext);
 
     useEffect(() => {
         const hash = window.location.hash;
