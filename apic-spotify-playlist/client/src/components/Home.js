@@ -19,7 +19,7 @@ function Home() {
   // const history = useHistory();
 
   function loadUserPlaylists() {
-    fetch("http://localhost:8080/playlist/hosting/" + auth.user.app_user_id)
+    fetch("http://localhost:8080/api/playlist/hosting/" + auth.user.userId)
       .then(
         response => {
           if (response.status === 200) {
@@ -34,7 +34,7 @@ function Home() {
   }
 
   function loadCollabPlaylists() {
-    fetch("http://localhost8080/playlist/collaborating/" + auth.user.app_user_id)
+    fetch("http://localhost:8080/api/playlist/collaborating/" + auth.user.userId)
       .then(
         response => {
           if (response.status === 200) {
@@ -49,7 +49,7 @@ function Home() {
   }
 
   function loadPlaylistInvites() {
-    fetch("http://localhost8080/playlist/invited/" + auth.user.app_user_id)
+    fetch("http://localhost:8080/api/playlist/invited/" + auth.user.userId)
       .then(
         response => {
           if (response.status === 200) {
@@ -64,9 +64,11 @@ function Home() {
   }
 
   useEffect(() => {
-    loadUserPlaylists();
-    loadCollabPlaylists();
-    loadPlaylistInvites();
+    if (auth.user) {
+      loadUserPlaylists();
+      loadCollabPlaylists();
+      loadPlaylistInvites();
+    }
   }, []);
 
 
@@ -74,7 +76,7 @@ function Home() {
   return (
     <div className="container text-center">
       <h1>Collaborative Spotify Playlist Creation</h1>
-      {auth ?
+      {auth.user ?
         <div>
           <div>
             {userPlaylists.length > 0 ?

@@ -30,7 +30,12 @@ function App() {
     const [restoreLoginAttemptCompleted, setRestoreLoginAttemptCompleted] = useState(false);
 
 
+
     useEffect(() => {
+
+        // localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+        // localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
+
         const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
         let spotifyToken = localStorage.getItem(LOCAL_STORAGE_SPOTIFY_KEY);
         if (token) {
@@ -52,12 +57,14 @@ function App() {
     const login = (token) => {
         localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
 
-        const { sub: username, authorities: authoritiesString } = jwtDecode(token);
+        const { sub: username, authorities: authoritiesString, jti: userId } = jwtDecode(token);
+        console.log(jwtDecode(token));
 
         const roles = authoritiesString.split(',');
 
         const user = {
             username,
+            userId,
             roles,
             token,
             hasRole(role) {
