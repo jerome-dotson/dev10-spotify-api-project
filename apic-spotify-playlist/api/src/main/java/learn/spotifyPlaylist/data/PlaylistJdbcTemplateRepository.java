@@ -2,10 +2,12 @@ package learn.spotifyPlaylist.data;
 
 import learn.spotifyPlaylist.data.mappers.ImageMapper;
 import learn.spotifyPlaylist.data.mappers.PlaylistMapper;
+
 import learn.spotifyPlaylist.data.mappers.RoleMapper;
 import learn.spotifyPlaylist.data.mappers.TagMapper;
 import learn.spotifyPlaylist.data.mappers.UserPlaylistMapper;
 import learn.spotifyPlaylist.models.*;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -52,6 +54,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         }
 
         return playlist;
+
     }
 
     @Override
@@ -115,6 +118,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         Image playlistImage = jdbcTemplate.query(sql, new ImageMapper(), playlist.getPlaylistId()).stream()
                         .findFirst().orElse(null);
 
+
         playlist.setImage(playlistImage);
     }
 
@@ -159,6 +163,19 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         AppUser playlistCreator = jdbcTemplate.query(sql, new AppUserMapper(roles), playlist.getPlaylistId()).stream()
                 .findFirst().orElse(null);
         playlist.setAppUser(playlistCreator);
+
     }
+
+//    private void addCollaborators(Playlist playlist) {
+//
+//        final String sql = "select au.username " +
+//                "from user_playlist up " +
+//                "inner join app_user au on up.app_user_id = au.app_user_id " +
+//                "inner join playlist p on up.playlist_id = p.playlist_id " +
+//                "where p.playlist_id = ?;";
+//
+//        List<AppUser> appUser = jdbcTemplate.query(sql, new AppUserMapper(), playlist.getPlaylistId());
+//
+//    }
 
 }

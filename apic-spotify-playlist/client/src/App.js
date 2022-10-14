@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
@@ -10,6 +10,8 @@ import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import AuthContext from "./context/AuthContext";
+import Playlists from "./components/Playlists";
+import UserPage from "./components/UserPage";
 
 
 const LOCAL_STORAGE_TOKEN_KEY = "spotifyPlaylistToken";
@@ -91,8 +93,16 @@ function App() {
                         {!user ? <Login /> : <Redirect to="/" />}
                     </Route>
 
+                    <Route path="/playlists">
+                        <Playlists />
+                    </Route>
+
                     <Route path="/register">
                         {!user ? <Register /> : <Redirect to="/" />}
+                    </Route>
+
+                    <Route path="/userpage">
+                        <UserPage />
                     </Route>
 
                     <Route exact path="/">
