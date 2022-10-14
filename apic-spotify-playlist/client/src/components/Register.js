@@ -56,65 +56,77 @@ function Register() {
     };
 
     return (
-        <div>
-            <h2>Register</h2>
+        <div className="card m-5" style={{width: '18rem'}}>
+            <h2 className="card-header text-center">Register</h2>
             {/* {errors.map((error, i) => (
             <Error key={i} msg={error} />
         ))} */}
             <div>
                 {error.length > 0 ? <MessageDisplay key={error} error={error} /> : null}
             </div>
-            <form onSubmit={handleSubmit}>
-                <div>
+            <form onSubmit={handleSubmit} className="card-body">
+                <div className="card-text form-group">
                     <label htmlFor="username">Username:</label>
                     <input
                         type="text"
+                        className="form-control mb-2"
+                        placeholder="Enter Username"
                         onChange={(event) => setUsername(event.target.value)}
                         id="username"
                     />
                 </div>
-                <div>
+                <div className="card-text form-group">
                     <label htmlFor="email">Email:</label>
                     <input
                         type="email"
+                        className="form-control mb-2"
+                        placeholder="Enter Email"
                         onChange={(event) => setEmail(event.target.value)}
                         id="email"
                     />
                 </div>
-                <div>
+                <div className="card-text form-group">
                     <label htmlFor="first_name">First Name:</label>
                     <input
                         type="first_name"
+                        className="form-control mb-2"
+                        placeholder="Enter First Name"
                         onChange={(event) => setFirstName(event.target.value)}
                         id="first_name"
                     />
                 </div>
-                <div>
+                <div className="card-text form-group">
                     <label htmlFor="last_name">Last Name:</label>
                     <input
                         type="last_name"
+                        className="form-control mb-2"
+                        placeholder="Enter Last Name"
                         onChange={(event) => setLastName(event.target.value)}
                         id="last_name"
                     />
                 </div>
-                <div>
+                <div className="card-text form-group">
                     <label htmlFor="password">Password:</label>
                     <input
                         type="password"
+                        className="form-control mb-2"
+                        placeholder="Enter Password"
                         onChange={(event) => setPassword(event.target.value)}
                         id="password"
                     />
                 </div>
-                <div>
+                <div className="card-text form-group">
                     <label htmlFor="confirmPassword">Confirm Password:</label>
                     <input
                         type="password"
+                        className="form-control mb-2"
+                        placeholder="Confirm Password"
                         onChange={(event) => setConfirmPassword(event.target.value)}
                         id="confirmPassword"
                     />
                 </div>
                 <div>
-                    <button type="submit">Register</button>
+                    <button type="submit" className="btn btn-success mt-2">Register</button>
                 </div>
             </form>
         </div>

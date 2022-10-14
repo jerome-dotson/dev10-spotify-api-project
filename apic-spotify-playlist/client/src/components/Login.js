@@ -40,33 +40,37 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="card m-5" style={{width: '18rem'}}>
+      <h2 className="card-header text-center">Login</h2>
       {/* {errors.map((error, i) => (
         <Error key={i} msg={error} />
       ))} */}
       <div>
                 {error.length > 0 ? <MessageDisplay error={error} /> : null}
             </div>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="card-body">
+        <div className="card-text form-group">
           <label htmlFor="username">Username:</label>
           <input
             type="text"
+            className="form-control"
+            placeholder="Enter Username"
             onChange={(event) => setUsername(event.target.value)}
             id="username"
           />
         </div>
-        <div>
+        <div className="card-text form-group mt-2 mb-1">
           <label htmlFor="password">Password:</label>
           <input
             type="password"
+            className="form-control"
+            placeholder="Enter Password"
             onChange={(event) => setPassword(event.target.value)}
             id="password"
           />
         </div>
         <div>
-          <button type="submit">Login</button>
+          <button type="submit" className="btn btn-success mt-2">Login</button>
         </div>
       </form>
     </div>

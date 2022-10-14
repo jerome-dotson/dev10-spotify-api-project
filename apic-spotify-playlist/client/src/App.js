@@ -10,7 +10,7 @@ import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import AuthContext from "./context/AuthContext";
-import Playlists from "./components/Playlists";
+import PlaylistSearch from "./components/PlaylistSearch";
 import UserPage from "./components/UserPage";
 
 
@@ -93,8 +93,8 @@ function App() {
                         {!user ? <Login /> : <Redirect to="/" />}
                     </Route>
 
-                    <Route path="/playlists">
-                        <Playlists />
+                    <Route path="/playlistsearch">
+                        <PlaylistSearch />
                     </Route>
 
                     <Route path="/register">

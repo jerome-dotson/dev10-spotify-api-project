@@ -28,12 +28,19 @@ function Playlists() {
     };
 
     return (
-        <div>
+        <div className="text-center">
+        <div className="card text-center p-2 m-5" style={{width: '30rem'}}>
+            <h1 className="card-header">Search Playlists</h1>
             <form onSubmit={searchPlaylists}>
-                <input type="text" onChange={e => setSearchKey(e.target.value)} />
-                <button type={"submit"}>Search</button>
+                <input 
+                type="text" 
+                className="form-control m-3"
+                style={{width: '25rem'}}
+                onChange={e => setSearchKey(e.target.value)} />
+                <button type={"submit"} className="btn btn-success">Search</button>
             </form>
             {renderPlaylists()}
+        </div>
         </div>
     );
 }
