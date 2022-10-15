@@ -51,24 +51,24 @@ public class PlaylistService {
         return result;
     }
 
-    public Result<Playlist> update(Playlist playlist) {
-        Result<Playlist> result = validate(playlist);
-        if ( !result.isSuccess() ) {
-            return result;
-        }
-
-        if ( playlist.getPlaylistId() <= 0 ) {
-            result.addMessage( "playlistId must be set for update operation", ResultType.INVALID );
-            return result;
-        }
-
-        if ( !repository.update(playlist) ) {
-            String message = String.format( "playlistId: %s not found", playlist.getPlaylistId() );
-            result.addMessage( message, ResultType.NOT_FOUND );
-        }
-
-        return result;
-    }
+//    public Result<Playlist> update(Playlist playlist) {
+//        Result<Playlist> result = validate(playlist);
+//        if ( !result.isSuccess() ) {
+//            return result;
+//        }
+//
+//        if ( playlist.getPlaylistId() <= 0 ) {
+//            result.addMessage( "playlistId must be set for update operation", ResultType.INVALID );
+//            return result;
+//        }
+//
+//        if ( !repository.update(playlist) ) {
+//            String message = String.format( "playlistId: %s not found", playlist.getPlaylistId() );
+//            result.addMessage( message, ResultType.NOT_FOUND );
+//        }
+//
+//        return result;
+//    }
 
     public boolean deleteById(int playlistId) {
         return repository.deleteById(playlistId);

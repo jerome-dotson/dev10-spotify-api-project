@@ -1,6 +1,7 @@
 package learn.spotifyPlaylist.data;
 
 import learn.spotifyPlaylist.models.Playlist;
+import learn.spotifyPlaylist.models.Tag;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,7 +19,11 @@ public interface PlaylistRepository {
 
     Playlist add(Playlist playlist);
 
-    boolean update(Playlist playlist);
+//    boolean update(Playlist playlist);
+
+    public Tag addTag(Tag tag, Playlist playlist);
+
+    public boolean deleteTag(int tagId);
 
     @Transactional
     boolean deleteById(int playlistId);

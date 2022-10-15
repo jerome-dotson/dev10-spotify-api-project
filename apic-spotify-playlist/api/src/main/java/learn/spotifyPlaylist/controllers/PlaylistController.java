@@ -55,18 +55,18 @@ public class PlaylistController {
         return ErrorResponse.build(result);
     }
 
-    @PutMapping("/playlistId")
-    public ResponseEntity<Object> update( @PathVariable int playlistId, @RequestBody Playlist playlist ) {
-        if ( playlistId != playlist.getPlaylistId() ) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        Result<Playlist> result = service.update(playlist);
-        if ( result.isSuccess() ) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ErrorResponse.build(result);
-    }
+//    @PutMapping("/playlistId")
+//    public ResponseEntity<Object> update( @PathVariable int playlistId, @RequestBody Playlist playlist ) {
+//        if ( playlistId != playlist.getPlaylistId() ) {
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
+//
+//        Result<Playlist> result = service.update(playlist);
+//        if ( result.isSuccess() ) {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        return ErrorResponse.build(result);
+//    }
 
     @DeleteMapping("/playlistId")
     public ResponseEntity<Void> deleteById( @PathVariable int playlistId ) {
