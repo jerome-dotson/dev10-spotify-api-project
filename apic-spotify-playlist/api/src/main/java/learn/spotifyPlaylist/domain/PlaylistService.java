@@ -2,9 +2,11 @@ package learn.spotifyPlaylist.domain;
 
 import learn.spotifyPlaylist.data.PlaylistRepository;
 import learn.spotifyPlaylist.models.Playlist;
+import learn.spotifyPlaylist.models.Tag;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlaylistService {
@@ -51,23 +53,43 @@ public class PlaylistService {
         return result;
     }
 
-    public Result<Playlist> update(Playlist playlist) {
-        Result<Playlist> result = validate(playlist);
-        if ( !result.isSuccess() ) {
+//    public Result<Playlist> update(Playlist playlist) {
+//        Result<Playlist> result = validate(playlist);
+//        if ( !result.isSuccess() ) {
+//            return result;
+//        }
+//
+//        if ( playlist.getPlaylistId() <= 0 ) {
+//            result.addMessage( "playlistId must be set for update operation", ResultType.INVALID );
+//            return result;
+//        }
+//
+//        if ( !repository.update(playlist) ) {
+//            String message = String.format( "playlistId: %s not found", playlist.getPlaylistId() );
+//            result.addMessage( message, ResultType.NOT_FOUND );
+//        }
+//
+//        return result;
+//    }
+
+    public Result<Tag> addTag(Tag tag, Playlist playlist) {
+        Result <Tag> result = validateTag(tag, playlist);
+        if (!result.isSuccess()) {
             return result;
         }
 
-        if ( playlist.getPlaylistId() <= 0 ) {
-            result.addMessage( "playlistId must be set for update operation", ResultType.INVALID );
+        if (tag.getTagId() != 0) {
+            result.addMessage("tagId cannot be set for add operation", ResultType.INVALID);
             return result;
         }
 
-        if ( !repository.update(playlist) ) {
-            String message = String.format( "playlistId: %s not found", playlist.getPlaylistId() );
-            result.addMessage( message, ResultType.NOT_FOUND );
-        }
-
+        tag = repository.addTag(tag, playlist);
+        result.setPayload(tag);
         return result;
+    }
+
+    public boolean deleteTag(int tagId) {
+        return repository.deleteTag(tagId);
     }
 
     public boolean deleteById(int playlistId) {
@@ -83,6 +105,23 @@ public class PlaylistService {
 
         if ( playlist.getName() == null || playlist.getName().isBlank() ) {
             result.addMessage("playlist name cannot be null or blank", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
+    private Result<Tag> validateTag(Tag tag, Playlist playlist) {
+        Result<Tag> result = new Result<>();
+        Optional<String> existingTag = playlist.getTags().stream()
+                .map(Tag::getContent).findFirst();
+
+        if (existingTag.isPresent()) {
+            result.addMessage("Tag cannot be a duplicate", ResultType.INVALID);
+            return result;
+        }
+
+        if(tag.getContent() == null || tag.getContent().isBlank()) {
+            result.addMessage("tag content cannot be null or blank", ResultType.INVALID);
         }
 
         return result;

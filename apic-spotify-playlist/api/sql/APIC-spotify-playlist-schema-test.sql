@@ -136,7 +136,7 @@ begin
     delete from app_user;
     alter table app_user auto_increment = 1;
     
-    insert into app_user (app_user_id, first_name, last_name, username, passhash, email, disabled) values
+    insert into app_user (app_user_id, first_name, last_name, username, password_hash, email, disabled) values
 		('1', 'Alice', 'Ayers', 'AAyers', '$2a$10$FWWWxxj3ohyWsPQxyTpPGe05HohbzHBZUW9eeDWHAw7GjCEmzV.cu', 'aayers@apple.com', 0),
         ('2', 'Bob', 'Bobberson', 'BBobers', '$2a$10$FWWWxxj3ohyWsPQxyTpPGe05HohbzHBZUW9eeDWHAw7GjCEmzV.cu', 'bbobberson@bob.bob', 0),
         ('3', 'Clyde', 'Clemens', 'CClems', '$2a$10$FWWWxxj3ohyWsPQxyTpPGe05HohbzHBZUW9eeDWHAw7GjCEmzV.cu', 'cclemens@clementine.net', 0),

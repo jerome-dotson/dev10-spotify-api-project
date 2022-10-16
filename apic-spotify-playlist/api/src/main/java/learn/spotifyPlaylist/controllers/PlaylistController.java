@@ -3,6 +3,7 @@ package learn.spotifyPlaylist.controllers;
 import learn.spotifyPlaylist.domain.PlaylistService;
 import learn.spotifyPlaylist.models.Playlist;
 import learn.spotifyPlaylist.domain.Result;
+import learn.spotifyPlaylist.models.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,18 +56,23 @@ public class PlaylistController {
         return ErrorResponse.build(result);
     }
 
-    @PutMapping("/playlistId")
-    public ResponseEntity<Object> update( @PathVariable int playlistId, @RequestBody Playlist playlist ) {
-        if ( playlistId != playlist.getPlaylistId() ) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+//    @PostMapping
+//    public ResponseEntity<Object> addTag(@RequestBody Tag tag, Playlist playlist)
 
-        Result<Playlist> result = service.update(playlist);
-        if ( result.isSuccess() ) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ErrorResponse.build(result);
-    }
+//    @PutMapping("/playlistId")
+//    public ResponseEntity<Object> update( @PathVariable int playlistId, @RequestBody Playlist playlist ) {
+//        if ( playlistId != playlist.getPlaylistId() ) {
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
+//
+//        Result<Playlist> result = service.update(playlist);
+//        if ( result.isSuccess() ) {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        return ErrorResponse.build(result);
+//    }
+
+    //TODO: fix the update methods for playlists (tracks and tags)
 
     @DeleteMapping("/playlistId")
     public ResponseEntity<Void> deleteById( @PathVariable int playlistId ) {

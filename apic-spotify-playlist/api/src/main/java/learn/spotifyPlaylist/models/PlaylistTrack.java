@@ -1,19 +1,20 @@
 package learn.spotifyPlaylist.models;
 
-import java.util.List;
+public class PlaylistTrack {
 
-public class Track {
-
+    //original columns
     private int trackId;
 
+    private int playlistId;
+
+    private int appUserId; //for collaborator
+
+    //added extra data
     private String trackName;
 
     private long duration;
 
-    private int artistId;
     private String artistName;
-
-    private List<Playlist> playlists;
 
     public int getTrackId() {
         return trackId;
@@ -21,6 +22,22 @@ public class Track {
 
     public void setTrackId(int trackId) {
         this.trackId = trackId;
+    }
+
+    public int getPlaylistId() {
+        return playlistId;
+    }
+
+    public void setPlaylistId(int playlistId) {
+        this.playlistId = playlistId;
+    }
+
+    public int getAppUserId() {
+        return appUserId;
+    }
+
+    public void setAppUserId(int appUserId) {
+        this.appUserId = appUserId;
     }
 
     public String getTrackName() {
@@ -39,14 +56,6 @@ public class Track {
         this.duration = duration;
     }
 
-    public int getArtistId() {
-        return artistId;
-    }
-
-    public void setArtistId(int artistId) {
-        this.artistId = artistId;
-    }
-
     public String getArtistName() {
         return artistName;
     }
@@ -54,13 +63,4 @@ public class Track {
     public void setArtistName(String artistName) {
         this.artistName = artistName;
     }
-
-    public List<Playlist> getPlaylists() {
-        return playlists;
-    }
-
-    public void setPlaylists(List<Playlist> playlists) {
-        this.playlists = playlists;
-    }
-
 }
