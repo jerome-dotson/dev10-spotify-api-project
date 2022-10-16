@@ -19,6 +19,8 @@ public class PlaylistJdbcTemplateRepositoryTest {
 
     final static int NEXT_TAG_ID = 4;
 
+    final static int NEXT_TAG_ID_TO_DELETE = 5;
+
     @Autowired
     PlaylistJdbcTemplateRepository repository;
 
@@ -108,22 +110,37 @@ public class PlaylistJdbcTemplateRepositoryTest {
         assertEquals(NEXT_PLAYLIST_ID, actual.getPlaylistId());
     }
 
-//    @Test
-//    void shouldAddTag() {
-//        Playlist playlist = repository.findById(1);
-//        Tag actualTag = repository.addTag(makeTag(), playlist);
-//
-//        assertNotNull(actualTag);
-//        assertEquals(NEXT_TAG_ID, actualTag.getTagId());
-//
-//        assertEquals(2, playlist.getTags().size());
-//        assertEquals("Smooth", playlist.getTags().get(1).getContent());
-//        assertEquals(1, playlist.getTags().get(1).getAppUserId());
-//        //TODO: need to actually add tags to playlist in repo
-//    }
+    @Test
+    void shouldAddTag() {
+        Playlist playlist = repository.findById(1);
+        Tag actualTag = repository.addTag(makeTag(), playlist);
+
+        assertNotNull(actualTag);
+        assertEquals(NEXT_TAG_ID, actualTag.getTagId());
+        assertEquals("Smooth", actualTag.getContent());
+        assertEquals(1, actualTag.getAppUserId());
+
+        assertTrue(playlist.getTags().size() >= 1 && playlist.getTags().size() <= 3);
+        assertEquals("Smooth", playlist.getTags().get(1).getContent());
+        assertEquals(1, playlist.getTags().get(1).getAppUserId());
+    }
 
     @Test
-    void shouldDelete() {
+    void shouldDeleteTag() {
+        Playlist playlist = repository.findById(1);
+        Tag actualTag = repository.addTag(makeTagToDelete(), playlist);
+
+        assertNotNull(actualTag);
+        assertEquals(NEXT_TAG_ID_TO_DELETE, actualTag.getTagId());
+        assertEquals("Emo", actualTag.getContent());
+        assertEquals(2, actualTag.getAppUserId());
+
+        assertTrue(repository.deleteTag(actualTag.getTagId()));
+        assertFalse(repository.deleteTag(actualTag.getTagId()));
+    }
+
+    @Test
+    void shouldDeletePlaylist() {
         assertTrue(repository.deleteById(3));
         assertFalse(repository.deleteById(3));
     }
@@ -141,8 +158,14 @@ public class PlaylistJdbcTemplateRepositoryTest {
         tag.setContent("Smooth");
         tag.setAppUserId(1);
 
-//        PlaylistTag playlistTag = new PlaylistTag();
-//        playlistTag.setPlaylistId(1);
+        return tag;
+    }
+
+    private Tag makeTagToDelete() {
+        Tag tag = new Tag();
+        tag.setContent("Emo");
+        tag.setAppUserId(2);
+
         return tag;
     }
 

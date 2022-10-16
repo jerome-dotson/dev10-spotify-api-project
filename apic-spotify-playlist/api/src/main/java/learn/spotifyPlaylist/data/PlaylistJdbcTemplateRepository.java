@@ -98,7 +98,6 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         }
 
         return playlist;
-
     }
 
     @Override
@@ -152,7 +151,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
             int rowsAffected = jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, tag.getContent());
-                ps.setInt(2, playlist.getAppUserId());
+                ps.setInt(2, tag.getAppUserId());
                 return ps;
         }, keyHolder);
 
@@ -165,31 +164,23 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         //then insert into tag_playlist table to associate tag with playlist
         final String sqlForTag_Playlist = "insert into tag_playlist (tag_id, playlist_id) values (?, ?);";
 
-        KeyHolder kh = new GeneratedKeyHolder();
-        int affectedRows = jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sqlForTag_Playlist, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, tag.getTagId());
-            ps.setInt(2, playlist.getPlaylistId());
-            return ps;
-        }, kh);
-
-        if (affectedRows <= 0) {
+        boolean updateTP = jdbcTemplate.update(sqlForTag_Playlist,
+                tag.getTagId(),
+                playlist.getPlaylistId()) > 0;
+        if (!updateTP) {
             return null;
         }
 
-//        boolean updateTP = jdbcTemplate.update("insert into tag_playlist (tag_id, playlist_id) values (?, ?);", tag.getTagId(), playlist.getPlaylistId()) > 0;
-//        if (!updateTP) {
-//            return null;
-//        }
+        playlist.getTags().add(tag);
 
         return tag;
     }
 
-
-
     @Override
+    @Transactional
     public boolean deleteTag(int tagId) {
-        return false;
+        jdbcTemplate.update("delete from tag_playlist where tag_id = ?", tagId);
+        return jdbcTemplate.update("delete from tag where tag_id = ?", tagId) > 0;
     }
 
     @Override
@@ -258,4 +249,5 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
                 .findFirst().orElse(null);
         playlist.setAppUser(playlistCreator);
     }
+
 }
