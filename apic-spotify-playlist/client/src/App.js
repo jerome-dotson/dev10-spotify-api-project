@@ -38,11 +38,14 @@ function App() {
         // localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
 
         const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
-        let spotifyToken = localStorage.getItem("spotifyAccessToken");
-        if (token) {
+        // let spotifyToken = localStorage.getItem("spotifyAccessToken");
+
+        setSpotifyToken(accessToken);
+        
+        if (token) { //think we need  && token!== "null"
             login(token);
         }else{
-            spotifyToken = null;
+            setSpotifyToken(null);
             localStorage.setItem("spotifyAccessToken", null);
         }
         

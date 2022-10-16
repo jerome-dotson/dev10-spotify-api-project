@@ -1,6 +1,7 @@
 import React, { useState, useContext} from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
+import { accessToken } from "../spotify";
 
 //need to npm install axios via terminal
 
@@ -19,7 +20,8 @@ function SongSearch() {
 
         const { data } = await axios.get("https://api.spotify.com/v1/search", {
             headers: {
-                Authorization: `Bearer ${auth.spotifyToken}`
+                Authorization: `Bearer ${accessToken}`,
+               "content-type" : "application/json"
             },
             params: {
                 q: searchKey,
@@ -38,7 +40,6 @@ function SongSearch() {
             </div>
         ))
     }
-    console.log(auth.spotifyToken);
 
 
     return (

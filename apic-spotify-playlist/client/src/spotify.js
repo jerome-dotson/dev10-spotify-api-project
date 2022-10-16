@@ -10,10 +10,10 @@ const LOCALSTORAGE_KEYS = {
 
 // Map to retrieve localStorage values
 const LOCALSTORAGE_VALUES = {
-    spotifyAccessToken: window.localStorage.getItem(LOCALSTORAGE_KEYS.accessToken),
-    spotifyRefreshToken: window.localStorage.getItem(LOCALSTORAGE_KEYS.refreshToken),
-    spotifyExpireTime: window.localStorage.getItem(LOCALSTORAGE_KEYS.expireTime),
-    spotifyTimestamp: window.localStorage.getItem(LOCALSTORAGE_KEYS.timestamp),
+    spotifyAccessToken: window.localStorage.getItem(LOCALSTORAGE_KEYS.spotifyAccessToken),
+    spotifyRefreshToken: window.localStorage.getItem(LOCALSTORAGE_KEYS.spotifyRefreshToken),
+    spotifyExpireTime: window.localStorage.getItem(LOCALSTORAGE_KEYS.spotifyExpireTime),
+    spotifyTimestamp: window.localStorage.getItem(LOCALSTORAGE_KEYS.spotifyTimestamp),
 };
 
 
