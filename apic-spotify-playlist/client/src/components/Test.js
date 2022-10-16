@@ -1,12 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { accessToken } from '../spotify';
 
 function Test(){
 
+    const [spotifyToken, setSpotifyToken] = useState(null);
+
     useEffect(() => {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const accessToken = urlParams.get("access_token");
-        const refreshToken = urlParams.get("refresh_token");
+    
+        setSpotifyToken(accessToken); //Go back and edit conditionally rendering link account to Spotify
+
 
     }, []);
 

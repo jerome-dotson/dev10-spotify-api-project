@@ -3,36 +3,32 @@ import { React, useContext, useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
 import axios from "axios";
 import AuthContext from '../context/AuthContext';
+import { accessToken } from '../spotify';
 
 function UserPage({ onSpotifyTokenUpdated, onLogout }) {
     const auth = useContext(AuthContext);
 
     const history = useHistory();
 
-    const CLIENT_ID = "79a14f37fcfe47e9b518dacd49de5bef";
-    const REDIRECT_URI = "http://localhost:3000/userpage";
-    const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-    const RESPONSE_TYPE = "token";
+    // const CLIENT_ID = "79a14f37fcfe47e9b518dacd49de5bef";
+    // const REDIRECT_URI = "http://localhost:3000/userpage";
+    // const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+    // const RESPONSE_TYPE = "token";
 
     const [searchKey, setSearchKey] = useState("");
     const [artists, setArtists] = useState([]);
 
     useEffect(() => {
-        const hash = window.location.hash;
-        let token = window.localStorage.getItem("spotifyToken");
+        onSpotifyTokenUpdated(accessToken);
 
-        if (!auth.spotifyToken && hash) {
-            token = hash.substring(1).split("&").find(element => element.startsWith("access_token")).split("=")[1];
-
-            window.location.hash = "";
-            window.localStorage.setItem("spotifyToken", token);
-            onSpotifyTokenUpdated(token);
-
-        }
-
-        // setToken(token);
-
-    }, []);
+    
+        // const fetchData = async () => {
+        //   const { data } = await getCurrentUserProfile();
+        //   setProfile(data);
+        // };
+    
+        // catchErrors(fetchData());
+      }, []);
 
 
     const searchArtists = async (e) => {
@@ -92,7 +88,7 @@ function UserPage({ onSpotifyTokenUpdated, onLogout }) {
                         <div className='card-body text-center'>
                             <header className="App-header">
                                 {!auth.spotifyToken ?
-                                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`} className="btn btn-primary">Login
+                                    <a href="http://localhost:8888/login" className="btn btn-primary">Login
                                         to Spotify</a>
                                     : null }
 
