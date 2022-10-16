@@ -9,6 +9,7 @@ function UserPage({ onSpotifyTokenUpdated, onLogout }) {
 
     const CLIENT_ID = "79a14f37fcfe47e9b518dacd49de5bef";
     const REDIRECT_URI = "http://localhost:3000/userpage";
+    state = generateRandomString(16);
     const scopes = ["user-read-email", "playlist-read-private", "playlist-read-collaborative", "playlist-modify-private", "playlist-modify-public"];
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
     const RESPONSE_TYPE = "token";
