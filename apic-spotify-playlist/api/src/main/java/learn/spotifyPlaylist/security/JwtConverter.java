@@ -24,7 +24,7 @@ public class JwtConverter {
     //2. "Configuration" constants
 
     private final String ISSUER = "{application-name}";
-    private final int EXPIRATION_MINUTES = 15; //15 represents the amount input
+    private final int EXPIRATION_MINUTES = 150; //15 represents the amount input
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000; //simple conversion
 
     public String getTokenFromUser(AppUser user) {

@@ -69,7 +69,7 @@ function PlaylistInfo() {
             {/* {errors.map((error, i) => (
         <Error key={i} msg={error} />
       ))} */}
-            <img src={playlist.image} alt="Playlist image" />
+            {/* <img src={playlist.image} alt="Playlist image" /> */}
             <h3>{playlist.name}</h3>
             <h3>{playlist.username}</h3>
             <h3>{playlist.collaborators.length} Collaborators</h3>

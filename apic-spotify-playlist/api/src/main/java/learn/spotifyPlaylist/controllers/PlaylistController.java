@@ -76,6 +76,7 @@ public class PlaylistController {
     //Tag requests
     //////////////////////////////////////////////////////////////////
 
+
     @PostMapping("/{playlistId}/tag")
     public ResponseEntity<Object> addTag(@RequestBody Map<String, String> tagNameHolder, @PathVariable int playlistId) {
         String tag = tagNameHolder.get("tagContent");
@@ -100,6 +101,7 @@ public class PlaylistController {
     //Image requests
     //////////////////////////////////////////////////////////////////
 
+
 //    @PostMapping
 //    public ResponseEntity<Object> addImage(@RequestBody Image image) {
 //        Result<Image> result = service.addImage(image);
@@ -114,6 +116,7 @@ public class PlaylistController {
     //////////////////////////////////////////////////////////////////
     //Track requests
     //////////////////////////////////////////////////////////////////
+
 
     @PostMapping("/{playlistId}/track")
     public ResponseEntity<Object> addTrack(@RequestBody Track track) {

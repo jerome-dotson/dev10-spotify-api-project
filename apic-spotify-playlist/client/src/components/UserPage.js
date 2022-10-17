@@ -5,7 +5,7 @@ import axios from "axios";
 import AuthContext from '../context/AuthContext';
 import { accessToken } from '../spotify';
 
-function UserPage({ onSpotifyTokenUpdated, /* onLogout */ }) {
+function UserPage({ onSpotifyTokenUpdated /* onLogout */ }) {
     const auth = useContext(AuthContext);
 
     // const history = useHistory();
@@ -17,6 +17,7 @@ function UserPage({ onSpotifyTokenUpdated, /* onLogout */ }) {
 
     const [searchKey, setSearchKey] = useState("");
     const [artists, setArtists] = useState([]);
+    
 
     useEffect(() => {
         onSpotifyTokenUpdated(accessToken);
@@ -33,10 +34,10 @@ function UserPage({ onSpotifyTokenUpdated, /* onLogout */ }) {
 
     const searchArtists = async (e) => {
         e.preventDefault();
-        if (auth.spotifyToken) {
+        if (accessToken) {
             const { data } = await axios.get("https://api.spotify.com/v1/search", {
                 headers: {
-                    Authorization: `Bearer ${auth.spotifyToken}`
+                    Authorization: `Bearer ${accessToken}`
                 },
                 params: {
                     q: searchKey,
@@ -88,7 +89,7 @@ function UserPage({ onSpotifyTokenUpdated, /* onLogout */ }) {
                         <div className='card-body text-center'>
                             <header className="App-header">
                                 {!auth.spotifyToken ?
-                                    <a href="http://localhost:8888/login" className="btn btn-primary">Login
+                                    <a href="http://localhost:8080/api/spotify/login" className="btn btn-primary">Login
                                         to Spotify</a>
                                     : null }
 

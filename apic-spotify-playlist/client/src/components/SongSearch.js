@@ -1,6 +1,7 @@
 import React, { useState, useContext, Link } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
+import { accessToken } from "../spotify";
 
 //need to npm install axios via terminal
 
@@ -28,7 +29,8 @@ function SongSearch(playlist) {
 
         const { data } = await axios.get("https://api.spotify.com/v1/search", {
             headers: {
-                Authorization: `Bearer ${auth.spotifyToken}`
+                Authorization: `Bearer ${accessToken}`,
+               "content-type" : "application/json"
             },
             params: {
                 q: searchKey,
@@ -51,15 +53,15 @@ function SongSearch(playlist) {
         //add song to our database from spotify api via trackController method (if track exists in our database, do not add)
         //add song to playlist from our database via playlistController or trackController method
 
-        fetch("http://localhost:8080/api/track/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                Authorization: `Bearer ${auth.user.token}`,
-        },
-        body: JSON.stringify(updatedSighting),    
-        })
+        // fetch("http://localhost:8080/api/track/add", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         Accept: "application/json",
+        //         Authorization: `Bearer ${auth.user.token}`,
+        // },
+        // // body: JSON.stringify(updatedSighting),    
+        // })
 
         
     }
@@ -72,6 +74,7 @@ function SongSearch(playlist) {
                 {track.duration_ms}
                 <button className="btn btn-success ms-1 me-2" onClick={addTrackToPlaylist(track)}>+</button>
             </div>
+
         ));
     };
     console.log(auth.spotifyToken);
