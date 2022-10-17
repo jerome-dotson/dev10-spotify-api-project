@@ -19,7 +19,11 @@ function Home() {
   // const history = useHistory();
 
   function loadUserPlaylists() {
-    fetch("http://localhost:8080/api/playlist/hosting/" + auth.user.userId)
+    fetch("http://localhost:8080/api/playlist/hosting/" + auth.user.userId, {
+      headers: {
+        Authorization: `Bearer ${auth.user.token}`
+    },
+    })
       .then(
         response => {
           if (response.status === 200) {
@@ -34,7 +38,11 @@ function Home() {
   }
 
   function loadCollabPlaylists() {
-    fetch("http://localhost:8080/api/playlist/collaborating/" + auth.user.userId)
+    fetch("http://localhost:8080/api/playlist/collaborating/" + auth.user.userId, {
+      headers: {
+        Authorization: `Bearer ${auth.user.token}`
+    },
+    })
       .then(
         response => {
           if (response.status === 200) {
@@ -49,7 +57,11 @@ function Home() {
   }
 
   function loadPlaylistInvites() {
-    fetch("http://localhost:8080/api/playlist/invited/" + auth.user.userId)
+    fetch("http://localhost:8080/api/playlist/invited/" + auth.user.userId, {
+      headers: {
+        Authorization: `Bearer ${auth.user.token}`
+    },
+    })
       .then(
         response => {
           if (response.status === 200) {

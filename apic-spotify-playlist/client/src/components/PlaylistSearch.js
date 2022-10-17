@@ -1,12 +1,15 @@
 import React from "react";
 import { useState } from "react";
+// import { Link } from "react";
 import Playlist from "./Playlist";
 
-function Playlists() {
+function PlaylistSearch() {
 
     const [searchKey, setSearchKey] = useState("");
     const [playlists, setPlaylists] = useState([]);
 
+
+    //this is a question mark? are we setting up search correctly
     const searchPlaylists = async (evt) => {
         evt.preventDefault();
 
@@ -22,8 +25,10 @@ function Playlists() {
 
     //clicking on playlist name or creator will take user to Playlist page, all important playlist information
     const renderPlaylists = () => {
-        return playlists.map(playlist => (
-            <Playlist key={playlist.playlist_id} playlistData={playlist} />
+        return playlists.map(playlist => ( 
+            // <Link to={`/playlist/${playlist.playlist_id}`} >
+                <Playlist key={playlist.playlist_id} playlistData={playlist} />
+                // </Link> 
         ));
     };
 
@@ -45,4 +50,4 @@ function Playlists() {
     );
 }
 
-export default Playlists;
+export default PlaylistSearch;

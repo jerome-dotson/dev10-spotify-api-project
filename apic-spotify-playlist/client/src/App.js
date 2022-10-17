@@ -14,7 +14,8 @@ import PlaylistSearch from "./components/PlaylistSearch";
 import UserPage from "./components/UserPage";
 import SongSearch from "./components/SongSearch";
 import PlaylistInfo from "./components/PlaylistInfo";
-import { accessToken , logout as spotifyLogout} from "./spotify";
+// import { accessToken } from "./spotify";
+import { logout as spotifyLogout} from "./spotify";
 
 
 
