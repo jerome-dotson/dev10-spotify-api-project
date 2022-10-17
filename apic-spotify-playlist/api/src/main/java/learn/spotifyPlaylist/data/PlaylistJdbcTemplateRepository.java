@@ -95,10 +95,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
                 .findFirst().orElse(null);
 
         if (playlist != null) {
-<<<<<<< HEAD
-=======
 //            addImage(playlist);
->>>>>>> 80426b055275c71cd0fb87105b0336ebba874d2e
             addTags(playlist);
             addTracks(playlist);
             addCollaborators(playlist);
