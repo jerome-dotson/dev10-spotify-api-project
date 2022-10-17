@@ -15,11 +15,14 @@ import UserPage from "./components/UserPage";
 import SongSearch from "./components/SongSearch";
 import PlaylistInfo from "./components/PlaylistInfo";
 import AddPlaylist from "./components/AddPlaylist";
+// import { accessToken } from "./spotify";
+import { logout as spotifyLogout} from "./spotify";
+
 
 
 
 const LOCAL_STORAGE_TOKEN_KEY = "ourAppToken";
-const LOCAL_STORAGE_SPOTIFY_KEY = "spotifyToken";
+//const LOCAL_STORAGE_SPOTIFY_KEY = "spotifyToken";
 
 
 function App() {
@@ -27,7 +30,7 @@ function App() {
     // const history = useHistory();
 
     const [user, setUser] = useState(null);
-    const [spotToken, setSpotToken] = useState(null);
+    const [spotifyToken, setSpotifyToken] = useState(null);
     const [restoreLoginAttemptCompleted, setRestoreLoginAttemptCompleted] = useState(false);
 
 
@@ -38,16 +41,16 @@ function App() {
         // localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
 
         const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
-        let spotifyToken = localStorage.getItem(LOCAL_STORAGE_SPOTIFY_KEY);
+        let spotifyToken = localStorage.getItem("spotifyAccessToken");
         if (token) {
             login(token);
         }else{
             spotifyToken = null;
-            localStorage.setItem(LOCAL_STORAGE_SPOTIFY_KEY, null);
+            localStorage.setItem("spotifyAccessToken", null);
         }
         
         if (spotifyToken){
-            setSpotToken(spotifyToken);
+            setSpotifyToken(spotifyToken);
         }
 
         setRestoreLoginAttemptCompleted(true);
@@ -82,17 +85,18 @@ function App() {
 
 
     const logout = () => {
-        setUser(null);
-        setSpotToken(null);
+        setUser(null); //Edit this as spotify.js handles logout
+        //setSpotToken(null);
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
-        localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
+        spotifyLogout();//imported spotify.js logout
+        //localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
         // history.push("/");
     };
 
 
     const auth = {
         user: user ? { ...user } : null,
-        spotifyToken : spotToken,
+        spotifyToken : spotifyToken, //edit this as spotifytoken is stored in local storage //changed from spotToken
 
         login,
         logout
@@ -132,7 +136,8 @@ function App() {
                     </Route>
 
                     <Route path="/userpage">
-                        <UserPage onSpotifyTokenUpdated={setSpotToken} onLogout={logout} />
+
+                        <UserPage onSpotifyTokenUpdated ={setSpotifyToken} onLogout={logout} /> {/*changed to set spotifyToken */}
                     </Route>
 
                     <Route path="/songsearch">
