@@ -1,9 +1,10 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, Link } from "react";
 import React from "react";
 import AuthContext from "../context/AuthContext";
 import UserPlaylists from "./UserPlaylists";
 import CollabPlaylists from "./CollabPlaylists";
 import PlaylistInvites from "./PlaylistInvites";
+import { Link } from 'react-router-dom';
 // import { useHistory } from "react-router-dom";
 
 function Home() {
@@ -96,6 +97,10 @@ function Home() {
               : null}
           </div>
           <div>
+
+            <Link className="btn btn-success" to="/addplaylist">Add Playlist</Link>
+          </div>
+          <div>
             {collabPlaylists.length > 0 ?
               collabPlaylists.map(c => <CollabPlaylists key={c.playlistId} playlistData={c} />)
               : null}
@@ -106,7 +111,7 @@ function Home() {
               : null}
           </div>
         </div>
-        : null}
+        : "Login to view your playlists!"}
     </div>
   );
 }

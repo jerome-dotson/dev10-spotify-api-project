@@ -3,7 +3,6 @@ package learn.spotifyPlaylist.data;
 import learn.spotifyPlaylist.models.Playlist;
 import learn.spotifyPlaylist.models.PlaylistTrack;
 import learn.spotifyPlaylist.models.SpotifyTrack;
-import learn.spotifyPlaylist.models.Track;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

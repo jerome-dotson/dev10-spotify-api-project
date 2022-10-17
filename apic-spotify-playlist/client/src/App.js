@@ -14,8 +14,11 @@ import PlaylistSearch from "./components/PlaylistSearch";
 import UserPage from "./components/UserPage";
 import SongSearch from "./components/SongSearch";
 import PlaylistInfo from "./components/PlaylistInfo";
-// import { accessToken } from "./spotify";
-import { logout as spotifyLogout} from "./spotify";
+import { accessToken , logout as spotifyLogout} from "./spotify";
+import SpotifyLoginPage from "./components/SpotifyLoginPage";
+import AddPlaylist from "./components/AddPlaylist";
+
+
 
 
 
@@ -40,10 +43,13 @@ function App() {
 
         const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
         let spotifyToken = localStorage.getItem("spotifyAccessToken");
-        if (token) {
+
+        setSpotifyToken(accessToken);
+        
+        if (token) { //think we need  && token!== "null"
             login(token);
         }else{
-            spotifyToken = null;
+            setSpotifyToken(null);
             localStorage.setItem("spotifyAccessToken", null);
         }
         
@@ -134,15 +140,23 @@ function App() {
                     </Route>
 
                     <Route path="/userpage">
+
                         <UserPage onSpotifyTokenUpdated ={setSpotifyToken} onLogout={logout} /> {/*changed to set spotifyToken */}
                     </Route>
 
                     <Route path="/songsearch">
                         <SongSearch />
                     </Route>
+                    <Route exact path="/spotify/callback">
+                        <SpotifyLoginPage />
+                    </Route>
 
                     <Route path="/playlist/:id">
                         <PlaylistInfo />
+                    </Route>
+                    
+                    <Route path="/addplaylist">
+                        <AddPlaylist />
                     </Route>
 
                     <Route exact path="/">

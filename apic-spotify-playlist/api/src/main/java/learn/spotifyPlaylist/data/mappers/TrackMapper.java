@@ -15,8 +15,6 @@ public class TrackMapper implements RowMapper<Track> {
         track.setName(resultSet.getString("name"));
         track.setDuration(resultSet.getLong("duration_ms"));
         track.setArtist(resultSet.getString("artist"));
-        track.setAppUserId(resultSet.getInt("app_user_id"));
-        track.setPlaylistId(resultSet.getInt("playlist_id"));
         return track;
     }
 }

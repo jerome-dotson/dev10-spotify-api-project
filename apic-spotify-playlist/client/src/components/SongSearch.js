@@ -1,6 +1,7 @@
 import React, { useState, useContext, Link } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
+import { accessToken } from "../spotify";
 
 //need to npm install axios via terminal
 
@@ -28,7 +29,8 @@ function SongSearch(playlist) {
 
         const { data } = await axios.get("https://api.spotify.com/v1/search", {
             headers: {
-                Authorization: `Bearer ${auth.spotifyToken}`
+                Authorization: `Bearer ${accessToken}`,
+               "content-type" : "application/json"
             },
             params: {
                 q: searchKey,
@@ -58,7 +60,11 @@ function SongSearch(playlist) {
         //         Accept: "application/json",
         //         Authorization: `Bearer ${auth.user.token}`,
         // },
+<<<<<<< HEAD
         // body: JSON.stringify(updatedSighting),    
+=======
+        // // body: JSON.stringify(updatedSighting),    
+>>>>>>> 1a4ceaae2b4961bfc79ae2cfcbc6c7618b2b0165
         // })
 
         
@@ -72,6 +78,7 @@ function SongSearch(playlist) {
                 {track.duration_ms}
                 <button className="btn btn-success ms-1 me-2" onClick={addTrackToPlaylist(track)}>+</button>
             </div>
+
         ));
     };
     console.log(auth.spotifyToken);
