@@ -15,6 +15,7 @@ import UserPage from "./components/UserPage";
 import SongSearch from "./components/SongSearch";
 import PlaylistInfo from "./components/PlaylistInfo";
 import { accessToken , logout as spotifyLogout} from "./spotify";
+import SpotifyLoginPage from "./components/SpotifyLoginPage";
 
 
 
@@ -38,7 +39,7 @@ function App() {
         // localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
 
         const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
-        // let spotifyToken = localStorage.getItem("spotifyAccessToken");
+        let spotifyToken = localStorage.getItem("spotifyAccessToken");
 
         setSpotifyToken(accessToken);
         
@@ -141,6 +142,9 @@ function App() {
 
                     <Route path="/songsearch">
                         <SongSearch />
+                    </Route>
+                    <Route exact path="/spotify/callback">
+                        <SpotifyLoginPage />
                     </Route>
 
                     <Route path="/playlist/:id">
