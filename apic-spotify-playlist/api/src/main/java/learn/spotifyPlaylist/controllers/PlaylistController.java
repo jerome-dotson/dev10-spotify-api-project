@@ -1,8 +1,11 @@
 package learn.spotifyPlaylist.controllers;
 
 import learn.spotifyPlaylist.domain.PlaylistService;
+import learn.spotifyPlaylist.models.Image;
 import learn.spotifyPlaylist.models.Playlist;
 import learn.spotifyPlaylist.domain.Result;
+import learn.spotifyPlaylist.models.Tag;
+import learn.spotifyPlaylist.models.Track;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,10 @@ public class PlaylistController {
     public PlaylistController( PlaylistService service ) {
         this.service = service;
     }
+
+    //////////////////////////////////////////////////////////////////
+    //Playlist requests
+    //////////////////////////////////////////////////////////////////
 
     @GetMapping
     public List<Playlist> findAll() {
@@ -40,7 +47,6 @@ public class PlaylistController {
         return service.findPendingCollaboratingPlaylists(appUserId);
     }
 
-
     @GetMapping("/playlistId")
     public Playlist findById( @PathVariable int playlistId ){
         return service.findById( playlistId );
@@ -55,22 +61,66 @@ public class PlaylistController {
         return ErrorResponse.build(result);
     }
 
-    @PutMapping("/playlistId")
-    public ResponseEntity<Object> update( @PathVariable int playlistId, @RequestBody Playlist playlist ) {
-        if ( playlistId != playlist.getPlaylistId() ) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        Result<Playlist> result = service.update(playlist);
-        if ( result.isSuccess() ) {
+    @DeleteMapping("/playlistId")
+    public ResponseEntity<Void> deleteById( @PathVariable int playlistId ) {
+        if ( service.deleteById( playlistId )){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    //////////////////////////////////////////////////////////////////
+    //Tag requests
+    //////////////////////////////////////////////////////////////////
+
+    @PostMapping
+    public ResponseEntity<Object> addTag(@RequestBody Tag tag) {
+        Result<Tag> result = service.addTag(tag);
+        if(result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
         return ErrorResponse.build(result);
     }
 
-    @DeleteMapping("/playlistId")
-    public ResponseEntity<Void> deleteById( @PathVariable int playlistId ) {
-        if ( service.deleteById( playlistId )){
+    @DeleteMapping("/tag/tagId")
+    public ResponseEntity<Void> deleteTagById(@PathVariable int tagId) {
+        if (service.deleteTag(tagId)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    //////////////////////////////////////////////////////////////////
+    //Image requests
+    //////////////////////////////////////////////////////////////////
+
+    @PostMapping
+    public ResponseEntity<Object> addImage(@RequestBody Image image) {
+        Result<Image> result = service.addImage(image);
+        if( result.isSuccess() ) {
+            return new ResponseEntity<>( result.getPayload(), HttpStatus.CREATED );
+        }
+        return ErrorResponse.build(result);
+    }
+
+    //does image need a delete request if it already gets deleted when a playlist gets deleted?
+
+    //////////////////////////////////////////////////////////////////
+    //Track requests
+    //////////////////////////////////////////////////////////////////
+
+    @PostMapping
+    public ResponseEntity<Object> addTrack(@RequestBody Track track) {
+        Result<Track> result = service.addTrack(track);
+        if(result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
+    }
+
+    @DeleteMapping("/track/trackId")
+    public ResponseEntity<Void> deleteTrack(@PathVariable int trackId) {
+        if (service.deleteTrack(trackId)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

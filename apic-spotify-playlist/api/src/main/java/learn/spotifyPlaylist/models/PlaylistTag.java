@@ -1,12 +1,8 @@
 package learn.spotifyPlaylist.models;
 
-public class Tag {
+public class PlaylistTag {
 
     private int tagId;
-
-    private String content;
-
-    private int appUserId;
 
     private int playlistId;
 
@@ -16,22 +12,6 @@ public class Tag {
 
     public void setTagId(int tagId) {
         this.tagId = tagId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getAppUserId() {
-        return appUserId;
-    }
-
-    public void setAppUserId(int appUserId) {
-        this.appUserId = appUserId;
     }
 
     public int getPlaylistId() {

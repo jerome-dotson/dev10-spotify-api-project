@@ -1,14 +1,14 @@
 import '../App.css';
 import { React, useContext, useEffect, useState } from "react";
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import axios from "axios";
 import AuthContext from '../context/AuthContext';
 import { accessToken } from '../spotify';
 
-function UserPage({ onSpotifyTokenUpdated, onLogout }) {
+function UserPage({ onSpotifyTokenUpdated, /* onLogout */ }) {
     const auth = useContext(AuthContext);
 
-    const history = useHistory();
+    // const history = useHistory();
 
     // const CLIENT_ID = "79a14f37fcfe47e9b518dacd49de5bef";
     // const REDIRECT_URI = "http://localhost:3000/userpage";

@@ -2,11 +2,6 @@ package learn.spotifyPlaylist.models;
 
 public class Image {
 
-    //image_id int AI PK
-    //url varchar(250)
-    //height int
-    //width int
-
     private int imageId;
 
     private String url;
@@ -14,6 +9,8 @@ public class Image {
     private int height;
 
     private int width;
+
+    private int playlistId;
 
     public int getImageId() {
         return imageId;
@@ -45,5 +42,13 @@ public class Image {
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public int getPlaylistId() {
+        return playlistId;
+    }
+
+    public void setPlaylistId(int playlistId) {
+        this.playlistId = playlistId;
     }
 }

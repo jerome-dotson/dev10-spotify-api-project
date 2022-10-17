@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Songs from "./Songs";
+// import Songs from "./Songs";
 import AuthContext from "../context/AuthContext";
 
 
@@ -19,7 +19,11 @@ function PlaylistInfo() {
     // const history = useHistory();
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/playlist/" + id)
+        fetch("http://localhost:8080/api/playlist/" + id, {
+            headers: {
+                Authorization: `Bearer ${auth.user.token}`
+            }
+        })
             .then(
                 response => {
                     if (response.status === 200) {
@@ -33,6 +37,26 @@ function PlaylistInfo() {
             .catch(err => console.log(err));
     },
         []);
+
+        function removeTrackFromPlaylist() {
+
+        }
+
+        //need to add buttons that allow person who added or group admin to remove from list
+        const renderTracks = () => {
+            return playlist.tracks.map(track => (
+                <div key={track.id}>
+                    {track.name}
+                    {track.artistName}
+                    {track.duration_ms}
+                    {auth.user.userId == playlist.appUserId ? 
+                    <button className="btn btn-success ms-1 me-2" onClick={removeTrackFromPlaylist}>-</button>
+                    : null}
+                </div>
+            ));
+        };
+
+
 
     //display image, playlist name, creator username, number of accepted collaborators
     //list of tracks on playlist (song name, artist name, length)
@@ -49,7 +73,7 @@ function PlaylistInfo() {
             <h3>{playlist.name}</h3>
             <h3>{playlist.username}</h3>
             <h3>{playlist.collaborators.length} Collaborators</h3>
-            <Songs></Songs>
+            {renderTracks()};
             <p>{playlist.tags}</p>
             <div>
                 {auth ?

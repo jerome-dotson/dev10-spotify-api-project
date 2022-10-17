@@ -73,6 +73,7 @@ function Register() {
                         placeholder="Enter Username"
                         onChange={(event) => setUsername(event.target.value)}
                         id="username"
+                        required
                     />
                 </div>
                 <div className="card-text form-group">
@@ -83,6 +84,7 @@ function Register() {
                         placeholder="Enter Email"
                         onChange={(event) => setEmail(event.target.value)}
                         id="email"
+                        required
                     />
                 </div>
                 <div className="card-text form-group">
@@ -93,6 +95,7 @@ function Register() {
                         placeholder="Enter First Name"
                         onChange={(event) => setFirstName(event.target.value)}
                         id="first_name"
+                        required
                     />
                 </div>
                 <div className="card-text form-group">
@@ -103,6 +106,7 @@ function Register() {
                         placeholder="Enter Last Name"
                         onChange={(event) => setLastName(event.target.value)}
                         id="last_name"
+                        required
                     />
                 </div>
                 <div className="card-text form-group">
@@ -113,6 +117,7 @@ function Register() {
                         placeholder="Enter Password"
                         onChange={(event) => setPassword(event.target.value)}
                         id="password"
+                        required
                     />
                 </div>
                 <div className="card-text form-group">
@@ -123,6 +128,7 @@ function Register() {
                         placeholder="Confirm Password"
                         onChange={(event) => setConfirmPassword(event.target.value)}
                         id="confirmPassword"
+                        required
                     />
                 </div>
                 <div>
