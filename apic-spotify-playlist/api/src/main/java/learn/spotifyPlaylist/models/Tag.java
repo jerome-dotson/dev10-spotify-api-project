@@ -8,7 +8,7 @@ public class Tag {
 
     private int appUserId;
 
-    private int playlistId;
+    private int playlistId; //remove
 
     public int getTagId() {
         return tagId;

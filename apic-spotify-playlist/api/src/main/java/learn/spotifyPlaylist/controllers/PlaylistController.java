@@ -1,16 +1,16 @@
 package learn.spotifyPlaylist.controllers;
 
 import learn.spotifyPlaylist.domain.PlaylistService;
-import learn.spotifyPlaylist.models.Image;
-import learn.spotifyPlaylist.models.Playlist;
+import learn.spotifyPlaylist.models.*;
 import learn.spotifyPlaylist.domain.Result;
-import learn.spotifyPlaylist.models.Tag;
-import learn.spotifyPlaylist.models.Track;
+import learn.spotifyPlaylist.security.AppUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000"})
@@ -19,35 +19,38 @@ public class PlaylistController {
 
     private final PlaylistService service;
 
-    public PlaylistController( PlaylistService service ) {
+    private final AppUserService userService;
+
+    public PlaylistController( PlaylistService service, AppUserService userService ) {
         this.service = service;
+        this.userService = userService;
     }
 
     //////////////////////////////////////////////////////////////////
     //Playlist requests
     //////////////////////////////////////////////////////////////////
-
+//TODO: fix URLs for any place with a path variable
     @GetMapping
     public List<Playlist> findAll() {
         return service.findAll();
     }
 
-    @GetMapping("/hosting/appUserId")
+    @GetMapping("/hosting/{appUserId}")
     public List<Playlist> findAllByUserId(@PathVariable int appUserId) {
         return service.findAllByUserId(appUserId);
     }
 
-    @GetMapping("/collaborating/appUserId")
+    @GetMapping("/collaborating/{appUserId}")
     public List<Playlist> findCollaboratingPlaylists(@PathVariable int appUserId) {
         return service.findCollaboratingPlaylists(appUserId);
     }
 
-    @GetMapping("/invited/appUserId")
+    @GetMapping("/invited/{appUserId}")
     public List<Playlist> findPendingCollaboratingPlaylists(@PathVariable int appUserId) {
         return service.findPendingCollaboratingPlaylists(appUserId);
     }
 
-    @GetMapping("/playlistId")
+    @GetMapping("/{playlistId}")
     public Playlist findById( @PathVariable int playlistId ){
         return service.findById( playlistId );
     }
@@ -61,7 +64,7 @@ public class PlaylistController {
         return ErrorResponse.build(result);
     }
 
-    @DeleteMapping("/playlistId")
+    @DeleteMapping("/{playlistId}")
     public ResponseEntity<Void> deleteById( @PathVariable int playlistId ) {
         if ( service.deleteById( playlistId )){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -73,16 +76,19 @@ public class PlaylistController {
     //Tag requests
     //////////////////////////////////////////////////////////////////
 
-    @PostMapping
-    public ResponseEntity<Object> addTag(@RequestBody Tag tag) {
-        Result<Tag> result = service.addTag(tag);
+    @PostMapping("/{playlistId}/tag")
+    public ResponseEntity<Object> addTag(@RequestBody Map<String, String> tagNameHolder, @PathVariable int playlistId) {
+        String tag = tagNameHolder.get("tagContent");
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
+        Result<Tag> result = service.addOrRetrieveTag(tag, currentUser.getAppUserId());
         if(result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
         return ErrorResponse.build(result);
     }
 
-    @DeleteMapping("/tag/tagId")
+    @DeleteMapping("/tag/{tagId}")
     public ResponseEntity<Void> deleteTagById(@PathVariable int tagId) {
         if (service.deleteTag(tagId)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -94,14 +100,14 @@ public class PlaylistController {
     //Image requests
     //////////////////////////////////////////////////////////////////
 
-    @PostMapping
-    public ResponseEntity<Object> addImage(@RequestBody Image image) {
-        Result<Image> result = service.addImage(image);
-        if( result.isSuccess() ) {
-            return new ResponseEntity<>( result.getPayload(), HttpStatus.CREATED );
-        }
-        return ErrorResponse.build(result);
-    }
+//    @PostMapping
+//    public ResponseEntity<Object> addImage(@RequestBody Image image) {
+//        Result<Image> result = service.addImage(image);
+//        if( result.isSuccess() ) {
+//            return new ResponseEntity<>( result.getPayload(), HttpStatus.CREATED );
+//        }
+//        return ErrorResponse.build(result);
+//    }
 
     //does image need a delete request if it already gets deleted when a playlist gets deleted?
 
@@ -109,7 +115,7 @@ public class PlaylistController {
     //Track requests
     //////////////////////////////////////////////////////////////////
 
-    @PostMapping
+    @PostMapping("/{playlistId}/track")
     public ResponseEntity<Object> addTrack(@RequestBody Track track) {
         Result<Track> result = service.addTrack(track);
         if(result.isSuccess()) {
@@ -118,7 +124,7 @@ public class PlaylistController {
         return ErrorResponse.build(result);
     }
 
-    @DeleteMapping("/track/trackId")
+    @DeleteMapping("/track/{trackId}")
     public ResponseEntity<Void> deleteTrack(@PathVariable int trackId) {
         if (service.deleteTrack(trackId)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
