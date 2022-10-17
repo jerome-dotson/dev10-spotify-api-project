@@ -20,13 +20,9 @@ public interface PlaylistRepository {
 
     Playlist add(Playlist playlist);
 
-//    boolean update(Playlist playlist);
-
-    public Tag addTag(Tag tag, Playlist playlist);
+    public Tag addTagToDatabase(Tag tag);
 
     public boolean deleteTag(int tagId);
-
-//    public Track addTrack(Track track, Playlist playlist);
 
     @Transactional
     boolean deleteById(int playlistId);
