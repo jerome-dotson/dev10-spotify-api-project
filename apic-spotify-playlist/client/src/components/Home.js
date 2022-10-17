@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, Link } from "react";
 import React from "react";
 import AuthContext from "../context/AuthContext";
 import UserPlaylists from "./UserPlaylists";
@@ -82,6 +82,9 @@ function Home() {
             {userPlaylists.length > 0 ?
               userPlaylists.map(u => <UserPlaylists key={u.playlistId} playlistData={u} />)
               : null}
+          </div>
+          <div>
+            <Link className="btn btn-success" to="/addplaylist">Add Playlist</Link>
           </div>
           <div>
             {collabPlaylists.length > 0 ?

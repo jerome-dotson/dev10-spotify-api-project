@@ -51,7 +51,7 @@ function Register() {
             })
             .catch((err) => {
                 console.log(err);
-                setError["Unknown Error"];
+                setError(["Unknown Error"]);
             });
     };
 

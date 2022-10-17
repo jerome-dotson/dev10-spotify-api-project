@@ -14,6 +14,7 @@ import PlaylistSearch from "./components/PlaylistSearch";
 import UserPage from "./components/UserPage";
 import SongSearch from "./components/SongSearch";
 import PlaylistInfo from "./components/PlaylistInfo";
+import AddPlaylist from "./components/AddPlaylist";
 
 
 
@@ -131,7 +132,7 @@ function App() {
                     </Route>
 
                     <Route path="/userpage">
-                        <UserPage onSpotifyTokenUpdated ={setSpotToken} onLogout={logout} />
+                        <UserPage onSpotifyTokenUpdated={setSpotToken} onLogout={logout} />
                     </Route>
 
                     <Route path="/songsearch">
@@ -140,6 +141,10 @@ function App() {
 
                     <Route path="/playlist/:id">
                         <PlaylistInfo />
+                    </Route>
+                    
+                    <Route path="/addplaylist">
+                        <AddPlaylist />
                     </Route>
 
                     <Route exact path="/">
