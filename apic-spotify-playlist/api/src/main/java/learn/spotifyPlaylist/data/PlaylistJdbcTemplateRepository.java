@@ -191,46 +191,46 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     //everything Image related
     //////////////////////////////////////////////////////////////////
 
-    @Override
-    public Image addImageToDatabase(Image image) {
-
-        final String sql = "insert into image (url, height, width, playlist_id) values (?, ?, ?, ?);";
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-            int rowsAffected = jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, image.getUrl());
-                ps.setInt(2, image.getHeight());
-                ps.setInt(3, image.getWidth());
-                ps.setInt(4, image.getPlaylistId());
-                return ps;
-        }, keyHolder);
-
-        if (rowsAffected <= 0) {
-            return null;
-        }
-
-        image.setImageId(keyHolder.getKey().intValue());
-
-        return image;
-    }
-
-    private void addImage(Playlist playlist) {
-
-        final String sql = "select image_id, url, height, width, playlist_id from image where playlist_id = ?;";
-
-        Image image = jdbcTemplate.query(sql, new ImageMapper(), playlist.getPlaylistId()).stream()
-                .findFirst().orElse(null);
-
-        playlist.setImage(image);
-    }
-
-    //might not need this since image will get deleted if the playlist is deleted
 //    @Override
-//    @Transactional
-//    public boolean deleteImage(int imageId) {
-//        return jdbcTemplate.update("delete from image where image_id = ?;", imageId) > 0;
+//    public Image addImageToDatabase(Image image) {
+//
+//        final String sql = "insert into image (url, height, width, playlist_id) values (?, ?, ?, ?);";
+//
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+//            int rowsAffected = jdbcTemplate.update(connection -> {
+//                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//                ps.setString(1, image.getUrl());
+//                ps.setInt(2, image.getHeight());
+//                ps.setInt(3, image.getWidth());
+//                ps.setInt(4, image.getPlaylistId());
+//                return ps;
+//        }, keyHolder);
+//
+//        if (rowsAffected <= 0) {
+//            return null;
+//        }
+//
+//        image.setImageId(keyHolder.getKey().intValue());
+//
+//        return image;
 //    }
+//
+//    private void addImage(Playlist playlist) {
+//
+//        final String sql = "select image_id, url, height, width, playlist_id from image where playlist_id = ?;";
+//
+//        Image image = jdbcTemplate.query(sql, new ImageMapper(), playlist.getPlaylistId()).stream()
+//                .findFirst().orElse(null);
+//
+//        playlist.setImage(image);
+//    }
+//
+//    //might not need this since image will get deleted if the playlist is deleted
+////    @Override
+////    @Transactional
+////    public boolean deleteImage(int imageId) {
+////        return jdbcTemplate.update("delete from image where image_id = ?;", imageId) > 0;
+////    }
 
     //////////////////////////////////////////////////////////////////
     //everything Track related

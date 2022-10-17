@@ -25,7 +25,7 @@ public interface PlaylistRepository {
 
     boolean deleteTag(int tagId);
 
-    Image addImageToDatabase(Image image);
+//    Image addImageToDatabase(Image image);
 
 //    boolean deleteImage(int imageId);
 
