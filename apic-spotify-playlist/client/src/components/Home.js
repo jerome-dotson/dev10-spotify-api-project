@@ -96,6 +96,9 @@ function Home() {
               : null}
           </div>
           <div>
+            <Link to="/playlistsearch" className="btn btn-success">Add Playlist</Link>
+          </div>
+          <div>
             {collabPlaylists.length > 0 ?
               collabPlaylists.map(c => <CollabPlaylists key={c.playlistId} playlistData={c} />)
               : null}
@@ -106,7 +109,7 @@ function Home() {
               : null}
           </div>
         </div>
-        : null}
+        : "Login to view your playlists!"}
     </div>
   );
 }

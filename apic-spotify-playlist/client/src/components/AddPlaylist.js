@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useHistory, Link } from "react";
+
 
 function AddPlaylist() {
 
@@ -32,17 +33,20 @@ function AddPlaylist() {
         })
             .then(response => {
                 if (response.status === 201) {
-                    console.log("Playlist Created")
-
-                    //call functions to fetch playlist information 
-
-                    history.push("/")
+                    console.log("Playlist Created");
+                    history.push("/");
+                    return response.json();
                 } else {
                     return response.json();
                 }
             })
-            .then((data) => {
-                setError(data);
+            .then( (data) => {
+                if (data.playlistId) {
+                    setPlaylistId(data.playlistId);
+                    setError([]);
+                } else {
+                    setError(data);
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -50,9 +54,7 @@ function AddPlaylist() {
             })
     }
 
-    function getPlaylistId() {
-
-    }
+    //TODO: adjust the tag entry below to search for tags by partial string
 
     return (
         <div>
@@ -62,6 +64,7 @@ function AddPlaylist() {
                     {error.length > 0 ? <MessageDisplay key={error} error={error} /> : null}
                 </div>
                 <form onSubmit={handleSubmit} className="card-body">
+
                     <div className="card-text form-group">
                         <label htmlFor="playlistName">Playlist name:</label>
                         <input
@@ -70,18 +73,21 @@ function AddPlaylist() {
                             placeholder="Enter Playlist Name"
                             onChange={(event) => setPlaylistName(event.target.value)}
                             id="username"
+                            required
                         />
                     </div>
+
                     <div className="card-text form-group">
                         <label htmlFor="description">Description:</label>
                         <input
                             type="text"
                             className="form-control mb-2"
                             placeholder="Enter Description"
-                            onChange={(event) => setPlaylistTag(event.target.value)}
-                            id="email"
+                            onChange={(event) => setPlaylistDescription(event.target.value)}
+                            id="description"
                         />
                     </div>
+                    
                     <div className="card-text form-group">
                         <label htmlFor="tags">Tags:</label>
                         <input
@@ -89,11 +95,12 @@ function AddPlaylist() {
                             className="form-control mb-2"
                             placeholder="Enter Tags"
                             onChange={(event) => setPlaylistTag(event.target.value)}
-                            id="email"
+                            id="tags"
                         />
                     </div>
                     <div>
                         <button type="submit" className="btn btn-success mt-2">Create Playlist</button>
+                        <Link to="/" className="btn btn-warning mt-2 mb-2">Cancel</Link>
                     </div>
                 </form>
             </div>
