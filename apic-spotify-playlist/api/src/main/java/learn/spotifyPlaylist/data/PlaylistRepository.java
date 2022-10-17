@@ -21,7 +21,7 @@ public interface PlaylistRepository {
 
     Playlist add(Playlist playlist);
 
-    Tag addTagToDatabase(Tag tag);
+    Tag addTagToDatabase(String tag, int appUserId);
 
     boolean deleteTag(int tagId);
 
@@ -35,4 +35,6 @@ public interface PlaylistRepository {
 
     @Transactional
     boolean deleteById(int playlistId);
+
+    Tag findByContent(String tag);
 }

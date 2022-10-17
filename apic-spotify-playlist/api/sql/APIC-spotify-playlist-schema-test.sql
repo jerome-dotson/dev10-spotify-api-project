@@ -20,43 +20,46 @@ create table app_role(
 create table playlist(
 	playlist_id		int primary key auto_increment,
     `name`			varchar(100) not null,
-    `description`		varchar(1000),
+    `description`	varchar(1000),
     
-    app_user_id			int not null,
-    constraint fk_playlist_user foreign key (app_user_id) references app_user(app_user_id)
+    owner_id		int not null,
+    constraint fk_playlist_user foreign key (owner_id) references app_user(app_user_id)
 );
 
 create table track(
 	track_id		int primary key auto_increment,
     `name`			varchar(250) not null,
     duration_ms		bigint not null,
-    artist			varchar(250) not null,
-    app_user_id		int not null,
+    artist			varchar(250) not null
+);
+
+create table track_playlist(
+	track_id		int not null,
     playlist_id		int not null,
     
-    constraint fk_track_user foreign key (app_user_id) references app_user(app_user_id),
-    constraint fk_track_playlist foreign key (playlist_id) references playlist(playlist_id)
+    app_user_id		int not null,
+    constraint fk_user_track_playlist foreign key (app_user_id) references app_user(app_user_id),
+    
+    constraint pk_track_playlist primary key (track_id, playlist_id),
+    constraint fk_track_playlist_track foreign key (track_id) references track(track_id),
+    constraint fk_track_playlist_playlist foreign key (playlist_id) references playlist(playlist_id)
 );
 
 create table tag(
 	tag_id 			int primary key auto_increment,
     content			varchar(250) not null,
-    app_user_id		int not null,
-    playlist_id		int not null,
     
-    constraint fk_tag_user foreign key (app_user_id) references app_user(app_user_id),
-	constraint fk_tag_playlist foreign key (playlist_id) references playlist(playlist_id)
-
+    app_user_id		int not null,
+    constraint fk_tag_user foreign key (app_user_id) references app_user(app_user_id)
 );
 
-create table image(
-	image_id		int primary key auto_increment,
-    url				varchar(250) not null,
-    height			int not null,
-    width			int not null,
-    playlist_id 	int not null,
+create table tag_playlist(
+	tag_id			int not null,
+    playlist_id		int not null,
     
-	constraint fk_image_playlist foreign key (playlist_id) references playlist(playlist_id)
+    constraint pk_tag_playlist primary key (tag_id, playlist_id),
+    constraint fk_tag_playlist_tag foreign key (tag_id) references tag(tag_id),
+    constraint fk_tag_playlist_playlist foreign key (playlist_id) references playlist(playlist_id)
 );
 
 create table user_role(
@@ -68,7 +71,7 @@ create table user_role(
     constraint fk_user_role_role foreign key (app_role_id) references app_role(app_role_id)
 );
 
-create table user_playlist(
+create table collaborator(
 	app_user_id		int not null,
     playlist_id		int not null,
     
@@ -83,10 +86,10 @@ delimiter //
 create procedure set_good_known_state()
 begin
 
-    delete from user_playlist;
+    delete from collaborator;
     delete from user_role;
-    delete from image;
-    alter table image auto_increment = 1;
+	delete from tag_playlist;
+    delete from track_playlist;
     delete from tag;
     alter table tag auto_increment = 1;
     delete from track;
@@ -109,24 +112,35 @@ begin
         ('2', 'GROUP-ADMIN'),
         ('3', 'APP-ADMIN');
         
-	insert into playlist (playlist_id, `name`, `description`, app_user_id) values
+	insert into playlist (playlist_id, `name`, `description`, owner_id) values
 		('1', 'Jazzy jazz', 'Smooth, classic, and always fresh', '1'),
         ('2', 'Jam rock', 'A fusion of rock and long-winded jam sessions', '2'),
         ('3', 'lo-fi hip-hop', 'music to study to', '3'),
         ('4', 'workout', 'gotta get that pump', '4');
     
-    insert into track (track_id, `name`, duration_ms, artist, app_user_id, playlist_id) values
-		('1', 'Bird Food', '331000', 'Ornet Coleman', '1', '1'),
-        ('2', 'Self-Portrait in Three Colours', '187000' 'Charles Mingus', '2', '2'),
-        ('3', 'So What', '561000', 'Miles Davis', '3', '3'),
-        ('4', 'Peaceful', '1083000', 'Eric Clapton', '4', '4'),
-        ('5', 'In the Air Tonight', '336000', 'Phil Collins', '1', '4'),
-        ('6', 'Friend of the Devil', '205000', 'Grateful Dead', '4', '1'),
-        ('7', 'Smooth (feat. Rob Thomas)', '296000', 'Santana', '2', '3'),
-        ('8', 'Hungersite', '427000', 'Goose', '3', '2'),
-        ('9', "Don't Lose Site", '208000', 'Lawrence', '2', '1');
+    insert into track (track_id, `name`, duration_ms, artist) values
+		('1', 'Bird Food', '331000', 'Ornet Coleman'),
+        ('2', 'Self-Portrait in Three Colours', '187000' 'Charles Mingus'),
+        ('3', 'So What', '561000', 'Miles Davis'),
+        ('4', 'Peaceful', '1083000', 'Eric Clapton'),
+        ('5', 'In the Air Tonight', '336000', 'Phil Collins'),
+        ('6', 'Friend of the Devil', '205000', 'Grateful Dead'),
+        ('7', 'Smooth (feat. Rob Thomas)', '296000', 'Santana'),
+        ('8', 'Hungersite', '427000', 'Goose'),
+        ('9', "Don't Lose Site", '208000', 'Lawrence');
+        
+	insert into track_playlist (track_id, playlist_id, app_user_id) values
+		('1', '1', '1'),
+        ('2', '2', '2'),
+        ('3', '3', '3'),
+        ('4', '4', '4'),
+        ('5', '1', '4'),
+        ('6', '4', '1'),
+        ('7', '2', '3'),
+        ('8', '3', '2'),
+        ('9', '2', '1');
     
-    insert into tag (tag_id, content, app_user_id, playlist_id) values
+    insert into tag (tag_id, content, app_user_id) values
 		('1', 'Jazz', '1'),
         ('2', 'Good vibes', '2'),
         ('3', 'Rockin', '3'),
@@ -135,14 +149,17 @@ begin
         ('6', 'Lowkey', '2'),
         ('7', 'Party', '3'),
         ('8', 'Groovy', '4');
-    
-   insert into image (image_id, url, height, width, playlist_id) values
-		('1', 'https://placekitten.com/100/100', '100', '100', '1'),
-		('2', 'https://placekitten.com/200/200', '200', '200', '2'),
-		('3', 'https://placekitten.com/300/300', '300', '300', '3'),
-		('4', 'https://placekitten.com/400/400', '400', '400', '4');
+        
+	insert into tag_playlist (tag_id, playlist_id) values
+		('1', '1'),
+        ('2', '1'),
+        ('3', '2'),
+        ('4', '2'),
+        ('5', '3'),
+        ('6', '3'),
+        ('7', '4'),
+        ('8', '4');
 
-    
     insert into user_role (app_user_id, app_role_id) values
 		('1', '1'),
         ('1', '2'),
@@ -151,7 +168,7 @@ begin
         ('3', '1'),
         ('4', '3');
 
-	insert into user_playlist (app_user_id, playlist_id, accepted) values
+	insert into collaborator (app_user_id, playlist_id, accepted) values
 		('1', '1', '1'),
         ('1', '2', '1'),
         ('2', '2', '1'),
@@ -160,3 +177,10 @@ begin
         
 end //
 delimiter ;
+
+
+   -- insert into image (image_id, url, height, width, playlist_id) values
+-- 		('1', 'https://placekitten.com/100/100', '100', '100', '1'),
+-- 		('2', 'https://placekitten.com/200/200', '200', '200', '2'),
+-- 		('3', 'https://placekitten.com/300/300', '300', '300', '3'),
+-- 		('4', 'https://placekitten.com/400/400', '400', '400', '4');
