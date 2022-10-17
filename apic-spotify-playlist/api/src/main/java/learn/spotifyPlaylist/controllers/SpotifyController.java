@@ -56,7 +56,7 @@ public class SpotifyController {
 
 
     @PostMapping("/callbackHandler")
-    void callbackHandler(@RequestBody Map<String, String> codeHolder) {
+    String callbackHandler(@RequestBody Map<String, String> codeHolder) {
         String authorizationString = CLIENT_ID + ":" + CLIENT_SECRET;
         String encoded = Base64.getEncoder().encodeToString(authorizationString.getBytes());
         MultiValueMap<String, String> bodyValues = new LinkedMultiValueMap<>();
@@ -74,7 +74,7 @@ public class SpotifyController {
         String response = client.post()
                 .body(BodyInserters.fromFormData(bodyValues))
                 .retrieve().bodyToMono(String.class).block();
-        System.out.println(response);
+        return response;
         //    .then(response => {
         //        if (response.status === 200) {
         //

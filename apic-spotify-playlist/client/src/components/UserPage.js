@@ -5,7 +5,7 @@ import axios from "axios";
 import AuthContext from '../context/AuthContext';
 import { accessToken } from '../spotify';
 
-function UserPage({ onSpotifyTokenUpdated, /* onLogout */ }) {
+function UserPage({ onSpotifyTokenUpdated /* onLogout */ }) {
     const auth = useContext(AuthContext);
 
     // const history = useHistory();

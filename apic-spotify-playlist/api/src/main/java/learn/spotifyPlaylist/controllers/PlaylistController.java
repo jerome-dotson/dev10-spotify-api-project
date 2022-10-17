@@ -73,14 +73,14 @@ public class PlaylistController {
     //Tag requests
     //////////////////////////////////////////////////////////////////
 
-    @PostMapping
-    public ResponseEntity<Object> addTag(@RequestBody Tag tag) {
-        Result<Tag> result = service.addTag(tag);
-        if(result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
-        }
-        return ErrorResponse.build(result);
-    }
+//    @PostMapping
+//    public ResponseEntity<Object> addTag(@RequestBody Tag tag) {
+//        Result<Tag> result = service.addTag(tag);
+//        if(result.isSuccess()) {
+//            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+//        }
+//        return ErrorResponse.build(result);
+//    }
 
     @DeleteMapping("/tag/tagId")
     public ResponseEntity<Void> deleteTagById(@PathVariable int tagId) {
@@ -94,14 +94,7 @@ public class PlaylistController {
     //Image requests
     //////////////////////////////////////////////////////////////////
 
-    @PostMapping
-    public ResponseEntity<Object> addImage(@RequestBody Image image) {
-        Result<Image> result = service.addImage(image);
-        if( result.isSuccess() ) {
-            return new ResponseEntity<>( result.getPayload(), HttpStatus.CREATED );
-        }
-        return ErrorResponse.build(result);
-    }
+
 
     //does image need a delete request if it already gets deleted when a playlist gets deleted?
 
@@ -109,14 +102,14 @@ public class PlaylistController {
     //Track requests
     //////////////////////////////////////////////////////////////////
 
-    @PostMapping
-    public ResponseEntity<Object> addTrack(@RequestBody Track track) {
-        Result<Track> result = service.addTrack(track);
-        if(result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
-        }
-        return ErrorResponse.build(result);
-    }
+//    @PostMapping
+//    public ResponseEntity<Object> addTrack(@RequestBody Track track) {
+//        Result<Track> result = service.addTrack(track);
+//        if(result.isSuccess()) {
+//            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+//        }
+//        return ErrorResponse.build(result);
+//    }
 
     @DeleteMapping("/track/trackId")
     public ResponseEntity<Void> deleteTrack(@PathVariable int trackId) {
