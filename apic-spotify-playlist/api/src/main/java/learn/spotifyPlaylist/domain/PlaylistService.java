@@ -96,19 +96,19 @@ public class PlaylistService {
     //everything Tag related
     //////////////////////////////////////////////////////////////////
 
-    public Result<Tag> addTag(Tag tag) {
+    public Result<Tag> addOrRetrieveTag(String tag, int appUserId) {
         Result <Tag> result = validateTag(tag);
         if (!result.isSuccess()) {
             return result;
         }
 
-        if (tag.getTagId() != 0) {
-            result.addMessage("tagId cannot be set for add operation", ResultType.INVALID);
-            return result;
+        Tag existingTag = repository.findByContent(tag);
+
+        if (existingTag == null) {
+            existingTag = repository.addTagToDatabase(tag, appUserId);
         }
 
-        tag = repository.addTagToDatabase(tag);
-        result.setPayload(tag);
+        result.setPayload(existingTag);
         return result;
     }
 
@@ -116,10 +116,10 @@ public class PlaylistService {
         return repository.deleteTag(tagId);
     }
 
-    private Result<Tag> validateTag(Tag tag) {
+    private Result<Tag> validateTag(String tag) {
         Result<Tag> result = new Result<>();
 
-        if(tag.getContent() == null || tag.getContent().isBlank()) {
+        if(tag == null || tag.isBlank()) {
             result.addMessage("tag content cannot be null or blank", ResultType.INVALID);
         }
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, Link } from "react";
 import React from "react";
 import AuthContext from "../context/AuthContext";
 import UserPlaylists from "./UserPlaylists";
@@ -97,7 +97,8 @@ function Home() {
               : null}
           </div>
           <div>
-            <Link to="/playlistsearch" className="btn btn-success">Add Playlist</Link>
+
+            <Link className="btn btn-success" to="/addplaylist">Add Playlist</Link>
           </div>
           <div>
             {collabPlaylists.length > 0 ?

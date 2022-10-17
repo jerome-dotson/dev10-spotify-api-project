@@ -58,7 +58,7 @@ function UserPage({ onSpotifyTokenUpdated /* onLogout */ }) {
             </div>
         ));
     };
-
+        //need to add buttons and functions to edit and delete account
     return (
 
         <div className="card m-5 container">
@@ -73,14 +73,14 @@ function UserPage({ onSpotifyTokenUpdated /* onLogout */ }) {
                                 <h3>Username</h3>
                                 <p>{auth.user.username}</p>
                             </div>
-                            <div>
+                            {/* <div>
                                 <h3>Name</h3>
                                 <p>{auth.user.firstName} {auth.user.lastName}</p>
                             </div>
                             <div>
                                 <h3>Email</h3>
                                 <p>{auth.user.email}</p>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

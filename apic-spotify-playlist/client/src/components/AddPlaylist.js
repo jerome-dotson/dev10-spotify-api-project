@@ -1,9 +1,11 @@
+
 import React, { useState, useHistory, Link } from "react";
 
 
 function AddPlaylist() {
 
     const [playlistId, setPlaylistId] = useState("");
+
     const [playlistName, setPlaylistName] = useState("");
     const [playlistTag, setPlaylistTag] = useState("");
     const [playlistDescription, setPlaylistDescription] = useState("");
@@ -23,6 +25,7 @@ function AddPlaylist() {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
+
                 Authorization: `Bearer ${auth.user.token}`,
             },
             body: JSON.stringify({
@@ -104,6 +107,7 @@ function AddPlaylist() {
                     </div>
                 </form>
             </div>
+
         </div>
     );
 }

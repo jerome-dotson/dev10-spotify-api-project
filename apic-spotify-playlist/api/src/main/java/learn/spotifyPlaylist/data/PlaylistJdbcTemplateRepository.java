@@ -137,21 +137,26 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         return jdbcTemplate.update("delete from playlist where playlist_id = ?;", playlistId) > 0;
     }
 
+    @Override
+    public Tag findByContent(String tag) {
+        return null;
+    }
+
     //////////////////////////////////////////////////////////////////
     //everything Tag related
     //////////////////////////////////////////////////////////////////
 
     @Override
-    public Tag addTagToDatabase(Tag tag) {
+    public Tag addTagToDatabase(String tag, int appUserId) {
+        Tag addedTag = new Tag();
 
-        final String sql = "insert into tag (content, app_user_id, playlist_id) values (?, ?, ?);";
+        final String sql = "insert into tag (content, app_user_id) values (?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, tag.getContent());
-            ps.setInt(2, tag.getAppUserId());
-            ps.setInt(3, tag.getPlaylistId());
+            ps.setString(1, tag);
+            ps.setInt(2, appUserId);
             return ps;
         }, keyHolder);
 
@@ -159,9 +164,11 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
             return null;
         }
 
-        tag.setTagId(keyHolder.getKey().intValue());
+        addedTag.setTagId(keyHolder.getKey().intValue());
+        addedTag.setContent(tag);
+        addedTag.setAppUserId(appUserId);
 
-        return tag;
+        return addedTag;
     }
 
     @Override
@@ -287,7 +294,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
                 + "inner join app_user au on up.app_user_id = au.app_user_id "
                 + "where p.playlist_id = ?;";
 
-        List<UserPlaylist> collaborators = jdbcTemplate.query(sql, new UserPlaylistMapper(), playlist.getPlaylistId());
+        List<Collaborator> collaborators = jdbcTemplate.query(sql, new CollaboratorMapper(), playlist.getPlaylistId());
         playlist.setCollaborators(collaborators);
 
         //TODO: figure out how to update user_playlist table when a user becomes a new collaborator of a playlist
