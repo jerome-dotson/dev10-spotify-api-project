@@ -106,20 +106,20 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         final String sql = "insert into playlist (`name`, `description`, app_user_id) values ( ?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-            int rowsAffected = jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, playlist.getName());
-                ps.setString(2, playlist.getDescription());
-                ps.setInt(3, playlist.getAppUserId());
-                return ps;
-            }, keyHolder);
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, playlist.getName());
+            ps.setString(2, playlist.getDescription());
+            ps.setInt(3, playlist.getAppUserId());
+            return ps;
+        }, keyHolder);
 
-            if (rowsAffected <= 0) {
-                return null;
-            }
+        if (rowsAffected <= 0) {
+            return null;
+        }
 
-            playlist.setPlaylistId(keyHolder.getKey().intValue());
-            return playlist;
+        playlist.setPlaylistId(keyHolder.getKey().intValue());
+        return playlist;
     }
 
 //    @Override
@@ -142,8 +142,42 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 //        //will probably need two separate queries to associate tracks with a playlist
 //    }
 
+//    @Override
+//    public Tag addTag(Tag tag, Playlist playlist) {
+//        //first create tag
+//        final String sql = "insert into tag (content, app_user_id) values (?, ?);";
+//
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+//            int rowsAffected = jdbcTemplate.update(connection -> {
+//                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//                ps.setString(1, tag.getContent());
+//                ps.setInt(2, tag.getAppUserId());
+//                return ps;
+//        }, keyHolder);
+//
+//        if (rowsAffected <= 0) {
+//            return null;
+//        }
+//
+//        tag.setTagId(keyHolder.getKey().intValue());
+//
+//        //then insert into tag_playlist table to associate tag with playlist
+//        final String sqlForTag_Playlist = "insert into tag_playlist (tag_id, playlist_id) values (?, ?);";
+//
+//        boolean updateTP = jdbcTemplate.update(sqlForTag_Playlist,
+//                tag.getTagId(),
+//                playlist.getPlaylistId()) > 0;
+//        if (!updateTP) {
+//            return null;
+//        }
+//
+//        playlist.getTags().add(tag);
+//
+//        return tag;
+//    }
+
     @Override
-    public Tag addTag(Tag tag, Playlist playlist) {
+    public Tag addTagToDatabase(Tag tag) {
         //first create tag
         final String sql = "insert into tag (content, app_user_id) values (?, ?);";
 
@@ -161,21 +195,8 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 
         tag.setTagId(keyHolder.getKey().intValue());
 
-        //then insert into tag_playlist table to associate tag with playlist
-        final String sqlForTag_Playlist = "insert into tag_playlist (tag_id, playlist_id) values (?, ?);";
-
-        boolean updateTP = jdbcTemplate.update(sqlForTag_Playlist,
-                tag.getTagId(),
-                playlist.getPlaylistId()) > 0;
-        if (!updateTP) {
-            return null;
-        }
-
-        playlist.getTags().add(tag);
-
         return tag;
     }
-
     @Override
     @Transactional
     public boolean deleteTag(int tagId) {
@@ -214,9 +235,14 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
                 + "inner join tag_playlist tp on t.tag_id = tp.tag_id "
                 + "inner join playlist p on tp.playlist_id = p.playlist_id "
                 + "where p.playlist_id = ?;";
-
+        //here we are attaching the tags to playlist in the repo
         List<Tag> tags = jdbcTemplate.query(sql, new TagMapper(), playlist.getPlaylistId());
         playlist.setTags(tags);
+
+        //here we are actually filling that data into tag_playlist in the database
+        final String sqlForTag_Playlist = "insert into tag_playlist (tag_id, playlist_id) values (?, ?);";
+
+        tags.forEach(t -> jdbcTemplate.update(sqlForTag_Playlist, t.getTagId(), playlist.getPlaylistId()));
     }
 
     private void addCollaborators(Playlist playlist) {

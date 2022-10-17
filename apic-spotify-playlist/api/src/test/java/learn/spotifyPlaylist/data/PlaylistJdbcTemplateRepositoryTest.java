@@ -113,7 +113,7 @@ public class PlaylistJdbcTemplateRepositoryTest {
     @Test
     void shouldAddTag() {
         Playlist playlist = repository.findById(1);
-        Tag actualTag = repository.addTag(makeTag(), playlist);
+        Tag actualTag = repository.addTagToDatabase(makeTag());
 
         assertNotNull(actualTag);
         assertEquals(NEXT_TAG_ID, actualTag.getTagId());
@@ -128,7 +128,7 @@ public class PlaylistJdbcTemplateRepositoryTest {
     @Test
     void shouldDeleteTag() {
         Playlist playlist = repository.findById(1);
-        Tag actualTag = repository.addTag(makeTagToDelete(), playlist);
+        Tag actualTag = repository.addTagToDatabase(makeTag());
 
         assertNotNull(actualTag);
         assertEquals(NEXT_TAG_ID_TO_DELETE, actualTag.getTagId());

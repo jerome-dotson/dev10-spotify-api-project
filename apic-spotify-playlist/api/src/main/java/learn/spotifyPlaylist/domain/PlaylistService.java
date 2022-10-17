@@ -72,8 +72,8 @@ public class PlaylistService {
 //        return result;
 //    }
 
-    public Result<Tag> addTag(Tag tag, Playlist playlist) {
-        Result <Tag> result = validateTag(tag, playlist);
+    public Result<Tag> addTag(Tag tag) {
+        Result <Tag> result = validateTag(tag);
         if (!result.isSuccess()) {
             return result;
         }
@@ -83,7 +83,7 @@ public class PlaylistService {
             return result;
         }
 
-        tag = repository.addTag(tag, playlist);
+        tag = repository.addTagToDatabase(tag);
         result.setPayload(tag);
         return result;
     }
@@ -110,15 +110,8 @@ public class PlaylistService {
         return result;
     }
 
-    private Result<Tag> validateTag(Tag tag, Playlist playlist) {
+    private Result<Tag> validateTag(Tag tag) {
         Result<Tag> result = new Result<>();
-        Optional<String> existingTag = playlist.getTags().stream()
-                .map(Tag::getContent).findFirst();
-
-        if (existingTag.isPresent()) {
-            result.addMessage("Tag cannot be a duplicate", ResultType.INVALID);
-            return result;
-        }
 
         if(tag.getContent() == null || tag.getContent().isBlank()) {
             result.addMessage("tag content cannot be null or blank", ResultType.INVALID);

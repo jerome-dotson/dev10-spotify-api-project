@@ -56,9 +56,6 @@ public class PlaylistController {
         return ErrorResponse.build(result);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Object> addTag(@RequestBody Tag tag, Playlist playlist)
-
 //    @PutMapping("/playlistId")
 //    public ResponseEntity<Object> update( @PathVariable int playlistId, @RequestBody Playlist playlist ) {
 //        if ( playlistId != playlist.getPlaylistId() ) {
@@ -73,6 +70,16 @@ public class PlaylistController {
 //    }
 
     //TODO: fix the update methods for playlists (tracks and tags)
+
+    //add tags and delete tags
+    @PostMapping
+    public ResponseEntity<Object> addTag(@RequestBody Tag tag) {
+        Result<Tag> result = service.addTag(tag);
+        if(result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
+    }
 
     @DeleteMapping("/playlistId")
     public ResponseEntity<Void> deleteById( @PathVariable int playlistId ) {
