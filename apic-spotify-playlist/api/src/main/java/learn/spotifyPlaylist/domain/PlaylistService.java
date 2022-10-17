@@ -130,21 +130,21 @@ public class PlaylistService {
     //everything Image related
     //////////////////////////////////////////////////////////////////
 
-    public Result<Image> addImage(Image image) {
-        Result<Image> result = validateImage(image);
-        if (!result.isSuccess()) {
-            return result;
-        }
-
-        if (image.getImageId() != 0) {
-            result.addMessage("imageId cannot be set for add operation", ResultType.INVALID);
-            return result;
-        }
-
-        image = repository.addImageToDatabase(image);
-        result.setPayload(image);
-        return result;
-    }
+//    public Result<Image> addImage(Image image) {
+//        Result<Image> result = validateImage(image);
+//        if (!result.isSuccess()) {
+//            return result;
+//        }
+//
+//        if (image.getImageId() != 0) {
+//            result.addMessage("imageId cannot be set for add operation", ResultType.INVALID);
+//            return result;
+//        }
+//
+//        image = repository.addImageToDatabase(image);
+//        result.setPayload(image);
+//        return result;
+//    }
 
     //no need for delete image method since image will be deleted once playlist gets deleted ?
 

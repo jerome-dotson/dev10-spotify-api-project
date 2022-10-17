@@ -93,19 +93,12 @@ create table collaborator(
         ('2', 'GROUP-ADMIN'),
         ('3', 'APP-ADMIN');
         
-	insert into playlist (playlist_id, `name`, `description`, app_user_id) values
+	insert into playlist (playlist_id, `name`, `description`, owner_id) values
 		('1', 'Jazzy jazz', 'Smooth, classic, and always fresh', '1'),
         ('2', 'Jam rock', 'A fusion of rock and long-winded jam sessions', '2'),
         ('3', 'lo-fi hip-hop', 'music to study to', '3'),
         ('4', 'workout', 'gotta get that pump', '4');
     
-    
-    
-   insert into image (image_id, url, height, width, playlist_id) values
-		('1', 'https://placekitten.com/100/100', '100', '100', '1'),
-		('2', 'https://placekitten.com/200/200', '200', '200', '2'),
-		('3', 'https://placekitten.com/300/300', '300', '300', '3'),
-		('4', 'https://placekitten.com/400/400', '400', '400', '4');
 
     
     insert into user_role (app_user_id, app_role_id) values
@@ -116,7 +109,7 @@ create table collaborator(
         ('3', '1'),
         ('4', '3');
 
-	insert into user_playlist (app_user_id, playlist_id, accepted) values
+	insert into collaborator (app_user_id, playlist_id, accepted) values
 		('1', '1', '1'),
         ('1', '2', '1'),
         ('2', '2', '1'),
