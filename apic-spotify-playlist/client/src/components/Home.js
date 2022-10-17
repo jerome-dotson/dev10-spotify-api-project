@@ -4,7 +4,7 @@ import AuthContext from "../context/AuthContext";
 import UserPlaylists from "./UserPlaylists";
 import CollabPlaylists from "./CollabPlaylists";
 import PlaylistInvites from "./PlaylistInvites";
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 // import { useHistory } from "react-router-dom";
 
 function Home() {
@@ -98,7 +98,7 @@ function Home() {
           </div>
           <div>
 
-            <Link className="btn btn-success" to="/addplaylist">Add Playlist</Link>
+            {/* <Link className="btn btn-success" to="/addplaylist">Add Playlist</Link> */}
           </div>
           <div>
             {collabPlaylists.length > 0 ?

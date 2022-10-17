@@ -1,5 +1,7 @@
 
-import React, { useState, useHistory, Link } from "react";
+import React, { useState, useHistory, Link, useContext } from "react";
+import AuthContext from "../context/AuthContext";
+import MessageDisplay from "./MessageDisplay";
 
 
 function AddPlaylist() {
@@ -13,6 +15,8 @@ function AddPlaylist() {
     const [error, setError] = useState([]);
 
     const history = useHistory();
+
+    const auth = useContext(AuthContext)
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
