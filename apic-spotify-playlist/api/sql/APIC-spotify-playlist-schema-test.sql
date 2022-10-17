@@ -28,9 +28,9 @@ create table playlist(
 
 create table track(
 	track_id		int primary key auto_increment,
-    track_name		varchar(250) not null,
+    `name`			varchar(250) not null,
     duration_ms		bigint not null,
-    artist_name		varchar(250) not null,
+    artist			varchar(250) not null,
     app_user_id		int not null,
     playlist_id		int not null,
     
@@ -89,8 +89,6 @@ begin
     alter table image auto_increment = 1;
     delete from tag;
     alter table tag auto_increment = 1;
-    delete from artist;
-    alter table artist auto_increment = 1;
     delete from track;
     alter table track auto_increment = 1;
     delete from playlist;
@@ -117,7 +115,7 @@ begin
         ('3', 'lo-fi hip-hop', 'music to study to', '3'),
         ('4', 'workout', 'gotta get that pump', '4');
     
-    insert into track (track_id, track_name, duration_ms, artist_name, app_user_id, playlist_id) values
+    insert into track (track_id, `name`, duration_ms, artist, app_user_id, playlist_id) values
 		('1', 'Bird Food', '331000', 'Ornet Coleman', '1', '1'),
         ('2', 'Self-Portrait in Three Colours', '187000' 'Charles Mingus', '2', '2'),
         ('3', 'So What', '561000', 'Miles Davis', '3', '3'),
@@ -138,11 +136,11 @@ begin
         ('7', 'Party', '3'),
         ('8', 'Groovy', '4');
     
-    insert into image (image_id, url, height, width, playlist_id) values
-		('1', 'https://placekitten.com/300/300', '300', '300', '1'),
-		('2', 'https://placekitten.com/300/300', '300', '300', '2'),
-		('2', 'https://placekitten.com/300/300', '300', '300', '3'),
-		('2', 'https://placekitten.com/300/300', '300', '300', '4');
+   insert into image (image_id, url, height, width, playlist_id) values
+		('1', 'https://placekitten.com/100/100', '100', '100', '1'),
+		('2', 'https://placekitten.com/200/200', '200', '200', '2'),
+		('3', 'https://placekitten.com/300/300', '300', '300', '3'),
+		('4', 'https://placekitten.com/400/400', '400', '400', '4');
 
     
     insert into user_role (app_user_id, app_role_id) values

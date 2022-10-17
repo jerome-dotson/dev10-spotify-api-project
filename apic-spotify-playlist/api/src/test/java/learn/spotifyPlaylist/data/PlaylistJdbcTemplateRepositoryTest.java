@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class PlaylistJdbcTemplateRepositoryTest {
 
-    final static int NEXT_PLAYLIST_ID = 3;
+    final static int NEXT_PLAYLIST_ID = 5;
 
-    final static int NEXT_TAG_ID = 4;
+    final static int NEXT_TAG_ID = 9;
 
-    final static int NEXT_TAG_ID_TO_DELETE = 5;
+    final static int NEXT_TAG_ID_TO_DELETE = 10;
 
     @Autowired
     PlaylistJdbcTemplateRepository repository;
@@ -37,7 +37,7 @@ public class PlaylistJdbcTemplateRepositoryTest {
         List<Playlist> playlists = repository.findAll();
         assertNotNull(playlists);
 
-        assertTrue(playlists.size() >= 1 && playlists.size() <= 4);
+        assertTrue(playlists.size() >= 3 && playlists.size() <= 6);
     }
 
     @Test
@@ -53,9 +53,9 @@ public class PlaylistJdbcTemplateRepositoryTest {
     void shouldReturnAllImageData() {
         Playlist playlist = repository.findById(1);
         assertEquals(1, playlist.getImage().getImageId());
-        assertEquals("https://placekitten.com/300/300", playlist.getImage().getUrl());
-        assertEquals(300, playlist.getImage().getHeight());
-        assertEquals(300, playlist.getImage().getWidth());
+        assertEquals("https://placekitten.com/100/100", playlist.getImage().getUrl());
+        assertEquals(100, playlist.getImage().getHeight());
+        assertEquals(100, playlist.getImage().getWidth());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package learn.spotifyPlaylist.data;
 
+import learn.spotifyPlaylist.models.Image;
 import learn.spotifyPlaylist.models.Playlist;
 import learn.spotifyPlaylist.models.Tag;
 import learn.spotifyPlaylist.models.Track;
@@ -20,9 +21,17 @@ public interface PlaylistRepository {
 
     Playlist add(Playlist playlist);
 
-    public Tag addTagToDatabase(Tag tag);
+    Tag addTagToDatabase(Tag tag);
 
-    public boolean deleteTag(int tagId);
+    boolean deleteTag(int tagId);
+
+    Image addImageToDatabase(Image image);
+
+//    boolean deleteImage(int imageId);
+
+    Track addTrackToDatabase(Track track);
+
+    boolean deleteTrack(int trackId);
 
     @Transactional
     boolean deleteById(int playlistId);

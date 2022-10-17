@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface TrackRepository {
 
-    public List<PlaylistTrack> findAllByPlaylist(Playlist playlist);
-
-    public Track addTrack(SpotifyTrack spotifyTrack);
-
-    @Transactional
-    public boolean deleteTrack(Track track);
+//    public List<PlaylistTrack> findAllByPlaylist(Playlist playlist);
+//
+//    public Track addTrack(Track track);
+//
+//    @Transactional
+//    public boolean deleteTrack(Track track);
 }
