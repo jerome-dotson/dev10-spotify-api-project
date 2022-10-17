@@ -6,14 +6,16 @@ public class Track {
 
     private int trackId;
 
-    private String trackName;
+    private String name;
 
     private long duration;
 
-    private int artistId;
-    private String artistName;
+    private String artist;
 
-    private List<Playlist> playlists;
+    private int appUserId;
+
+    private int playlistId;
+
 
     public int getTrackId() {
         return trackId;
@@ -23,12 +25,12 @@ public class Track {
         this.trackId = trackId;
     }
 
-    public String getTrackName() {
-        return trackName;
+    public String getName() {
+        return name;
     }
 
-    public void setTrackName(String trackName) {
-        this.trackName = trackName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getDuration() {
@@ -39,28 +41,27 @@ public class Track {
         this.duration = duration;
     }
 
-    public int getArtistId() {
-        return artistId;
+    public String getArtist() {
+        return artist;
     }
 
-    public void setArtistId(int artistId) {
-        this.artistId = artistId;
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 
-    public String getArtistName() {
-        return artistName;
+    public int getAppUserId() {
+        return appUserId;
     }
 
-    public void setArtistName(String artistName) {
-        this.artistName = artistName;
+    public void setAppUserId(int appUserId) {
+        this.appUserId = appUserId;
     }
 
-    public List<Playlist> getPlaylists() {
-        return playlists;
+    public int getPlaylistId() {
+        return playlistId;
     }
 
-    public void setPlaylists(List<Playlist> playlists) {
-        this.playlists = playlists;
+    public void setPlaylistId(int playlistId) {
+        this.playlistId = playlistId;
     }
-
 }

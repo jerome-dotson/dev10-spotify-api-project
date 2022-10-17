@@ -1,12 +1,13 @@
 package learn.spotifyPlaylist.domain;
 
 import learn.spotifyPlaylist.data.PlaylistRepository;
+import learn.spotifyPlaylist.models.Image;
 import learn.spotifyPlaylist.models.Playlist;
 import learn.spotifyPlaylist.models.Tag;
+import learn.spotifyPlaylist.models.Track;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PlaylistService {
@@ -38,7 +39,7 @@ public class PlaylistService {
     }
 
     public Result<Playlist> add(Playlist playlist) {
-        Result<Playlist> result = validate(playlist);
+        Result<Playlist> result = validatePlaylist(playlist);
         if ( !result.isSuccess() ) {
             return result;
         }
@@ -52,6 +53,25 @@ public class PlaylistService {
         result.setPayload(playlist);
         return result;
     }
+
+    public boolean deleteById(int playlistId) {
+        return repository.deleteById(playlistId);
+    }
+
+    private Result<Playlist> validatePlaylist(Playlist playlist) {
+        Result<Playlist> result = new Result<>();
+        if ( playlist == null ) {
+            result.addMessage("playlist cannot be null", ResultType.INVALID);
+            return result;
+        }
+
+        if ( playlist.getName() == null || playlist.getName().isBlank() ) {
+            result.addMessage("playlist name cannot be null or blank", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
 
 //    public Result<Playlist> update(Playlist playlist) {
 //        Result<Playlist> result = validate(playlist);
@@ -71,6 +91,10 @@ public class PlaylistService {
 //
 //        return result;
 //    }
+
+    //////////////////////////////////////////////////////////////////
+    //everything Tag related
+    //////////////////////////////////////////////////////////////////
 
     public Result<Tag> addTag(Tag tag) {
         Result <Tag> result = validateTag(tag);
@@ -92,24 +116,6 @@ public class PlaylistService {
         return repository.deleteTag(tagId);
     }
 
-    public boolean deleteById(int playlistId) {
-        return repository.deleteById(playlistId);
-    }
-
-    private Result<Playlist> validate(Playlist playlist) {
-        Result<Playlist> result = new Result<>();
-        if ( playlist == null ) {
-            result.addMessage("playlist cannot be null", ResultType.INVALID);
-            return result;
-        }
-
-        if ( playlist.getName() == null || playlist.getName().isBlank() ) {
-            result.addMessage("playlist name cannot be null or blank", ResultType.INVALID);
-        }
-
-        return result;
-    }
-
     private Result<Tag> validateTag(Tag tag) {
         Result<Tag> result = new Result<>();
 
@@ -119,4 +125,73 @@ public class PlaylistService {
 
         return result;
     }
+
+    //////////////////////////////////////////////////////////////////
+    //everything Image related
+    //////////////////////////////////////////////////////////////////
+
+    public Result<Image> addImage(Image image) {
+        Result<Image> result = validateImage(image);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        if (image.getImageId() != 0) {
+            result.addMessage("imageId cannot be set for add operation", ResultType.INVALID);
+            return result;
+        }
+
+        image = repository.addImageToDatabase(image);
+        result.setPayload(image);
+        return result;
+    }
+
+    //no need for delete image method since image will be deleted once playlist gets deleted ?
+
+    private Result<Image> validateImage(Image image) {
+        Result<Image> result = new Result<>();
+
+        if(image.getUrl() == null || image.getUrl().isBlank()) {
+            result.addMessage("image url cannot be cannot be null or blank", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
+    //////////////////////////////////////////////////////////////////
+    //everything Image related
+    //////////////////////////////////////////////////////////////////
+
+    public Result<Track> addTrack(Track track) {
+        Result<Track> result = validateTrack(track);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        if (track.getTrackId() != 0) {
+            result.addMessage("trackId cannot be set for add operation", ResultType.INVALID);
+            return result;
+        }
+
+        track = repository.addTrackToDatabase(track);
+        result.setPayload(track);
+        return result;
+    }
+
+    public boolean deleteTrack(int trackId) {
+        return repository.deleteTrack(trackId);
+    }
+    private Result<Track> validateTrack(Track track) {
+        Result<Track> result = new Result<>();
+
+        if (track.getName() == null || track.getName().isBlank()) {
+            result.addMessage("track name cannot be null or blank", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
+
+
+
 }

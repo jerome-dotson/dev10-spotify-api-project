@@ -1,11 +1,7 @@
 package learn.spotifyPlaylist.data;
 
-import learn.spotifyPlaylist.data.mappers.ImageMapper;
-import learn.spotifyPlaylist.data.mappers.PlaylistMapper;
+import learn.spotifyPlaylist.data.mappers.*;
 
-import learn.spotifyPlaylist.data.mappers.RoleMapper;
-import learn.spotifyPlaylist.data.mappers.TagMapper;
-import learn.spotifyPlaylist.data.mappers.UserPlaylistMapper;
 import learn.spotifyPlaylist.models.*;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,6 +22,10 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     public PlaylistJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    //////////////////////////////////////////////////////////////////
+    //find methods returning the 3 different lists of playlists, in addition to findAll()
+    //////////////////////////////////////////////////////////////////
 
     @Override
     public List<Playlist> findAll() {
@@ -81,6 +81,10 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         return playlists;
     }
 
+    //////////////////////////////////////////////////////////////////
+    //Playlist methods: findById(), add, and delete
+    //////////////////////////////////////////////////////////////////
+
     @Override
     @Transactional
     public Playlist findById(int playlistId) {
@@ -93,6 +97,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         if (playlist != null) {
             addImage(playlist);
             addTags(playlist);
+            addTracks(playlist);
             addCollaborators(playlist);
             addPlaylistCreator(playlist);
         }
@@ -122,71 +127,32 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         return playlist;
     }
 
-//    @Override
-//    public boolean update(Playlist playlist) {
-//
-//        final String sql = "update playlist set "
-//                + "name = ?, "
-//                + "description = ?, "
-//                + "app_user_id = ?, "
-//                + "where playlist_id = ?;";
-//
-//        return jdbcTemplate.update(sql,
-//                playlist.getName(),
-//                playlist.getDescription(),
-//                playlist.getAppUserId(),
-//                playlist.getPlaylistId()) > 0;
-//
-//        //first the tags need to be created in the database
-//        //then the tags need to be associated (added) to the playlist via Ids
-//        //will probably need two separate queries to associate tracks with a playlist
-//    }
+    @Override
+    @Transactional
+    public boolean deleteById(int playlistId) {
+        jdbcTemplate.update("delete from user_playlist where playlist_id = ?;", playlistId);
+        jdbcTemplate.update("delete from tag where playlist_id = ?;", playlistId);
+        jdbcTemplate.update("delete from image where playlist_id = ?;", playlistId);
+        jdbcTemplate.update("delete from track where playlist_id = ?;", playlistId);
+        return jdbcTemplate.update("delete from playlist where playlist_id = ?;", playlistId) > 0;
+    }
 
-//    @Override
-//    public Tag addTag(Tag tag, Playlist playlist) {
-//        //first create tag
-//        final String sql = "insert into tag (content, app_user_id) values (?, ?);";
-//
-//        KeyHolder keyHolder = new GeneratedKeyHolder();
-//            int rowsAffected = jdbcTemplate.update(connection -> {
-//                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//                ps.setString(1, tag.getContent());
-//                ps.setInt(2, tag.getAppUserId());
-//                return ps;
-//        }, keyHolder);
-//
-//        if (rowsAffected <= 0) {
-//            return null;
-//        }
-//
-//        tag.setTagId(keyHolder.getKey().intValue());
-//
-//        //then insert into tag_playlist table to associate tag with playlist
-//        final String sqlForTag_Playlist = "insert into tag_playlist (tag_id, playlist_id) values (?, ?);";
-//
-//        boolean updateTP = jdbcTemplate.update(sqlForTag_Playlist,
-//                tag.getTagId(),
-//                playlist.getPlaylistId()) > 0;
-//        if (!updateTP) {
-//            return null;
-//        }
-//
-//        playlist.getTags().add(tag);
-//
-//        return tag;
-//    }
+    //////////////////////////////////////////////////////////////////
+    //everything Tag related
+    //////////////////////////////////////////////////////////////////
 
     @Override
     public Tag addTagToDatabase(Tag tag) {
-        //first create tag
-        final String sql = "insert into tag (content, app_user_id) values (?, ?);";
+
+        final String sql = "insert into tag (content, app_user_id, playlist_id) values (?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-            int rowsAffected = jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, tag.getContent());
-                ps.setInt(2, tag.getAppUserId());
-                return ps;
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, tag.getContent());
+            ps.setInt(2, tag.getAppUserId());
+            ps.setInt(3, tag.getPlaylistId());
+            return ps;
         }, keyHolder);
 
         if (rowsAffected <= 0) {
@@ -197,53 +163,121 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 
         return tag;
     }
+
     @Override
-    @Transactional
     public boolean deleteTag(int tagId) {
-        jdbcTemplate.update("delete from tag_playlist where tag_id = ?", tagId);
-        return jdbcTemplate.update("delete from tag where tag_id = ?", tagId) > 0;
-    }
-
-    @Override
-    @Transactional
-    public boolean deleteById(int playlistId) {
-        jdbcTemplate.update("delete from user_playlist where playlist_id = ?;", playlistId);
-        jdbcTemplate.update("delete from track_playlist where playlist_id = ?;", playlistId);
-        jdbcTemplate.update("delete from tag_playlist where playlist_id = ?;", playlistId);
-        jdbcTemplate.update("delete from image_playlist where playlist_id = ?;", playlistId);
-
-        return jdbcTemplate.update("delete from playlist where playlist_id = ?;", playlistId) > 0;
-    }
-
-    private void addImage(Playlist playlist) {
-
-        final String sql = "select i.image_id, i.url, i.height, i.width "
-                + "from image_playlist ip "
-                + "inner join image i on ip.image_id = i.image_id "
-                + "inner join playlist p on ip.playlist_id = p.playlist_id "
-                + "where p.playlist_id = ?;";
-
-        Image playlistImage = jdbcTemplate.query(sql, new ImageMapper(), playlist.getPlaylistId()).stream()
-                        .findFirst().orElse(null);
-        playlist.setImage(playlistImage);
+        return jdbcTemplate.update("delete from tag where tag_id = ?;", tagId) > 0;
     }
 
     private void addTags(Playlist playlist) {
 
-        final String sql = "select t.tag_id, t.content, t.app_user_id "
+        final String sql = "select t.tag_id, t.content, t.app_user_id, t.playlist_id "
                 + "from tag t "
-                + "inner join tag_playlist tp on t.tag_id = tp.tag_id "
-                + "inner join playlist p on tp.playlist_id = p.playlist_id "
-                + "where p.playlist_id = ?;";
-        //here we are attaching the tags to playlist in the repo
+                + "inner join playlist p on t.playlist_id = p.playlist_id "
+                + "where t.playlist_id = ?;";
+
         List<Tag> tags = jdbcTemplate.query(sql, new TagMapper(), playlist.getPlaylistId());
         playlist.setTags(tags);
-
-        //here we are actually filling that data into tag_playlist in the database
-        final String sqlForTag_Playlist = "insert into tag_playlist (tag_id, playlist_id) values (?, ?);";
-
-        tags.forEach(t -> jdbcTemplate.update(sqlForTag_Playlist, t.getTagId(), playlist.getPlaylistId()));
     }
+
+    //////////////////////////////////////////////////////////////////
+    //everything Image related
+    //////////////////////////////////////////////////////////////////
+
+    @Override
+    public Image addImageToDatabase(Image image) {
+
+        final String sql = "insert into image (url, height, width, playlist_id) values (?, ?, ?, ?);";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+            int rowsAffected = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, image.getUrl());
+                ps.setInt(2, image.getHeight());
+                ps.setInt(3, image.getWidth());
+                ps.setInt(4, image.getPlaylistId());
+                return ps;
+        }, keyHolder);
+
+        if (rowsAffected <= 0) {
+            return null;
+        }
+
+        image.setImageId(keyHolder.getKey().intValue());
+
+        return image;
+    }
+
+    private void addImage(Playlist playlist) {
+
+        final String sql = "select image_id, url, height, width, playlist_id from image where playlist_id = ?;";
+
+        Image image = jdbcTemplate.query(sql, new ImageMapper(), playlist.getPlaylistId()).stream()
+                .findFirst().orElse(null);
+
+        playlist.setImage(image);
+    }
+
+    //might not need this since image will get deleted if the playlist is deleted
+//    @Override
+//    @Transactional
+//    public boolean deleteImage(int imageId) {
+//        return jdbcTemplate.update("delete from image where image_id = ?;", imageId) > 0;
+//    }
+
+    //////////////////////////////////////////////////////////////////
+    //everything Track related
+    //////////////////////////////////////////////////////////////////
+
+    @Override
+    public Track addTrackToDatabase(Track track) {
+
+        final String sql = "insert into track (`name`, duration_ms, artist, app_user_id, playlist_id) values "
+                + "(?, ?, ?, ?, ?),";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, track.getName());
+            ps.setLong(2, track.getDuration());
+            ps.setString(3, track.getArtist());
+            ps.setInt(4, track.getAppUserId());
+            ps.setInt(5, track.getPlaylistId());
+            return ps;
+        }, keyHolder);
+
+        if (rowsAffected <= 0) {
+            return null;
+        }
+
+        return track;
+    }
+
+    @Override
+    public boolean deleteTrack(int trackId) {
+        return jdbcTemplate.update("delete from track where track_id = ?;", trackId) > 0;
+    }
+
+    //@Override
+    //    public List<PlaylistTrack> findAllByPlaylist(Playlist playlist) {
+    //
+    //        final String sql = "select track_id, `name`, duration_ms, artist, app_user_id, playlist_id from track where playlist_id = ?;";
+    //
+    //        return jdbcTemplate.query(sql, new PlaylistTrackMapper(), playlist.getPlaylistId());
+    //    }
+
+    private void addTracks(Playlist playlist) {
+
+        final String sql = "select track_id, `name`, duration_ms, artist, app_user_id, playlist_id from track where playlist_id = ?;";
+
+        List<Track> tracks = jdbcTemplate.query(sql, new TrackMapper(), playlist.getPlaylistId());
+
+        playlist.setTracks(tracks);
+    }
+
+    //////////////////////////////////////////////////////////////////
+    //adding collaborators
+    //////////////////////////////////////////////////////////////////
 
     private void addCollaborators(Playlist playlist) {
 
@@ -255,6 +289,10 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 
         List<UserPlaylist> collaborators = jdbcTemplate.query(sql, new UserPlaylistMapper(), playlist.getPlaylistId());
         playlist.setCollaborators(collaborators);
+
+        //TODO: figure out how to update user_playlist table when a user becomes a new collaborator of a playlist
+        //right now we can only select who's in the database but we don't know how to add to the database
+        //figure out what's being returned
     }
 
     private void addPlaylistCreator(Playlist playlist) {

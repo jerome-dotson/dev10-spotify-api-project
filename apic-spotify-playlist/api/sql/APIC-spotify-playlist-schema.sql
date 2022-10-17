@@ -28,9 +28,9 @@ create table playlist(
 
 create table track(
 	track_id		int primary key auto_increment,
-    track_name		varchar(250) not null,
+    `name`			varchar(250) not null,
     duration_ms		bigint not null,
-    artist_name		varchar(250) not null,
+    artist			varchar(250) not null,
     app_user_id		int not null,
     playlist_id		int not null,
     

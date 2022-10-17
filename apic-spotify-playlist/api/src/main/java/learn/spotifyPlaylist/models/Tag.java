@@ -1,7 +1,5 @@
 package learn.spotifyPlaylist.models;
 
-import java.util.List;
-
 public class Tag {
 
     private int tagId;
@@ -10,7 +8,7 @@ public class Tag {
 
     private int appUserId;
 
-    private List<Playlist> playlists;
+    private int playlistId;
 
     public int getTagId() {
         return tagId;
@@ -36,11 +34,11 @@ public class Tag {
         this.appUserId = appUserId;
     }
 
-    public List<Playlist> getPlaylists() {
-        return playlists;
+    public int getPlaylistId() {
+        return playlistId;
     }
 
-    public void setPlaylists(List<Playlist> playlists) {
-        this.playlists = playlists;
+    public void setPlaylistId(int playlistId) {
+        this.playlistId = playlistId;
     }
 }

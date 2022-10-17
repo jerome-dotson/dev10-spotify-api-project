@@ -15,6 +15,7 @@ public class ImageMapper implements RowMapper<Image> {
         image.setUrl(resultSet.getString("url"));
         image.setHeight(resultSet.getInt("height"));
         image.setWidth(resultSet.getInt("width"));
+        image.setPlaylistId(resultSet.getInt("playlist_id"));
 
         return image;
     }

@@ -14,6 +14,7 @@ public class TagMapper implements RowMapper<Tag> {
         tag.setTagId(rs.getInt("tag_id"));
         tag.setContent(rs.getString("content"));
         tag.setAppUserId(rs.getInt("app_user_id"));
+        tag.setPlaylistId(rs.getInt("playlist_id"));
         return tag;
     }
 }
