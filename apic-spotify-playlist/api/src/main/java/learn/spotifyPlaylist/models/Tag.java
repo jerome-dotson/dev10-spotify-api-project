@@ -8,8 +8,6 @@ public class Tag {
 
     private int appUserId;
 
-    private int playlistId; //remove
-
     public int getTagId() {
         return tagId;
     }
@@ -34,11 +32,4 @@ public class Tag {
         this.appUserId = appUserId;
     }
 
-    public int getPlaylistId() {
-        return playlistId;
-    }
-
-    public void setPlaylistId(int playlistId) {
-        this.playlistId = playlistId;
-    }
 }

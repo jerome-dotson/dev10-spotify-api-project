@@ -294,7 +294,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
                 + "inner join app_user au on up.app_user_id = au.app_user_id "
                 + "where p.playlist_id = ?;";
 
-        List<UserPlaylist> collaborators = jdbcTemplate.query(sql, new UserPlaylistMapper(), playlist.getPlaylistId());
+        List<Collaborator> collaborators = jdbcTemplate.query(sql, new CollaboratorMapper(), playlist.getPlaylistId());
         playlist.setCollaborators(collaborators);
 
         //TODO: figure out how to update user_playlist table when a user becomes a new collaborator of a playlist

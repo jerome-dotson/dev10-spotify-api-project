@@ -1,6 +1,6 @@
 package learn.spotifyPlaylist.models;
 
-public class UserPlaylist {
+public class Collaborator {
 
     private int appUserId;
 

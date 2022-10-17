@@ -14,7 +14,7 @@ public class PlaylistMapper implements RowMapper<Playlist> {
         playlist.setPlaylistId(resultSet.getInt("playlist_id"));
         playlist.setName(resultSet.getString("name"));
         playlist.setDescription(resultSet.getString("description"));
-        playlist.setAppUserId(resultSet.getInt("app_user_id"));
+        playlist.setAppUserId(resultSet.getInt("owner_id"));
 
         return playlist;
     }
