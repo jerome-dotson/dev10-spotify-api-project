@@ -51,15 +51,15 @@ function SongSearch(playlist) {
         //add song to our database from spotify api via trackController method (if track exists in our database, do not add)
         //add song to playlist from our database via playlistController or trackController method
 
-        fetch("http://localhost:8080/api/track/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                Authorization: `Bearer ${auth.user.token}`,
-        },
-        body: JSON.stringify(updatedSighting),    
-        })
+        // fetch("http://localhost:8080/api/track/add", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         Accept: "application/json",
+        //         Authorization: `Bearer ${auth.user.token}`,
+        // },
+        // body: JSON.stringify(updatedSighting),    
+        // })
 
         
     }
