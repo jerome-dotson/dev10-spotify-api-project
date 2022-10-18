@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import Confirmation from "./components/Confirmation";
 import Error from "./components/Error";
@@ -14,10 +14,12 @@ import PlaylistSearch from "./components/PlaylistSearch";
 import UserPage from "./components/UserPage";
 import SongSearch from "./components/SongSearch";
 import PlaylistInfo from "./components/PlaylistInfo";
-import { accessToken , logout as spotifyLogout} from "./spotify";
+import { accessToken, logout as spotifyLogout } from "./spotify";
 import SpotifyLoginPage from "./components/SpotifyLoginPage";
 import AddPlaylist from "./components/AddPlaylist";
+import DeleteConfirm from "./components/DeleteConfirm";
 import Test from "./components/Test";
+
 
 
 
@@ -56,15 +58,15 @@ function App() {
         //let spotifyToken = localStorage.getItem("spotifyAccessToken");
 
         setSpotifyToken(accessToken);
-        
+
         if (token) { //think we need  && token!== "null"
             login(token);
-        }else{
+        } else {
             setSpotifyToken(null);
            // localStorage.setItem("spotifyAccessToken", null);
         }
-        
-        if (spotifyToken){
+
+        if (spotifyToken) {
             setSpotifyToken(spotifyToken);
         }
 
@@ -116,7 +118,7 @@ function App() {
 
     const auth = {
         user: user ? { ...user } : null,
-        spotifyToken : spotifyToken, //edit this as spotifytoken is stored in local storage //changed from spotToken
+        spotifyToken: spotifyToken, //edit this as spotifytoken is stored in local storage //changed from spotToken
 
         login,
         logout
@@ -157,7 +159,7 @@ function App() {
 
                     <Route path="/userpage">
 
-                        <UserPage onSpotifyTokenUpdated ={setSpotifyToken} onLogout={logout} /> {/*changed to set spotifyToken */}
+                        <UserPage onSpotifyTokenUpdated={setSpotifyToken} onLogout={logout} /> {/*changed to set spotifyToken */}
                     </Route>
 
                     <Route path="/songsearch">
@@ -174,6 +176,10 @@ function App() {
                     <Route path="/addplaylist">
                         <AddPlaylist />
     
+                    </Route>
+
+                    <Route path="/playlist/delete/:id">
+                        <DeleteConfirm />
                     </Route>
 
                     <Route exact path="/">

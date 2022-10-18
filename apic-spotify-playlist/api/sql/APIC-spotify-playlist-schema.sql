@@ -97,9 +97,11 @@ create table collaborator(
 		('1', 'Jazzy jazz', 'Smooth, classic, and always fresh', '1'),
         ('2', 'Jam rock', 'A fusion of rock and long-winded jam sessions', '2'),
         ('3', 'lo-fi hip-hop', 'music to study to', '3'),
-        ('4', 'workout', 'gotta get that pump', '4');
+        ('4', 'workout', 'gotta get that pump', '4'),
+        ('5', 'Classical', 'Pip pip', '2'),
+        ('6', 'Heavy Metal', 'YEAAAAAAAA', '2'),
+        ('7', 'R&B Soul', 'Get your body moving', '1'); 
     
-
     
     insert into user_role (app_user_id, app_role_id) values
 		('1', '1'),
@@ -114,4 +116,7 @@ create table collaborator(
         ('1', '2', '1'),
         ('2', '2', '1'),
         ('2', '1', '0'),
-        ('3', '2', '1');
+        ('2', '3', '1'),
+        ('3', '2', '1'),
+        ('2', '4', '0'),
+        ('2', '7', '1');
