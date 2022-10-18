@@ -18,6 +18,7 @@ import { accessToken , logout as spotifyLogout} from "./spotify";
 import SpotifyLoginPage from "./components/SpotifyLoginPage";
 import AddPlaylist from "./components/AddPlaylist";
 import Test from "./components/Test";
+//eimport styled from 'styled-components/macro';
 
 
 
@@ -34,6 +35,8 @@ const LOCAL_STORAGE_TOKEN_KEY = "ourAppToken";
 
 //Need to add field for playlist owner current token in database and use it in collaborators' calls to edit playlists. 
 //Need to add security to make sure collaborators can only edit playlists they are members of
+
+//Will need to store Spotify ID and Spotify playlist ID. 
 
 function App() {
 
@@ -167,10 +170,6 @@ function App() {
 
                     <Route path="/playlist/:id">
                         <PlaylistInfo />
-                    </Route>
-                    
-                    <Route path="/test">
-                        <Test />
                     </Route>
                     
                     <Route path="/addplaylist">
