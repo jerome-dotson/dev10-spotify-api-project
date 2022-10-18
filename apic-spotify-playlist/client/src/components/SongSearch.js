@@ -78,8 +78,6 @@ function SongSearch(playlist) {
 
         ));
     };
-    console.log(auth.spotifyToken);
-
 
     return (
         <div>
