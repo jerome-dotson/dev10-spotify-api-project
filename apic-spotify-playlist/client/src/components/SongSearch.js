@@ -60,7 +60,8 @@ function SongSearch(playlist) {
         //         Accept: "application/json",
         //         Authorization: `Bearer ${auth.user.token}`,
         // },
-        // // body: JSON.stringify(updatedSighting),    
+        // body: JSON.stringify(updatedSighting),    
+
         // })
 
         

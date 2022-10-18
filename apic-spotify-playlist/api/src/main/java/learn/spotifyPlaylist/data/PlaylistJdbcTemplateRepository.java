@@ -30,7 +30,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Override
     public List<Playlist> findAll() {
 
-        final String sql = "select playlist_id, `name`, `description`, app_user_id from playlist;";
+        final String sql = "select playlist_id, `name`, `description`, owner_id from playlist;";
 
         List<Playlist> all = jdbcTemplate.query(sql, new PlaylistMapper());
         all.forEach(p -> addPlaylistCreator(p)); //also returning username by adding playlist creator
@@ -41,7 +41,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Override
     public List<Playlist> findAllByUserId(int appUserId) {
 
-        final String sql = "select playlist_id, `name`, `description`, app_user_id from playlist where app_user_id = ?;";
+        final String sql = "select playlist_id, `name`, `description`, owner_id from playlist where owner_id = ?;";
 
         List<Playlist> playlists = jdbcTemplate.query(sql, new PlaylistMapper(), appUserId);
         playlists.forEach(p -> addPlaylistCreator(p));
@@ -52,10 +52,10 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Override
     public List<Playlist> findCollaboratingPlaylists(int appUserId) {
 
-        final String sql = "select p.playlist_id, p.`name`, p.`description`, p.app_user_id "
+        final String sql = "select p.playlist_id, p.`name`, p.`description`, p.owner_id "
                 + "from playlist p "
-                + "inner join user_playlist up on p.playlist_id = up.playlist_id "
-                + "where up.app_user_id = ? and up.accepted = 1 and p.app_user_id != up.app_user_id;";
+                + "inner join collaborator up on p.playlist_id = up.playlist_id "
+                + "where up.app_user_id = ? and up.accepted = 1 and p.owner_id != up.app_user_id;";
         //also filters out playlists they actually created
         //so the playlists returned are ones that they're ONLY a collaborator on, NOT the creator
 
@@ -68,10 +68,10 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Override
     public List<Playlist> findPendingCollaboratingPlaylists(int appUserId) {
 
-        final String sql = "select p.playlist_id, p.`name`, p.`description`, p.app_user_id "
+        final String sql = "select p.playlist_id, p.`name`, p.`description`, p.owner_id "
                 + "from playlist p "
-                + "inner join user_playlist up on p.playlist_id = up.playlist_id "
-                + "where up.app_user_id = ? and up.accepted = 0 and p.app_user_id != up.app_user_id;";
+                + "inner join collaborator up on p.playlist_id = up.playlist_id "
+                + "where up.app_user_id = ? and up.accepted = 0 and p.owner_id != up.app_user_id;";
         //also filters out playlists they actually created
         //so the playlists returned are ones that they're ONLY a collaborator on, NOT the creator
 
@@ -89,13 +89,13 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Transactional
     public Playlist findById(int playlistId) {
 
-        final String sql = "select playlist_id, `name`, `description`, app_user_id from playlist where playlist_id = ?;";
+        final String sql = "select playlist_id, `name`, `description`, owner_id from playlist where playlist_id = ?;";
 
         Playlist playlist = jdbcTemplate.query(sql, new PlaylistMapper(), playlistId).stream()
                 .findFirst().orElse(null);
 
         if (playlist != null) {
-            addImage(playlist);
+//            addImage(playlist);
             addTags(playlist);
             addTracks(playlist);
             addCollaborators(playlist);
@@ -191,46 +191,46 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     //everything Image related
     //////////////////////////////////////////////////////////////////
 
-    @Override
-    public Image addImageToDatabase(Image image) {
-
-        final String sql = "insert into image (url, height, width, playlist_id) values (?, ?, ?, ?);";
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-            int rowsAffected = jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, image.getUrl());
-                ps.setInt(2, image.getHeight());
-                ps.setInt(3, image.getWidth());
-                ps.setInt(4, image.getPlaylistId());
-                return ps;
-        }, keyHolder);
-
-        if (rowsAffected <= 0) {
-            return null;
-        }
-
-        image.setImageId(keyHolder.getKey().intValue());
-
-        return image;
-    }
-
-    private void addImage(Playlist playlist) {
-
-        final String sql = "select image_id, url, height, width, playlist_id from image where playlist_id = ?;";
-
-        Image image = jdbcTemplate.query(sql, new ImageMapper(), playlist.getPlaylistId()).stream()
-                .findFirst().orElse(null);
-
-        playlist.setImage(image);
-    }
-
-    //might not need this since image will get deleted if the playlist is deleted
 //    @Override
-//    @Transactional
-//    public boolean deleteImage(int imageId) {
-//        return jdbcTemplate.update("delete from image where image_id = ?;", imageId) > 0;
+//    public Image addImageToDatabase(Image image) {
+//
+//        final String sql = "insert into image (url, height, width, playlist_id) values (?, ?, ?, ?);";
+//
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+//            int rowsAffected = jdbcTemplate.update(connection -> {
+//                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//                ps.setString(1, image.getUrl());
+//                ps.setInt(2, image.getHeight());
+//                ps.setInt(3, image.getWidth());
+//                ps.setInt(4, image.getPlaylistId());
+//                return ps;
+//        }, keyHolder);
+//
+//        if (rowsAffected <= 0) {
+//            return null;
+//        }
+//
+//        image.setImageId(keyHolder.getKey().intValue());
+//
+//        return image;
 //    }
+//
+//    private void addImage(Playlist playlist) {
+//
+//        final String sql = "select image_id, url, height, width, playlist_id from image where playlist_id = ?;";
+//
+//        Image image = jdbcTemplate.query(sql, new ImageMapper(), playlist.getPlaylistId()).stream()
+//                .findFirst().orElse(null);
+//
+//        playlist.setImage(image);
+//    }
+//
+//    //might not need this since image will get deleted if the playlist is deleted
+////    @Override
+////    @Transactional
+////    public boolean deleteImage(int imageId) {
+////        return jdbcTemplate.update("delete from image where image_id = ?;", imageId) > 0;
+////    }
 
     //////////////////////////////////////////////////////////////////
     //everything Track related
@@ -313,7 +313,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 
         final String sql = "select au.app_user_id, au.first_name, au.last_name, au.username, au.password_hash, au.email, au.disabled " +
                 "from app_user au " +
-                "inner join playlist p on au.app_user_id = p.app_user_id " +
+                "inner join playlist p on au.app_user_id = p.owner_id " +
                 "where p.playlist_id = ?;";
 
         AppUser playlistCreator = jdbcTemplate.query(sql, new AppUserMapper(roles), playlist.getPlaylistId()).stream()

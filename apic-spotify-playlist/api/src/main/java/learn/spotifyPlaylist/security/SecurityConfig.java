@@ -38,7 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/create_account").permitAll()
                 // new...
                 .antMatchers("/refresh_token").authenticated()
-                .antMatchers(HttpMethod.GET, "/api/playlist/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/playlist/hosting/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/playlist/collaborating/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/playlist/invited/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/{GetURL}").permitAll()
                 .antMatchers(HttpMethod.GET, "/{GetDifferentURL}", "/{GetDifferentURL}/*").permitAll() //* denotes wildcard for any identifier
                 .antMatchers(HttpMethod.GET, "/api/spotify/login").permitAll()
