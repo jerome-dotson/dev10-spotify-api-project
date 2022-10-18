@@ -23,7 +23,7 @@ function Home() {
     fetch("http://localhost:8080/api/playlist/hosting/" + auth.user.userId, {
       headers: {
         Authorization: `Bearer ${auth.user.token}`
-    },
+      },
     })
       .then(
         response => {
@@ -42,7 +42,7 @@ function Home() {
     fetch("http://localhost:8080/api/playlist/collaborating/" + auth.user.userId, {
       headers: {
         Authorization: `Bearer ${auth.user.token}`
-    },
+      },
     })
       .then(
         response => {
@@ -61,7 +61,7 @@ function Home() {
     fetch("http://localhost:8080/api/playlist/invited/" + auth.user.userId, {
       headers: {
         Authorization: `Bearer ${auth.user.token}`
-    },
+      },
     })
       .then(
         response => {
@@ -89,26 +89,29 @@ function Home() {
   return (
     <div className="container text-center">
       <h1>Collaborative Spotify Playlist Creation</h1>
+      {/* <div className="container">
+        <Link className="btn btn-success" to="/addplaylist">Add Playlist</Link>
+      </div> */}
+      <button ></button>
       {auth.user ?
-        <div>
-          <div>
-            {userPlaylists.length > 0 ?
+        <div className="container">
+          <div className="container mt-5">
+            <h3>Your Playlists</h3>
+            {userPlaylists.length > 0 ? 
               userPlaylists.map(u => <UserPlaylists key={u.playlistId} playlistData={u} />)
-              : null}
+              : "Added or saved playlists will appear here"}
           </div>
-          <div>
-
-            {/* <Link className="btn btn-success" to="/addplaylist">Add Playlist</Link> */}
-          </div>
-          <div>
+          <div className="container mt-3">
+          <h3>Collaborating Playlists</h3>
             {collabPlaylists.length > 0 ?
               collabPlaylists.map(c => <CollabPlaylists key={c.playlistId} playlistData={c} />)
-              : null}
+              : "Playlists you are collaborating on will appear here"}
           </div>
-          <div>
+          <div className="container mt-5">
+          <h4>Playlist Invites</h4>
             {playlistInvites.length > 0 ?
               playlistInvites.map(i => <PlaylistInvites key={i.playlistId} playlistData={i} />)
-              : null}
+              : "No collaboration invites at the moment"}
           </div>
         </div>
         : "Login to view your playlists!"}

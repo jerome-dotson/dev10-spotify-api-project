@@ -42,6 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/playlist/collaborating/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/playlist/invited/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/playlist/*").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/playlist").hasAnyRole("USER", "GROUP_ADMIN", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/playlist/*").hasAnyRole("GROUP_ADMIN", "ADMIN")
                 .antMatchers(HttpMethod.GET, "/{GetURL}").permitAll()
                 .antMatchers(HttpMethod.GET, "/{GetDifferentURL}", "/{GetDifferentURL}/*").permitAll() //* denotes wildcard for any identifier
                 .antMatchers(HttpMethod.GET, "/api/spotify/login").permitAll()
