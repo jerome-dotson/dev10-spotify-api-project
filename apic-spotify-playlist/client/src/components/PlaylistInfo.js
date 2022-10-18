@@ -51,15 +51,25 @@ function PlaylistInfo() {
 
     }
 
+    function msToMinSec(millis) {
+        var minutes = Math.floor(millis / 60000);
+        var seconds = ((millis % 60000) / 1000).toFixed(0);
+        return (
+            seconds == 60 ?
+            (minutes+1) + ":00" :
+            minutes + ":" + (seconds < 10 ? "0" : "") + seconds
+          );
+      }
+
     //need to add buttons that allow person who added or group admin to remove from list
     const renderTracks = () => {
         return playlist.tracks.map(track => (
-            <div key={track.id}>
-                {track.name}
-                {track.artistName}
-                {track.duration_ms}
+            <div key={track.id} className="card" style={{display: 'inline-block', width: '80%'}}>
+                {track.name} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                {track.artist} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                {msToMinSec(track.duration)} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
                 {auth.user.userId == playlist.appUserId ?
-                    <button className="btn btn-success ms-1 me-2" onClick={removeTrackFromPlaylist}>-</button>
+                    <button className="btn btn-success btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist}>-</button>
                     : null}
             </div>
         ));
@@ -82,8 +92,13 @@ function PlaylistInfo() {
                 <div>
                     <h3>{playlist.name}</h3>
                     <h3>{playlist.username}</h3>
-                    <h3>{playlist.collaborators.length} Collaborators</h3>
-                    {renderTracks()};
+                    {/* <h3>{playlist.collaborators.length} Collaborators</h3> */}
+                    <div className="card-header">
+                        <p><strong>Song Name &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            Artist &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            Length</strong></p>
+                    </div>
+                    {renderTracks()}
                     <p>{playlist.tags}</p>
 
                     <div>
