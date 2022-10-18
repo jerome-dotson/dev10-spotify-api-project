@@ -248,8 +248,8 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
             ps.setString(1, track.getName());
             ps.setLong(2, track.getDuration());
             ps.setString(3, track.getArtist());
-            ps.setInt(4, track.getAppUserId());
-            ps.setInt(5, track.getPlaylistId());
+//            ps.setInt(4, track.getAppUserId());
+//            ps.setInt(5, track.getPlaylistId());
             return ps;
         }, keyHolder);
 

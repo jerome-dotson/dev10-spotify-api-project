@@ -23,6 +23,7 @@ function SpotifyLoginPage(){
                 return response.json();
             }else{
                 console.log(response);
+                const { access_token, refresh_token, expires_in } = response; //stopped here
             }
         }
         ).then(data =>{
