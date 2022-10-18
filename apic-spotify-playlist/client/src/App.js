@@ -14,9 +14,10 @@ import PlaylistSearch from "./components/PlaylistSearch";
 import UserPage from "./components/UserPage";
 import SongSearch from "./components/SongSearch";
 import PlaylistInfo from "./components/PlaylistInfo";
-import { accessToken , logout as spotifyLogout} from "./spotify";
+import { accessToken, logout as spotifyLogout } from "./spotify";
 import SpotifyLoginPage from "./components/SpotifyLoginPage";
 import AddPlaylist from "./components/AddPlaylist";
+import DeleteConfirm from "./components/DeleteConfirm";
 
 
 
@@ -45,15 +46,15 @@ function App() {
         let spotifyToken = localStorage.getItem("spotifyAccessToken");
 
         setSpotifyToken(accessToken);
-        
+
         if (token) { //think we need  && token!== "null"
             login(token);
-        }else{
+        } else {
             setSpotifyToken(null);
             localStorage.setItem("spotifyAccessToken", null);
         }
-        
-        if (spotifyToken){
+
+        if (spotifyToken) {
             setSpotifyToken(spotifyToken);
         }
 
@@ -100,7 +101,7 @@ function App() {
 
     const auth = {
         user: user ? { ...user } : null,
-        spotifyToken : spotifyToken, //edit this as spotifytoken is stored in local storage //changed from spotToken
+        spotifyToken: spotifyToken, //edit this as spotifytoken is stored in local storage //changed from spotToken
 
         login,
         logout
@@ -141,7 +142,7 @@ function App() {
 
                     <Route path="/userpage">
 
-                        <UserPage onSpotifyTokenUpdated ={setSpotifyToken} onLogout={logout} /> {/*changed to set spotifyToken */}
+                        <UserPage onSpotifyTokenUpdated={setSpotifyToken} onLogout={logout} /> {/*changed to set spotifyToken */}
                     </Route>
 
                     <Route path="/songsearch">
@@ -154,9 +155,13 @@ function App() {
                     <Route path="/playlist/:id">
                         <PlaylistInfo />
                     </Route>
-                    
+
                     <Route path="/addplaylist">
                         <AddPlaylist />
+                    </Route>
+
+                    <Route path="/playlist/delete/:id">
+                        <DeleteConfirm />
                     </Route>
 
                     <Route exact path="/">
