@@ -153,11 +153,11 @@ insert into track_playlist (track_id, playlist_id, app_user_id) values
         ('4', '3');
 
 insert into collaborator (app_user_id, playlist_id, accepted) values
-		('1', '1', '1'),
         ('1', '2', '1'),
-        ('2', '2', '1'),
         ('2', '1', '0'),
         ('2', '3', '1'),
         ('3', '2', '1'),
         ('2', '4', '0'),
-        ('2', '7', '1');
+        ('2', '7', '1'),
+        ('4', '1', '1'),
+        ('1', '4', '1');
