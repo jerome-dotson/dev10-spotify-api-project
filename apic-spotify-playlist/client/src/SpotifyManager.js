@@ -25,6 +25,4 @@ export const getCurrentUserPlaylists = (limit = 20) => {
     //Default limit is the maximum number of playlists returned. 
     //Reference URL for what method returns: https://developer.spotify.com/documentation/web-api/reference/#/operations/get-a-list-of-current-users-playlists
 
-
-
-
+}
