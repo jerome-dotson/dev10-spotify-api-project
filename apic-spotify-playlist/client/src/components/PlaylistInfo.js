@@ -87,7 +87,6 @@ function PlaylistInfo() {
             <div>
                 {error.length > 0 ? <MessageDisplay error={error} /> : null}
             </div>
-            {/* <img src={playlist.image} alt="Playlist image" /> */}
             {playlist ?
                 <div>
                     <div style={{ display: 'inline' }}>
