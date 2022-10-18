@@ -17,6 +17,7 @@ import PlaylistInfo from "./components/PlaylistInfo";
 import { accessToken , logout as spotifyLogout} from "./spotify";
 import SpotifyLoginPage from "./components/SpotifyLoginPage";
 import AddPlaylist from "./components/AddPlaylist";
+import Test from "./components/Test";
 
 
 
@@ -166,6 +167,10 @@ function App() {
 
                     <Route path="/playlist/:id">
                         <PlaylistInfo />
+                    </Route>
+                    
+                    <Route path="/test">
+                        <Test />
                     </Route>
                     
                     <Route path="/addplaylist">
