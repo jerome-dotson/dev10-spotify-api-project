@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import Confirmation from "./components/Confirmation";
 import Error from "./components/Error";
@@ -17,14 +17,23 @@ import PlaylistInfo from "./components/PlaylistInfo";
 import { accessToken , logout as spotifyLogout} from "./spotify";
 import SpotifyLoginPage from "./components/SpotifyLoginPage";
 import AddPlaylist from "./components/AddPlaylist";
+import Test from "./components/Test";
 
 
 
 
 
 const LOCAL_STORAGE_TOKEN_KEY = "ourAppToken";
-//const LOCAL_STORAGE_SPOTIFY_KEY = "spotifyToken";
+//Will need to add logic to check for current_spotify_access_token and attempt to refresh it
+//Conditionally render Spotify account link in Userpage based on whether or not there is a value
+//in window.localStorage.getItem("current_spotify_access_token")
 
+//Need to figure where to set localStorage items outside of SpotifyLoginPage
+
+//Need to add logic to refresh token and put in API calls. 
+
+//Need to add field for playlist owner current token in database and use it in collaborators' calls to edit playlists. 
+//Need to add security to make sure collaborators can only edit playlists they are members of
 
 function App() {
 
@@ -42,7 +51,7 @@ function App() {
         // localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
 
         const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
-        let spotifyToken = localStorage.getItem("spotifyAccessToken");
+        //let spotifyToken = localStorage.getItem("spotifyAccessToken");
 
         setSpotifyToken(accessToken);
         
@@ -50,7 +59,7 @@ function App() {
             login(token);
         }else{
             setSpotifyToken(null);
-            localStorage.setItem("spotifyAccessToken", null);
+           // localStorage.setItem("spotifyAccessToken", null);
         }
         
         if (spotifyToken){
@@ -92,7 +101,12 @@ function App() {
         setUser(null); //Edit this as spotify.js handles logout
         //setSpotToken(null);
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
-        spotifyLogout();//imported spotify.js logout
+        localStorage.removeItem("current_spotify_access_token");
+        localStorage.removeItem("current_spotify_refresh_token");
+        localStorage.removeItem("current_spotify_token_time_to_expiration");
+        localStorage.removeItem("current_spotify_token_creation_time");
+        //localStorage.removeItem("spotifyAccessToken");
+        // spotifyLogout();//imported spotify.js logout
         //localStorage.removeItem(LOCAL_STORAGE_SPOTIFY_KEY);
         // history.push("/");
     };
@@ -153,6 +167,10 @@ function App() {
 
                     <Route path="/playlist/:id">
                         <PlaylistInfo />
+                    </Route>
+                    
+                    <Route path="/test">
+                        <Test />
                     </Route>
                     
                     <Route path="/addplaylist">
