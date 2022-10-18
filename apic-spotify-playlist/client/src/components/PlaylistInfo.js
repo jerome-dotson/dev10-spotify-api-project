@@ -3,6 +3,8 @@ import { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // import Songs from "./Songs";
 import AuthContext from "../context/AuthContext";
+import MessageDisplay from "./MessageDisplay";
+
 
 
 //do we need to use props or pull from id params?
@@ -12,7 +14,7 @@ function PlaylistInfo() {
 
     const [playlist, setPlaylist] = useState(null);
 
-    // const [errors, setErrors] = useState([]);
+    const [error, setError] = useState([]);
 
     const auth = useContext(AuthContext);
 
@@ -26,35 +28,42 @@ function PlaylistInfo() {
         })
             .then(
                 response => {
-                    if (response.status === 200) {
+                    if (response.status === 201) {
                         return response.json();
                     } else {
                         return response.json();
                     }
                 }
             )
-            .then(data => setPlaylist(data))
+            .then(data => {
+                if (data.playlistId) {
+                    setError([]);
+                    setPlaylist(data);
+                } else {
+                    setError(data)
+                }
+            })
             .catch(err => console.log(err));
     },
         []);
 
-        function removeTrackFromPlaylist() {
+    function removeTrackFromPlaylist() {
 
-        }
+    }
 
-        //need to add buttons that allow person who added or group admin to remove from list
-        const renderTracks = () => {
-            return playlist.tracks.map(track => (
-                <div key={track.id}>
-                    {track.name}
-                    {track.artistName}
-                    {track.duration_ms}
-                    {auth.user.userId == playlist.appUserId ? 
+    //need to add buttons that allow person who added or group admin to remove from list
+    const renderTracks = () => {
+        return playlist.tracks.map(track => (
+            <div key={track.id}>
+                {track.name}
+                {track.artistName}
+                {track.duration_ms}
+                {auth.user.userId == playlist.appUserId ?
                     <button className="btn btn-success ms-1 me-2" onClick={removeTrackFromPlaylist}>-</button>
                     : null}
-                </div>
-            ));
-        };
+            </div>
+        ));
+    };
 
 
 
@@ -64,25 +73,29 @@ function PlaylistInfo() {
     //conditional rendering:
     //<Add to favorites(clone) button> and <go to playlist on spotify button>
     return (
-        <div>
-            <h2>Playlist Info</h2>
-            {/* {errors.map((error, i) => (
-        <Error key={i} msg={error} />
-      ))} */}
-            {/* <img src={playlist.image} alt="Playlist image" /> */}
-            <h3>{playlist.name}</h3>
-            <h3>{playlist.username}</h3>
-            <h3>{playlist.collaborators.length} Collaborators</h3>
-            {renderTracks()};
-            <p>{playlist.tags}</p>
+        <div className="container text-center">
+            <h2 className="m-4">Playlist Info</h2>
             <div>
-                {auth ?
-                    <button>Add to Favorites</button>
+                {error.length > 0 ? <MessageDisplay error={error} /> : null}
+            </div>
+            {/* <img src={playlist.image} alt="Playlist image" /> */}
+            {playlist ?
+                <div>
+                    <h3>{playlist.name}</h3>
+                    <h3>{playlist.username}</h3>
+                    <h3>{playlist.collaborators.length} Collaborators</h3>
+                    {renderTracks()};
+                    <p>{playlist.tags}</p>
+                </div>
+                : "Error loading"}
+            <div>
+                {auth.user ?
+                    <button className="btn btn-success m-2">Add to Favorites</button>
                     : null}
             </div>
             <div>
-                {auth ?
-                    <button>Open Playlist in Spotify</button>
+                {auth.user ?
+                    <button className="btn btn-primary m-2">Open Playlist in Spotify</button>
                     : null}
             </div>
         </div>

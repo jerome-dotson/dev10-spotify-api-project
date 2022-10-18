@@ -5,7 +5,7 @@ import UserPlaylists from "./UserPlaylists";
 import CollabPlaylists from "./CollabPlaylists";
 import PlaylistInvites from "./PlaylistInvites";
 // import { Link } from 'react-router-dom';
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function Home() {
 
@@ -17,7 +17,7 @@ function Home() {
 
   const [playlistInvites, setPlaylistInvites] = useState([]);
 
-  // const history = useHistory();
+  const history = useHistory();
 
   function loadUserPlaylists() {
     fetch("http://localhost:8080/api/playlist/hosting/" + auth.user.userId, {
@@ -84,18 +84,20 @@ function Home() {
     }
   }, []);
 
+  function linkToAdd(evt) {
+    evt.preventDefault();
+    history.push("/addplaylist")
+  }
 
 
   return (
-    <div className="container text-center">
+    <div className="container text-center mt-2">
       <h1>Collaborative Spotify Playlist Creation</h1>
-      {/* <div className="container">
-        <Link className="btn btn-success" to="/addplaylist">Add Playlist</Link>
-      </div> */}
-      <button ></button>
+      {auth.user ? <button className="btn btn-success mt-3" onClick={linkToAdd}>Add Playlist</button>
+      : null }
       {auth.user ?
         <div className="container">
-          <div className="container mt-5">
+          <div className="container mt-4">
             <h3>Your Playlists</h3>
             {userPlaylists.length > 0 ? 
               userPlaylists.map(u => <UserPlaylists key={u.playlistId} playlistData={u} />)
