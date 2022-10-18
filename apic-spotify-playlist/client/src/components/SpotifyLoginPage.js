@@ -9,10 +9,11 @@ function SpotifyLoginPage(){
 
 
 
+    // console.log("Start here."); //Here for debugging
 
     useEffect(() => {
 
-        
+        //Might have to turn this into async await 
         fetch("http://localhost:8080/api/spotify/callbackHandler", {
             method: "POST",
             headers: {
@@ -29,9 +30,9 @@ function SpotifyLoginPage(){
                 
             }
         }
-        ).then(data => {
+        ).then( data => {
             const {access_token, refresh_token, expires_in} = data;
-            console.log(access_token);
+            // console.log("The value of token is: " + access_token);  Having problems because of strict mode?
             window.localStorage.setItem("current_spotify_access_token", access_token);
             window.localStorage.setItem("current_spotify_refresh_token", refresh_token);
             window.localStorage.setItem("current_spotify_token_time_to_expiration", expires_in);
