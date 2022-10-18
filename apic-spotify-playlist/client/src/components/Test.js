@@ -1,16 +1,23 @@
 import { useEffect, useState } from 'react';
-import { accessToken } from '../spotify';
+import {getCurrentUserProfile} from '../SpotifyManager';
 
 function Test(){
 
-    const [spotifyToken, setSpotifyToken] = useState(null);
+    const [profile, setProfile] = useState(null);
 
-    useEffect(() => {
-    
-        setSpotifyToken(accessToken); //Go back and edit conditionally rendering link account to Spotify
+    const fetchData = async () =>{
+        try{
+            const {data} = await getCurrentUserProfile();
+            setProfile(data);
 
+            console.log(data);
+        }catch(e){
+            console.error(e);
+        }
 
-    }, []);
+    }
 
-    return (<a className="App-link" href="http://localhost:8888/login">Log in to Spotify</a>);
+    fetchData();
 }
+
+export default Test;
