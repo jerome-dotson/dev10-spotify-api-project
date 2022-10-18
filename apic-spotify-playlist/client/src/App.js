@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import Confirmation from "./components/Confirmation";
 import Error from "./components/Error";
