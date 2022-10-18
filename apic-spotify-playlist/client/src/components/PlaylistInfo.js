@@ -86,13 +86,19 @@ function PlaylistInfo() {
                     <h3>{playlist.collaborators.length} Collaborators</h3>
                     {renderTracks()};
                     <p>{playlist.tags}</p>
+
+                    <div>
+                        {auth.user != playlist.appUserId ?
+                            <button className="btn btn-success m-2">Add to Favorites</button>
+                            : null}
+                    </div>
+
+                    <div>
+                    
+                    </div>
+
                 </div>
                 : "Error loading"}
-            <div>
-                {auth.user ?
-                    <button className="btn btn-success m-2">Add to Favorites</button>
-                    : null}
-            </div>
             <div>
                 {auth.user ?
                     <button className="btn btn-primary m-2">Open Playlist in Spotify</button>
