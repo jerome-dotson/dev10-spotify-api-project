@@ -120,7 +120,7 @@ begin
     
     insert into track (track_id, `name`, duration_ms, artist) values
 		('1', 'Bird Food', '331000', 'Ornet Coleman'),
-        ('2', 'Self-Portrait in Three Colours', '187000' 'Charles Mingus'),
+        ('2', 'Self-Portrait in Three Colours', '187000', 'Charles Mingus'),
         ('3', 'So What', '561000', 'Miles Davis'),
         ('4', 'Peaceful', '1083000', 'Eric Clapton'),
         ('5', 'In the Air Tonight', '336000', 'Phil Collins'),
