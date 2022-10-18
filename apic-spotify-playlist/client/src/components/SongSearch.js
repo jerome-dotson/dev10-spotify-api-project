@@ -1,5 +1,7 @@
+
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 function SongSearch() {
 
@@ -7,17 +9,16 @@ function SongSearch() {
     const [searchKey, setSearchKey] = useState("");
     const [songs, setSongs] = useState([]);
 
+
     useEffect(() => {
 
-        let spotifyToken = window.localStorage.getItem("current_spotify_access_token");
 
-        if (spotifyToken) {
-            
-        }
-        setSpotifyToken(spotifyToken);
+
+
     }
-    
+
         , []);
+
 
     const searchSongs = async (event) => {
         event.preventDefault();
@@ -30,10 +31,20 @@ function SongSearch() {
                 type: "track"
             }
         });
-        console.log("Start here.");
-        console.log(data);
+        // console.log("Start here.");
+       console.log(data.tracks.items);
+        setSongs(data.tracks.items);
     }
 
+    const renderSongs = () => {
+        // console.log(songs);
+        return songs.map(song => {
+            <div key={song.id}>
+                This is text{song.album}
+                {song}
+            </div>
+        });
+    };
 
 
     return (
@@ -44,6 +55,7 @@ function SongSearch() {
                 <input type="text" onChange={event => setSearchKey(event.target.value)} />
                 <button type={"submit"}>Search Songs</button>
             </form>
+            {renderSongs()}
         </div>
     )
 }
