@@ -1,42 +1,49 @@
 
-import React, { useState, useHistory, Link, useContext } from "react";
+import React, { useState, Link, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import MessageDisplay from "./MessageDisplay";
 
 
+const DEFAULT_PLAYLIST = {
+    playlistId: "",
+    name: "",
+    description: "",
+    appUserId: ""
+}
+
 function AddPlaylist() {
 
-    const [playlistId, setPlaylistId] = useState("");
+    const [newPlaylist, setNewPlaylist] = useState(DEFAULT_PLAYLIST);
 
-    const [playlistName, setPlaylistName] = useState("");
-    const [playlistTag, setPlaylistTag] = useState("");
-    const [playlistDescription, setPlaylistDescription] = useState("");
-    const [creatorId, setCreatorId] = useState("");
     const [error, setError] = useState([]);
 
     const history = useHistory();
 
     const auth = useContext(AuthContext)
 
+    const handleChange = (evt) => {
+        const propertyName = evt.target.name;
+        const newValue = evt.target.value;
+
+        const toAdd = { ...newPlaylist };
+        toAdd[propertyName] = newValue;
+        setNewPlaylist(toAdd);
+    }
+
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        setError([]);
 
-        setCreatorId(auth.user.userId)
+        const toAdd = { ...newPlaylist };
 
         fetch("http://localhost:8080/api/playlist/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-
                 Authorization: `Bearer ${auth.user.token}`,
             },
-            body: JSON.stringify({
-                playlistName,
-                playlistDescription,
-                creatorId
-            })
+            body: JSON.stringify(toAdd)
         })
             .then(response => {
                 if (response.status === 201) {
@@ -47,9 +54,8 @@ function AddPlaylist() {
                     return response.json();
                 }
             })
-            .then( (data) => {
+            .then((data) => {
                 if (data.playlistId) {
-                    setPlaylistId(data.playlistId);
                     setError([]);
                 } else {
                     setError(data);
@@ -59,6 +65,11 @@ function AddPlaylist() {
                 console.log(err);
                 setError(["Unknown Error"])
             })
+    }
+
+    function handleCancel(evt) {
+        evt.preventDefault();
+        history.push("/");
     }
 
     //TODO: adjust the tag entry below to search for tags by partial string
@@ -73,13 +84,15 @@ function AddPlaylist() {
                 <form onSubmit={handleSubmit} className="card-body">
 
                     <div className="card-text form-group">
-                        <label htmlFor="playlistName">Playlist name:</label>
+                        <label htmlFor="name">Playlist name:</label>
                         <input
                             type="text"
                             className="form-control mb-2"
                             placeholder="Enter Playlist Name"
-                            onChange={(event) => setPlaylistName(event.target.value)}
-                            id="username"
+                            value={newPlaylist.name}
+                            onChange={handleChange}
+                            id="name"
+                            name="name"
                             required
                         />
                     </div>
@@ -90,12 +103,14 @@ function AddPlaylist() {
                             type="text"
                             className="form-control mb-2"
                             placeholder="Enter Description"
-                            onChange={(event) => setPlaylistDescription(event.target.value)}
+                            value={newPlaylist.description}
+                            onChange={handleChange}
                             id="description"
+                            name="description"
                         />
                     </div>
-                    
-                    <div className="card-text form-group">
+
+                    {/* <div className="card-text form-group">
                         <label htmlFor="tags">Tags:</label>
                         <input
                             type="text"
@@ -104,10 +119,11 @@ function AddPlaylist() {
                             onChange={(event) => setPlaylistTag(event.target.value)}
                             id="tags"
                         />
-                    </div>
+                    </div> */}
                     <div>
-                        <button type="submit" className="btn btn-success mt-2">Create Playlist</button>
-                        <Link to="/" className="btn btn-warning mt-2 mb-2">Cancel</Link>
+                        <button type="submit" className="btn btn-success m-2">Create Playlist</button>
+                        <button type="button" className="btn btn-danger m-2" onClick={handleCancel}>Cancel</button>
+                        {/* <Link to="/" className="btn btn-warning mt-2 mb-2">Cancel</Link> */}
                     </div>
                 </form>
             </div>
