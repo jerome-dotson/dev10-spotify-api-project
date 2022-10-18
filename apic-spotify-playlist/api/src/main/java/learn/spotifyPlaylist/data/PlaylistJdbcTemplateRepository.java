@@ -97,7 +97,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         if (playlist != null) {
 //            addImage(playlist);
 //            addTags(playlist);
-//            addTracks(playlist);
+            addTracks(playlist);
 //            addCollaborators(playlist);
             addPlaylistCreator(playlist);
         }
@@ -275,7 +275,11 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 
     private void addTracks(Playlist playlist) {
 
-        final String sql = "select track_id, `name`, duration_ms, artist, app_user_id, playlist_id from track where playlist_id = ?;";
+        final String sql = "select t.track_id, t.`name`, t.duration_ms, t.artist "
+                + "from track t "
+                + "inner join track_playlist tp on t.track_id = tp.track_id "
+                + "inner join playlist p on tp.playlist_id = p.playlist_id "
+                + "where tp.playlist_id = ?;";
 
         List<Track> tracks = jdbcTemplate.query(sql, new TrackMapper(), playlist.getPlaylistId());
 
@@ -311,13 +315,14 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 
         List<String> roles = jdbcTemplate.query(sqlForRoles, new RoleMapper(), playlist.getAppUserId());
 
-        final String sql = "select au.app_user_id, au.first_name, au.last_name, au.username, au.password_hash, au.email, au.disabled " +
-                "from app_user au " +
-                "inner join playlist p on au.app_user_id = p.owner_id " +
-                "where p.playlist_id = ?;";
+        final String sql = "select au.app_user_id, au.first_name, au.last_name, au.username, au.password_hash, au.email, au.disabled "
+                + "from app_user au "
+                + "inner join playlist p on au.app_user_id = p.owner_id "
+                + "where p.playlist_id = ?;";
 
         AppUser playlistCreator = jdbcTemplate.query(sql, new AppUserMapper(roles), playlist.getPlaylistId()).stream()
                 .findFirst().orElse(null);
+        playlistCreator.setRoles(roles);
         playlist.setAppUser(playlistCreator);
     }
 
