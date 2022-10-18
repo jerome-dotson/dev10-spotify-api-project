@@ -101,18 +101,18 @@ begin
     delete from app_user;
     alter table app_user auto_increment = 1;
     
-     insert into app_user (app_user_id, first_name, last_name, username, password_hash, email, disabled) values
+	insert into app_user (app_user_id, first_name, last_name, username, password_hash, email, disabled) values
 		('1', 'Alice', 'Ayers', 'AAyers', '$2a$10$rMhw6y8yy0jd0ZEyx/Hh3ulyySNNoQeskoxjv0BmFfdm/tEmUGRv6', 'aayers@apple.com', 0),
-        ('2', 'Bob', 'Bobberson', 'BBobers', '$2a$10$rMhw6y8yy0jd0ZEyx/Hh3ulyySNNoQeskoxjv0BmFfdm/tEmUGRv6', 'bbobberson@bob.bob', 0),
-        ('3', 'Clyde', 'Clemens', 'CClems', '$2a$10$rMhw6y8yy0jd0ZEyx/Hh3ulyySNNoQeskoxjv0BmFfdm/tEmUGRv6', 'cclemens@clementine.net', 0),
-        ('4', 'Danielle', 'Davison', 'DDavis', '$2a$10$rMhw6y8yy0jd0ZEyx/Hh3ulyySNNoQeskoxjv0BmFfdm/tEmUGRv6', 'ddavison@dmail.web', 0);
+		('2', 'Bob', 'Bobberson', 'BBobers', '$2a$10$rMhw6y8yy0jd0ZEyx/Hh3ulyySNNoQeskoxjv0BmFfdm/tEmUGRv6', 'bbobberson@bob.bob', 0),
+		('3', 'Clyde', 'Clemens', 'CClems', '$2a$10$rMhw6y8yy0jd0ZEyx/Hh3ulyySNNoQeskoxjv0BmFfdm/tEmUGRv6', 'cclemens@clementine.net', 0),
+		('4', 'Danielle', 'Davison', 'DDavis', '$2a$10$rMhw6y8yy0jd0ZEyx/Hh3ulyySNNoQeskoxjv0BmFfdm/tEmUGRv6', 'ddavison@dmail.web', 0);
         
-insert into app_role (app_role_id, `name`) values
+	insert into app_role (app_role_id, `name`) values
 		('1', 'USER'),
-        ('2', 'GROUP-ADMIN'),
-        ('3', 'APP-ADMIN');
-        
-insert into playlist (playlist_id, `name`, `description`, owner_id) values
+		('2', 'GROUP-ADMIN'),
+		('3', 'APP-ADMIN');
+	
+	insert into playlist (playlist_id, `name`, `description`, owner_id) values
 		('1', 'Jazzy jazz', 'Smooth, classic, and always fresh', '1'),
         ('2', 'Jam rock', 'A fusion of rock and long-winded jam sessions', '2'),
         ('3', 'lo-fi hip-hop', 'music to study to', '3'),
@@ -121,7 +121,7 @@ insert into playlist (playlist_id, `name`, `description`, owner_id) values
         ('6', 'Heavy Metal', 'YEAAAAAAAA', '2'),
         ('7', 'R&B Soul', 'Get your body moving', '1'); 
         
-insert into track (track_id, `name`, duration_ms, artist) values
+	insert into track (track_id, `name`, duration_ms, artist) values
 		('1', 'Bird Food', '331000', 'Ornet Coleman'),
         ('2', 'Self-Portrait in Three Colours', '187000', 'Charles Mingus'),
         ('3', 'So What', '561000', 'Miles Davis'),
@@ -132,7 +132,7 @@ insert into track (track_id, `name`, duration_ms, artist) values
         ('8', 'Hungersite', '427000', 'Goose'),
         ('9', "Don't Lose Site", '208000', 'Lawrence');
         
-insert into track_playlist (track_id, playlist_id, app_user_id) values
+	insert into track_playlist (track_id, playlist_id, app_user_id) values
 		('1', '1', '1'),
         ('2', '2', '2'),
         ('3', '3', '3'),
@@ -171,7 +171,7 @@ insert into track_playlist (track_id, playlist_id, app_user_id) values
         ('3', '1'),
         ('4', '3');
 
-insert into collaborator (app_user_id, playlist_id, accepted) values
+	insert into collaborator (app_user_id, playlist_id, accepted) values
 		('1', '1', '1'),
         ('1', '2', '1'),
         ('2', '2', '1'),

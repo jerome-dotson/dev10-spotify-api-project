@@ -101,8 +101,8 @@ insert into playlist (playlist_id, `name`, `description`, owner_id) values
         ('5', 'Classical', 'Pip pip', '2'),
         ('6', 'Heavy Metal', 'YEAAAAAAAA', '2'),
         ('7', 'R&B Soul', 'Get your body moving', '1'); 
-        
-insert into track (track_id, `name`, duration_ms, artist) values
+    
+    insert into track (track_id, `name`, duration_ms, artist) values
 		('1', 'Bird Food', '331000', 'Ornet Coleman'),
         ('2', 'Self-Portrait in Three Colours', '187000', 'Charles Mingus'),
         ('3', 'So What', '561000', 'Miles Davis'),
