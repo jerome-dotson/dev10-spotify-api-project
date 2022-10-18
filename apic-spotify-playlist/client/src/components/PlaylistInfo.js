@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 // import Songs from "./Songs";
 import AuthContext from "../context/AuthContext";
 import MessageDisplay from "./MessageDisplay";
@@ -66,7 +66,6 @@ function PlaylistInfo() {
     };
 
 
-
     //display image, playlist name, creator username, number of accepted collaborators
     //list of tracks on playlist (song name, artist name, length)
     //tags
@@ -88,13 +87,15 @@ function PlaylistInfo() {
                     <p>{playlist.tags}</p>
 
                     <div>
-                        {auth.user != playlist.appUserId ?
+                        { auth.user.userId != playlist.appUserId ?
                             <button className="btn btn-success m-2">Add to Favorites</button>
                             : null}
                     </div>
 
                     <div>
-                    
+                        { auth.user.userId == playlist.appUserId ?
+                            <Link className="btn btn-danger m-2" to={`/playlist/delete/${playlist.playlistId}`}>Delete</Link>
+                        : null }
                     </div>
 
                 </div>

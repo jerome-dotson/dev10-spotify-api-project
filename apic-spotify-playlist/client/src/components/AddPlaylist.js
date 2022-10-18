@@ -9,7 +9,7 @@ const DEFAULT_PLAYLIST = {
     playlistId: "",
     name: "",
     description: "",
-    appUserId: ""
+    owner_Id: ""
 }
 
 function AddPlaylist() {
@@ -20,7 +20,7 @@ function AddPlaylist() {
 
     const history = useHistory();
 
-    const auth = useContext(AuthContext)
+    const auth = useContext(AuthContext);
 
     const handleChange = (evt) => {
         const propertyName = evt.target.name;
@@ -31,12 +31,21 @@ function AddPlaylist() {
         setNewPlaylist(toAdd);
     }
 
+    function assignOwner() {
+
+        const toAdd = { ...newPlaylist };
+        toAdd[owner_Id] = auth.user.userId;
+        setNewPlaylist(toAdd);
+    }
+
     const handleSubmit = async (evt) => {
         evt.preventDefault();
+        
+        assignOwner();
 
         const toAdd = { ...newPlaylist };
 
-        fetch("http://localhost:8080/api/playlist/add", {
+        fetch("http://localhost:8080/api/playlist", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

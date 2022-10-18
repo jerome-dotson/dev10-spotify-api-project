@@ -108,7 +108,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Override
     public Playlist add(Playlist playlist) {
 
-        final String sql = "insert into playlist (`name`, `description`, app_user_id) values ( ?, ?, ?);";
+        final String sql = "insert into playlist (`name`, `description`, owner_id) values ( ?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {

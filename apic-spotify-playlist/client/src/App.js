@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import Confirmation from "./components/Confirmation";
 import Error from "./components/Error";
@@ -19,7 +19,6 @@ import SpotifyLoginPage from "./components/SpotifyLoginPage";
 import AddPlaylist from "./components/AddPlaylist";
 import DeleteConfirm from "./components/DeleteConfirm";
 import Test from "./components/Test";
-//eimport styled from 'styled-components/macro';
 
 
 
@@ -176,6 +175,7 @@ function App() {
                     
                     <Route path="/addplaylist">
                         <AddPlaylist />
+    
                     </Route>
 
                     <Route path="/playlist/delete/:id">
