@@ -18,7 +18,6 @@ import { accessToken , logout as spotifyLogout} from "./spotify";
 import SpotifyLoginPage from "./components/SpotifyLoginPage";
 import AddPlaylist from "./components/AddPlaylist";
 import Test from "./components/Test";
-//eimport styled from 'styled-components/macro';
 
 
 
@@ -174,6 +173,7 @@ function App() {
                     
                     <Route path="/addplaylist">
                         <AddPlaylist />
+    
                     </Route>
 
                     <Route exact path="/">
