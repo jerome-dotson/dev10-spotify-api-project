@@ -22,6 +22,8 @@ function AddPlaylist() {
 
     const auth = useContext(AuthContext)
 
+    const [owner_Id, setOwnerId] = useState(auth.user.userId);
+
     const handleChange = (evt) => {
         const propertyName = evt.target.name;
         const newValue = evt.target.value;
