@@ -192,6 +192,10 @@ public class PlaylistService {
     // playlist invites
     //////////////////////////////////////////////////////////////////
 
+    public boolean sendInvite(Collaborator collaborator) {
+        return repository.sendInvite(collaborator);
+    }
+
     public Result<Collaborator> acceptInvite(Collaborator collaborator) {
         Result<Collaborator> result = new Result<>();
 
