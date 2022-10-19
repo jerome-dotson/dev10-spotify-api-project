@@ -227,4 +227,12 @@ public class PlaylistService {
     public List<AppUser> findCollaborators(int appUserId) {
         return repository.findCollaborators(appUserId);
     }
+
+    public List<AppUser> playlistCollaborators(int playlistId) {
+        return repository.playlistCollaborators(playlistId);
+    }
+
+    public boolean deleteCollaborator(int playlistId, int appUserId) {
+        return repository.deleteCollaborator(playlistId, appUserId);
+    }
 }

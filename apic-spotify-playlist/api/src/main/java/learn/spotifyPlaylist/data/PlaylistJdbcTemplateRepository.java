@@ -305,6 +305,22 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
                 .stream().filter(u -> u.getAppUserId() != appUserId).toList();
     }
 
+    @Override
+    public List<AppUser> playlistCollaborators(int playlistId) {
+
+        Playlist playlist = findById(playlistId);
+
+        return playlist.getCollaborators();
+    }
+
+    @Override
+    public boolean deleteCollaborator(int playlistId, int appUserId) {
+
+        final String sql = "delete from collaborator where playlist_id = ? and app_user_id = ?;";
+
+        return jdbcTemplate.update(sql, playlistId, appUserId) > 0;
+    }
+
     private void addCollaborators(Playlist playlist) {
 
         List<String> placeHolder = new ArrayList<>(); //just to satisfy roles parameter
