@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
@@ -13,6 +13,7 @@ function SongSearch() {
     const from = location.state;
     const history = useHistory();
     const auth = useContext(AuthContext);
+    const [playlistId, setPlaylistId] = useState(from);
 
 
     const searchSongs = async (event) => {
@@ -34,8 +35,9 @@ function SongSearch() {
         setSongs(data.tracks.items);
     }
 
-    function addSong(evt) {
-        evt.preventDefault();
+    function addSong(i) {
+
+        const toSave = songs[i];
 
         const init = {
             method: "POST",
@@ -44,14 +46,14 @@ function SongSearch() {
                 "Accept": "application/json",
                 Authorization: `Bearer ${auth.user.token}`
             },
-            body: JSON.stringify(
-                
-
-
-            )
+            body: JSON.stringify({
+                name: toSave.name,
+                artist: toSave.artists[0].name,
+                duration: toSave.duration_ms
+            })
         };
 
-        fetch("http://localhost:8080/api/track/add", init)
+        fetch(`http://localhost:8080/api/playlist/${from}/track`, init)
         .then(response => {
             if ( response.status === 201 ) {
                 history.push("/playlist/" + from)
@@ -69,6 +71,11 @@ function SongSearch() {
         );
     }
 
+    function returnToPlaylist(evt) {
+        evt.preventDefault();
+        history.push("/playlist/" + from)
+    }
+
     console.log(songs);
 
     return (
@@ -76,6 +83,8 @@ function SongSearch() {
         <div className="container text-center">
             <div className="card text-center p-2 m-5" style={{ width: '30rem' }}>
                 <h1 className="card-header">Song Search</h1>
+                {/* <button className="btn btn-success" onClick={returnToPlaylist}>Return to Playlist</button> */}
+                {/* <Link to={"/playlist/" + {from}} className="btn btn-success">Return to Playlist</Link> */}
                 <form onSubmit={searchSongs}>
                     <input type="text" 
                     className="form-control m-3"
@@ -83,11 +92,11 @@ function SongSearch() {
                     onChange={event => setSearchKey(event.target.value)} />
                     <button type={"submit"} className="btn btn-success m-1">Search Songs</button>
                 </form>
-                {songs.map(song => <div key={song.id} className="card m-1" style={{ display: 'inline-block', width: '100%' }}>
+                {songs.map( (song, i) => <div key={song.id} className="card m-1" style={{ display: 'inline-block', width: '100%' }}>
                     {song.name} &nbsp; &nbsp; 
                     {song.artists[0].name} &nbsp; &nbsp; 
                     {msToMinSec(song.duration_ms)} &nbsp; &nbsp; 
-                    <button className="btn btn-info btn-sm" onClick={addSong}>Add Song</button>
+                    <button className="btn btn-info btn-sm" onClick={ ()=> addSong(i) }>Add Song</button>
                     </div>)}
             </div>
         </div >

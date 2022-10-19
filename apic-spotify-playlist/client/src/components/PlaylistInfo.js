@@ -119,11 +119,11 @@ function PlaylistInfo() {
 
                 </div>
                 : "Error loading"}
-            <div>
+            {/* <div>
                 {auth.user ?
                     <button className="btn btn-primary m-2">Open Playlist in Spotify</button>
                     : null}
-            </div>
+            </div> */}
         </div>
     );
 }
