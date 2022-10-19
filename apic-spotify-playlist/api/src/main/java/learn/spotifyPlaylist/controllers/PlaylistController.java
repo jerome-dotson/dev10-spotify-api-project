@@ -60,6 +60,7 @@ public class PlaylistController {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
         playlist.setAppUser(currentUser);
+        playlist.setAppUserId(currentUser.getAppUserId());
         Result<Playlist> result = service.add(playlist);
         if( result.isSuccess() ) {
             return new ResponseEntity<>( result.getPayload(), HttpStatus.CREATED );
@@ -187,7 +188,8 @@ public class PlaylistController {
     //        return service.findAll();
     //    }
 
-    @GetMapping("/users")
+
+    @GetMapping("/collab")
     public List<AppUser> findCollaborators() {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
