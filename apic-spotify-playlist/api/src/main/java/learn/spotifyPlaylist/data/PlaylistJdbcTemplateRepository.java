@@ -322,4 +322,27 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         playlist.setAppUser(playlistCreator);
     }
 
+    //////////////////////////////////////////////////////////////////
+    // playlist invites
+    //////////////////////////////////////////////////////////////////
+
+    //TODO: add a new row to the collaborator table for when an invite is first sent out?
+
+    @Override
+    public boolean acceptInvite(Collaborator collaborator) {
+
+        final String sql = " update collaborator set accepted = 1 where app_user_id = ? and playlist_id = ?;";
+
+        return jdbcTemplate.update(sql, collaborator.getAppUserId(), collaborator.getPlaylistId()) > 0;
+    }
+
+    @Override
+    @Transactional
+    public boolean denyInvite(int playlistId, int appUserId) {
+
+        final String sql = "delete from collaborator where playlist_id = ? and app_user_id = ? and accepted = 0;";
+
+        return jdbcTemplate.update(sql, playlistId, appUserId) > 0;
+    }
+
 }
