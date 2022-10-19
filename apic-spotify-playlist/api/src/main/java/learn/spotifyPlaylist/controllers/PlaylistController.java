@@ -186,6 +186,7 @@ public class PlaylistController {
         return service.findCollaborators(currentUser.getAppUserId());
     }
 
+
     @GetMapping("/{playlistId}/collaborators")
     public List<AppUser> playlistCollaborators(@PathVariable int playlistId) {
         return service.playlistCollaborators(playlistId);
@@ -198,5 +199,4 @@ public class PlaylistController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
 }
