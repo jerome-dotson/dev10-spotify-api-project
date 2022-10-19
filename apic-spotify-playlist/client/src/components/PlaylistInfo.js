@@ -50,8 +50,28 @@ function PlaylistInfo() {
     },
         []);
 
-    function removeTrackFromPlaylist() {
+    function removeTrackFromPlaylist(i) {
+        // i.preventDefault();
 
+        // const toDelete = playlist.tracks[i];
+
+        // const init = {
+        //     method: "DELETE",
+        //     headers: {
+        //         Authorization: `Bearer ${auth.user.token}`
+        //     }
+        // }
+
+        // if (window.confirm("Are you sure you want to delete?")) {
+        //     fetch("http://localhost:8080/api/playlist/track/" + toDelete.trackId, init)
+        //     .then(response => {
+        //         if ( response.status === 204 ){
+        //             window.location.reload(false);
+        //         } else {
+        //             console.log(response.status);
+        //         }
+        //     });
+        // }
     }
 
     function msToMinSec(millis) {
@@ -66,13 +86,13 @@ function PlaylistInfo() {
 
     //need to add buttons that allow person who added or group admin to remove from list
     const renderTracks = () => {
-        return playlist.tracks.map(track => (
+        return playlist.tracks.map((track, i) => (
             <div key={track.id} className="card" style={{ display: 'inline-block', width: '100%' }}>
                 {track.name} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 {track.artist} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 {msToMinSec(track.duration)} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 {auth.user.userId == playlist.appUserId ?
-                    <button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist}>remove track</button>
+                    <button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist(i)}>remove track</button>
                     : null}
             </div>
         ));

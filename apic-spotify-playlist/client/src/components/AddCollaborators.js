@@ -15,18 +15,19 @@ function AddCollaborators() {
 
 
     const searchUsers = async (evt) => {
-        evt.preventDefaul();
+        evt.preventDefault();
+
         const init = {
+            method: "GET",
             headers: {
                 Authorization: `Bearer ${auth.user.token}`,
-                "Content-Type": "application/json",
-            },
-            params: searchKey
+            }
         };
 
-        const { data } = await fetch("http://localhost:8080/api/playlist/users", init);
+        const response  = await fetch("http://localhost:8080/api/user/search/" + searchKey, init);
 
-        setAppUsers(data.appUsers.items);
+        const data = await response.json();
+        setAppUsers(data);
     }
 
 
@@ -44,31 +45,33 @@ function AddCollaborators() {
             },
             body: JSON.stringify({
                 appUserId: toSave.appUserId,
-                playlistId: from,
+                playlistId: id,
                 accepted: false
             })
         };
 
-        fetch("http://localhost:8080/api/playlist/" + id + "/track", init)
+        fetch("http://localhost:8080/api/playlist/invite/send/" + id + "/" + auth.user.appUserId, init)
             .then(response => {
                 if (response.status === 201) {
                     history.push("/playlist/" + id)
+                } else {
+                    console.log(response.status)
                 }
             })
     }
 
 
-    const renderUsers = () => {
-        return appUsers.map((user, i) => (
-            <div key={user.appUserId}>
-                {user.firstName}
-                {user.lastName}
-                {user.email}
-                <button className="btn btn-success ms-1 me-2" onClick={() => addUserAsCollaborator(i)}>+</button>
-            </div>
+    // const renderUsers = () => {
+    //     return appUsers.map((user, i) => (
+    //         <div key={user.appUserId}>
+    //             {user.firstName}
+    //             {user.lastName}
+    //             {user.email}
+    //             <button className="btn btn-success ms-1 me-2" onClick={() => addUserAsCollaborator(i)}>+</button>
+    //         </div>
 
-        ));
-    };
+    //     ));
+    // };
 
     return (
         <div className="container text-center">
