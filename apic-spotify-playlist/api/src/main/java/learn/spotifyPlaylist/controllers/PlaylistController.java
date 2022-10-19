@@ -180,6 +180,8 @@ public class PlaylistController {
 
     @GetMapping
     public List<AppUser> findCollaborators() {
-        return service.findCollaborators();
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
+        return service.findCollaborators(currentUser.getAppUserId());
     }
 }

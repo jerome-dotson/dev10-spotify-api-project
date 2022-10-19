@@ -283,13 +283,14 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     //////////////////////////////////////////////////////////////////
 
     @Override
-    public List<AppUser> findCollaborators() {
+    public List<AppUser> findCollaborators(int appUserId) {
 
         List<String> placeHolder = new ArrayList<>(); //just to satisfy roles parameter
 
         final String sql = "select * from app_user;";
 
-        return jdbcTemplate.query(sql, new AppUserMapper(placeHolder));
+        return jdbcTemplate.query(sql, new AppUserMapper(placeHolder))
+                .stream().filter(u -> u.getAppUserId() != appUserId).toList();
     }
 
     private void addCollaborators(Playlist playlist) {
