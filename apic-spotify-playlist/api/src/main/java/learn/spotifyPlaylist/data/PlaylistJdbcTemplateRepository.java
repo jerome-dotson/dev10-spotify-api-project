@@ -349,10 +349,9 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     //if the user declines the invite, then the invite will be deleted -> deleted method
 
     @Override
-    public Collaborator sendInvite(int something) {
-
-//        final String sql =
-        return null;
+    public boolean sendInvite(Collaborator collaborator) {
+        final String sql = "insert into collaborator (app_user_id, playlist_id, accepted) values (?, ?, 0);";
+        return jdbcTemplate.update(sql, collaborator.getAppUserId(), collaborator.getPlaylistId()) > 0;
     }
 
 

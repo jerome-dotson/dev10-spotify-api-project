@@ -38,7 +38,7 @@ public interface PlaylistRepository {
 
     Tag findByContent(String tag);
 
-    Collaborator sendInvite(int something);
+    boolean sendInvite(Collaborator collaborator);
 
     boolean acceptInvite(Collaborator collaborator);
 
