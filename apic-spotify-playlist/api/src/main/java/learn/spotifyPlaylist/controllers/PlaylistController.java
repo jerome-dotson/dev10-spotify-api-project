@@ -182,7 +182,7 @@ public class PlaylistController {
     //        return service.findAll();
     //    }
 
-    @GetMapping
+    @GetMapping("/collab")
     public List<AppUser> findCollaborators() {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
