@@ -24,7 +24,7 @@ function AddCollaborators() {
             params: searchKey
         };
 
-        const { data } = await fetch("http://localhost:8080/api/playlists/users", init);
+        const { data } = await fetch("http://localhost:8080/api/playlist/users", init);
 
         setAppUsers(data.appUsers.items);
     }
@@ -49,10 +49,10 @@ function AddCollaborators() {
             })
         };
 
-        fetch(`http://localhost:8080/api/playlist/${from}/track`, init)
+        fetch("http://localhost:8080/api/playlist/" + id + "/track", init)
             .then(response => {
                 if (response.status === 201) {
-                    history.push("/playlist/" + from)
+                    history.push("/playlist/" + id)
                 }
             })
     }

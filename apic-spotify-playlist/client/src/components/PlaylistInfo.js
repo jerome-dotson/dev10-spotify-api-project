@@ -72,7 +72,7 @@ function PlaylistInfo() {
                 {track.artist} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 {msToMinSec(track.duration)} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 {auth.user.userId == playlist.appUserId ?
-                    <button className="btn btn-success btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist}>-</button>
+                    <button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist}>remove track</button>
                     : null}
             </div>
         ));
@@ -93,12 +93,11 @@ function PlaylistInfo() {
             {playlist ?
                 <div>
                     <div style={{ display: 'inline-block' }}>
-                        <h1 className="">{playlist.name}</h1> 
+                        <h1 className="">{playlist.name}</h1>
                         <h4 className=""> Hosted by: &nbsp; {playlist.appUser.username}</h4>
                         <p>{playlist.collaborators.length} Collaborators</p>
                         {/* <Link to={"/songsearch"`${playlist.playlistId}` },}} className="btn btn-info m-2">Add Songs</Link> */}
-                        <AddSongButton playlistId={playlist.playlistId} /> 
-                        <AddCollaboratorsButton playlistId={playlist.playlistId} />
+                        <AddSongButton playlistId={playlist.playlistId} />
                     </div>
                     <div className="card" style={{ display: 'inline-block', width: '80%' }}>
                         <div className="card-header">
@@ -118,7 +117,10 @@ function PlaylistInfo() {
 
                     <div>
                         {auth.user.userId == playlist.appUserId ?
-                            <DeleteConfirmButton playlistId={playlist.playlistId}/>
+                            <AddCollaboratorsButton playlistId={playlist.playlistId} />
+                            : null}
+                        {auth.user.userId == playlist.appUserId ?
+                            <DeleteConfirmButton playlistId={playlist.playlistId} />
                             : null}
                     </div>
 
