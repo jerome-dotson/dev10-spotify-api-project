@@ -159,7 +159,7 @@ public class PlaylistService {
     //everything Image related
     //////////////////////////////////////////////////////////////////
 
-    public Result<Track> addTrack(Track track) {
+    public Result<Track> addTrack(Track track, int playlistId, int appUserId) {
         Result<Track> result = validateTrack(track);
         if (!result.isSuccess()) {
             return result;
@@ -170,7 +170,7 @@ public class PlaylistService {
             return result;
         }
 
-        track = repository.addTrackToDatabase(track);
+        track = repository.addTrackToDatabase(track, playlistId, appUserId);
         result.setPayload(track);
         return result;
     }

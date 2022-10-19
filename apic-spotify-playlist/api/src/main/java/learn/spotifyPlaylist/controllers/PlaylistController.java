@@ -123,7 +123,10 @@ public class PlaylistController {
 
     @PostMapping("/{playlistId}/track")
     public ResponseEntity<Object> addTrack(@PathVariable int playlistId, @RequestBody Track track) {
-        Result<Track> result = service.addTrack(track);
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
+
+        Result<Track> result = service.addTrack(track, playlistId, currentUser.getAppUserId());
         if(result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
@@ -137,9 +140,7 @@ public class PlaylistController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-    //TODO: how are we going to delete tracks?
-
+    
     //////////////////////////////////////////////////////////////////
     //Invite requests
     //////////////////////////////////////////////////////////////////
