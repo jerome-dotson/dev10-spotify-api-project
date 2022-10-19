@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -97,8 +98,8 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         if (playlist != null) {
 //            addImage(playlist);
 //            addTags(playlist);
+            addCollaborators(playlist);
             addTracks(playlist);
-//            addCollaborators(playlist);
             addPlaylistCreator(playlist);
         }
 
@@ -265,14 +266,6 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         return jdbcTemplate.update("delete from track where track_id = ?;", trackId) > 0;
     }
 
-    //@Override
-    //    public List<PlaylistTrack> findAllByPlaylist(Playlist playlist) {
-    //
-    //        final String sql = "select track_id, `name`, duration_ms, artist, app_user_id, playlist_id from track where playlist_id = ?;";
-    //
-    //        return jdbcTemplate.query(sql, new PlaylistTrackMapper(), playlist.getPlaylistId());
-    //    }
-
     private void addTracks(Playlist playlist) {
 
         final String sql = "select t.track_id, t.`name`, t.duration_ms, t.artist "
@@ -287,23 +280,26 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     }
 
     //////////////////////////////////////////////////////////////////
-    //adding collaborators
+    //adding owner and collaborators
     //////////////////////////////////////////////////////////////////
 
     private void addCollaborators(Playlist playlist) {
 
-        final String sql = "select up.app_user_id, up.playlist_id, up.accepted "
-                + "from user_playlist up "
-                + "inner join playlist p on up.playlist_id = p.playlist_id "
-                + "inner join app_user au on up.app_user_id = au.app_user_id "
-                + "where p.playlist_id = ?;";
+        List<String> placeHolder = new ArrayList<>(); //just to satisfy roles parameter
 
-        List<Collaborator> collaborators = jdbcTemplate.query(sql, new CollaboratorMapper(), playlist.getPlaylistId());
+        final String sql = "select au.app_user_id, au.first_name, au.last_name, au.username, au.password_hash, au.email, au.disabled "
+                + "from app_user au "
+                + "inner join collaborator c on au.app_user_id = c.app_user_id "
+                + "inner join playlist p on c.playlist_id = p.playlist_id "
+                + "where p.playlist_id = ? and c.accepted = 1;"; //only returns users where accepted = true
+
+        List<AppUser> collaborators = jdbcTemplate.query(sql, new AppUserMapper(placeHolder), playlist.getPlaylistId());
+        //list of roles is set to null per user just to load appUser info, roles data prob not important per collaborator here
         playlist.setCollaborators(collaborators);
 
-        //TODO: figure out how to update user_playlist table when a user becomes a new collaborator of a playlist
-        //right now we can only select who's in the database but we don't know how to add to the database
-        //figure out what's being returned
+        //TODO: figure out how to update user_playlist table when a user is sent an invite to a playlist
+        //the row data will always start with accepted = 0 (false)
+        //if the user declines the invite
     }
 
     private void addPlaylistCreator(Playlist playlist) {

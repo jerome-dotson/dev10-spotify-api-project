@@ -22,7 +22,7 @@ function SongSearch() {
 
     const searchSongs = async (event) => {
         event.preventDefault();
-        const { data } = await axios.get("https://api.spotify.com/v1/search", {
+        const init = {
             headers: {
                 Authorization: `Bearer ${window.localStorage.getItem("current_spotify_access_token")}`
             },
@@ -30,34 +30,33 @@ function SongSearch() {
                 q: searchKey,
                 type: "track"
             }
-        });
-        // console.log("Start here.");
-       console.log(data.tracks.items);
-        setSongs(data.tracks.items);
-    }
+        };
 
-    const renderSongs = () => {
-        // console.log(songs);
-        return songs.map(song => {
-            <div key={song.id}>
-                This is text{song.album}
-                {song}
-            </div>
-        });
-    };
+        const { data } = await axios.get("https://api.spotify.com/v1/search", init
+        );
+    // console.log("Start here.");
+   // console.log(data.tracks.items);
+    setSongs(data.tracks.items);
+}
 
+const renderSongs = () => {
+    // console.log(songs);
+    
+};
 
-    return (
+console.log(songs);
 
-        <div>
-            <h1>Song Search</h1>
-            <form onSubmit={searchSongs}>
-                <input type="text" onChange={event => setSearchKey(event.target.value)} />
-                <button type={"submit"}>Search Songs</button>
-            </form>
-            {renderSongs()}
-        </div>
-    )
+return (
+
+    <div>
+        <h1>Song Search</h1>
+        <form onSubmit={searchSongs}>
+            <input type="text" onChange={event => setSearchKey(event.target.value)} />
+            <button type={"submit"}>Search Songs</button>
+        </form>
+        {songs.map(song => <div key={song.id}>This is text{song.name}</div>)}
+    </div>
+)
 }
 
 export default SongSearch;
