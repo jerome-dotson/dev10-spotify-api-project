@@ -141,13 +141,18 @@ public class PlaylistController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    
+
     //////////////////////////////////////////////////////////////////
     //Invite requests
     //////////////////////////////////////////////////////////////////
 
-//    @PostMapping
-//    public ResponseEntity<Object> sendInvite()
+    @PostMapping("/invite/send/{playlistId}/{appUserId}")
+    public ResponseEntity<Object> sendInvite(@PathVariable int playlistId, @PathVariable int appUserId, @RequestBody Collaborator collaborator) {
+        if (service.sendInvite(collaborator)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @PutMapping("/invite/accept/{playlistId}/{appUserId}")
     public ResponseEntity<Object> acceptInvite(@RequestBody Collaborator collaborator, @PathVariable int playlistId, @PathVariable int appUserId) {
@@ -182,6 +187,7 @@ public class PlaylistController {
     //    public List<Playlist> findAll() {
     //        return service.findAll();
     //    }
+
 
     @GetMapping("/collab")
     public List<AppUser> findCollaborators() {
