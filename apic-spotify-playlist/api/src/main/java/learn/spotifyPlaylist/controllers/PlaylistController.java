@@ -144,6 +144,9 @@ public class PlaylistController {
     //Invite requests
     //////////////////////////////////////////////////////////////////
 
+//    @PostMapping
+//    public ResponseEntity<Object> sendInvite()
+
     @PutMapping("/invite/accept/{playlistId}/{appUserId}")
     public ResponseEntity<Object> acceptInvite(@RequestBody Collaborator collaborator, @PathVariable int playlistId, @PathVariable int appUserId) {
         if (appUserId != collaborator.getAppUserId()) {

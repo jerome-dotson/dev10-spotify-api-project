@@ -131,10 +131,9 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Override
     @Transactional
     public boolean deleteById(int playlistId) {
-        jdbcTemplate.update("delete from user_playlist where playlist_id = ?;", playlistId);
-        jdbcTemplate.update("delete from tag where playlist_id = ?;", playlistId);
-        jdbcTemplate.update("delete from image where playlist_id = ?;", playlistId);
-        jdbcTemplate.update("delete from track where playlist_id = ?;", playlistId);
+        jdbcTemplate.update("delete from track_playlist where playlist_id = ?;", playlistId);
+        jdbcTemplate.update("delete from collaborator where playlist_id = ?;", playlistId);
+        jdbcTemplate.update("delete from tag_playlist where playlist_id = ?;", playlistId);
         return jdbcTemplate.update("delete from playlist where playlist_id = ?;", playlistId) > 0;
     }
 
@@ -335,6 +334,14 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     //TODO: figure out how to update user_playlist table when a user is sent an invite to a playlist
     //the row data will always start with accepted = 0 (false) -> add method
     //if the user declines the invite, then the invite will be deleted -> deleted method
+
+    @Override
+    public Collaborator sendInvite(int something) {
+
+//        final String sql =
+        return null;
+    }
+
 
     @Override
     public boolean acceptInvite(Collaborator collaborator) {
