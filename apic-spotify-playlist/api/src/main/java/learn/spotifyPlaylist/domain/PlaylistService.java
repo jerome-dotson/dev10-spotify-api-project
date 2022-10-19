@@ -1,10 +1,7 @@
 package learn.spotifyPlaylist.domain;
 
 import learn.spotifyPlaylist.data.PlaylistRepository;
-import learn.spotifyPlaylist.models.Image;
-import learn.spotifyPlaylist.models.Playlist;
-import learn.spotifyPlaylist.models.Tag;
-import learn.spotifyPlaylist.models.Track;
+import learn.spotifyPlaylist.models.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -191,7 +188,32 @@ public class PlaylistService {
         return result;
     }
 
+    //////////////////////////////////////////////////////////////////
+    // playlist invites
+    //////////////////////////////////////////////////////////////////
 
+    public Result<Collaborator> acceptInvite(Collaborator collaborator) {
+        Result<Collaborator> result = new Result<>();
 
+        if (collaborator.getPlaylistId() <= 0) {
+            result.addMessage("playlistId not found", ResultType.INVALID);
+            return result;
+        }
+
+        if (collaborator.getAppUserId() <= 0) {
+            result.addMessage("playlistId not found", ResultType.INVALID);
+            return result;
+        }
+
+        if (!repository.acceptInvite(collaborator)) {
+            result.addMessage("unable to accept invite", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
+    public boolean denyInvite(int playlistId, int appUserId) {
+        return repository.denyInvite(playlistId, appUserId);
+    }
 
 }
