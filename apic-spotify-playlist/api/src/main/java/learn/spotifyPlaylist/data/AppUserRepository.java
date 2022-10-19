@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -100,5 +101,13 @@ public class AppUserRepository {
                 + "inner join app_user au on ur.app_user_id = au.app_user_id "
                 + "where au.username = ?";
         return jdbcTemplate.query(sql, (rs, rowId) -> rs.getString("name"), username);
+    }
+
+    public List<AppUser> searchUsersByUsername(String username) {
+        final String sql = "select first_name, last_name, email, app_user_id, username, password_hash, disabled "
+                + "from app_user "
+                + "where username like ?;";
+
+        return jdbcTemplate.query(sql, new AppUserMapper(new ArrayList<>()), "%" + username + "%");
     }
 }

@@ -99,4 +99,8 @@ public class AppUserService implements UserDetailsService {
             throw new ValidationException("password must contain a digit, a letter, and a non-digit/non-letter");
         }
     }
+
+    public List<AppUser> searchUsersByUsername(String username) {
+        return repository.searchUsersByUsername(username);
+    }
 }
