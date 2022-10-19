@@ -122,7 +122,10 @@ insert into track_playlist (track_id, playlist_id, app_user_id) values
         ('6', '4', '1'),
         ('7', '2', '3'),
         ('8', '3', '2'),
-        ('9', '2', '1');
+        ('9', '2', '1'),
+        ('1', '2', '2'),
+        ('2', '1', '2');
+        
     
     insert into tag (tag_id, content, app_user_id) values
 		('1', 'Jazz', '1'),

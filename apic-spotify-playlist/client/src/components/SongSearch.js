@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
@@ -14,6 +14,7 @@ function SongSearch() {
     const history = useHistory();
     const auth = useContext(AuthContext);
     const [playlistId, setPlaylistId] = useState(from);
+    const { id } = useParams();
 
 
     const searchSongs = async (event) => {
@@ -53,12 +54,15 @@ function SongSearch() {
             })
         };
 
-        fetch(`http://localhost:8080/api/playlist/${from}/track`, init)
-        .then(response => {
-            if ( response.status === 201 ) {
-                history.push("/playlist/" + from)
-            }
-        })
+        fetch("http://localhost:8080/api/playlist/" + id + "/track", init)
+            .then(response => {
+                if (response.status === 201) {
+                    console.log(response.status);
+                    history.push("/playlist/" + id)
+                } else {
+                    console.log(response.status)
+                }
+            })
     }
 
     function msToMinSec(millis) {
@@ -73,7 +77,7 @@ function SongSearch() {
 
     function returnToPlaylist(evt) {
         evt.preventDefault();
-        history.push("/playlist/" + from)
+        history.push("/playlist/" + id)
     }
 
     console.log(songs);
@@ -83,21 +87,21 @@ function SongSearch() {
         <div className="container text-center">
             <div className="card text-center p-2 m-5" style={{ width: '30rem' }}>
                 <h1 className="card-header">Song Search</h1>
-                {/* <button className="btn btn-success" onClick={returnToPlaylist}>Return to Playlist</button> */}
-                {/* <Link to={"/playlist/" + {from}} className="btn btn-success">Return to Playlist</Link> */}
                 <form onSubmit={searchSongs}>
-                    <input type="text" 
-                    className="form-control m-3"
-                    style={{ width: '25rem' }}
-                    onChange={event => setSearchKey(event.target.value)} />
+                    <input type="text"
+                        className="form-control m-3"
+                        style={{ width: '25rem' }}
+                        onChange={event => setSearchKey(event.target.value)} />
                     <button type={"submit"} className="btn btn-success m-1">Search Songs</button>
+                    <button className="btn btn-warning" onClick={returnToPlaylist}>Return to Playlist</button>
                 </form>
-                {songs.map( (song, i) => <div key={song.id} className="card m-1" style={{ display: 'inline-block', width: '100%' }}>
-                    {song.name} &nbsp; &nbsp; 
-                    {song.artists[0].name} &nbsp; &nbsp; 
-                    {msToMinSec(song.duration_ms)} &nbsp; &nbsp; 
-                    <button className="btn btn-info btn-sm" onClick={ ()=> addSong(i) }>Add Song</button>
-                    </div>)}
+                {songs.map((song, i) => 
+                <div key={song.id} className="card m-1" style={{ display: 'inline-block', width: '100%' }}>
+                    {song.name} &nbsp; &nbsp;
+                    {song.artists[0].name} &nbsp; &nbsp;
+                    {msToMinSec(song.duration_ms)} &nbsp; &nbsp;
+                    <button className="btn btn-info btn-sm" onClick={() => addSong(i)}>Add Song</button>
+                </div>)}
             </div>
         </div >
     )
