@@ -10,16 +10,6 @@ function SongSearch() {
     const [songs, setSongs] = useState([]);
 
 
-    useEffect(() => {
-
-
-
-
-    }
-
-        , []);
-
-
     const searchSongs = async (event) => {
         event.preventDefault();
         const init = {
@@ -34,29 +24,29 @@ function SongSearch() {
 
         const { data } = await axios.get("https://api.spotify.com/v1/search", init
         );
-    // console.log("Start here.");
-   // console.log(data.tracks.items);
-    setSongs(data.tracks.items);
-}
+        // console.log("Start here.");
+        // console.log(data.tracks.items);
+        setSongs(data.tracks.items);
+    }
 
-const renderSongs = () => {
-    // console.log(songs);
-    
-};
+    console.log(songs);
 
-console.log(songs);
+    return (
 
-return (
-
-    <div>
-        <h1>Song Search</h1>
-        <form onSubmit={searchSongs}>
-            <input type="text" onChange={event => setSearchKey(event.target.value)} />
-            <button type={"submit"}>Search Songs</button>
-        </form>
-        {songs.map(song => <div key={song.id}>This is text{song.name}</div>)}
-    </div>
-)
+        <div className="container text-center">
+            <div className="card text-center p-2 m-5" style={{ width: '30rem' }}>
+                <h1 className="card-header">Song Search</h1>
+                <form onSubmit={searchSongs}>
+                    <input type="text" 
+                    className="form-control m-3"
+                    style={{ width: '25rem' }}
+                    onChange={event => setSearchKey(event.target.value)} />
+                    <button type={"submit"}>Search Songs</button>
+                </form>
+                {songs.map(song => <div key={song.id}>{song.name}{song.artist[0].name}{song.duration_ms}</div>)}
+            </div>
+        </div >
+    )
 }
 
 export default SongSearch;
