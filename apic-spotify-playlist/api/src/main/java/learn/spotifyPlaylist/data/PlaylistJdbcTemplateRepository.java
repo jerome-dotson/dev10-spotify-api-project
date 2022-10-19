@@ -109,7 +109,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Override
     public Playlist add(Playlist playlist) {
 
-        final String sql = "insert into playlist (`name`, `description`, owner_id) values ( ?, ?, ?);";
+        final String sql = "insert into playlist (`name`, `description`, owner_id) values (?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -240,8 +240,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Override
     public Track addTrackToDatabase(Track track) {
 
-        final String sql = "insert into track (`name`, duration_ms, artist, app_user_id, playlist_id) values "
-                + "(?, ?, ?, ?, ?),";
+        final String sql = "insert into track (`name`, duration_ms, artist) values (?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -249,8 +248,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
             ps.setString(1, track.getName());
             ps.setLong(2, track.getDuration());
             ps.setString(3, track.getArtist());
-//            ps.setInt(4, track.getAppUserId());
-//            ps.setInt(5, track.getPlaylistId());
+
             return ps;
         }, keyHolder);
 
@@ -258,6 +256,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
             return null;
         }
 
+        track.setTrackId(keyHolder.getKey().intValue());
         return track;
     }
 
