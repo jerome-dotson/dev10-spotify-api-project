@@ -179,20 +179,24 @@ public class PlaylistController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //////////////////////////////////////////////////////////////////
-    //Collaborators requests
-    //////////////////////////////////////////////////////////////////
-
-    //@GetMapping
-    //    public List<Playlist> findAll() {
-    //        return service.findAll();
-    //    }
-
-
     @GetMapping("/collab")
     public List<AppUser> findCollaborators() {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
         return service.findCollaborators(currentUser.getAppUserId());
     }
+
+    @GetMapping("/{playlistId}/collaborators")
+    public List<AppUser> playlistCollaborators(@PathVariable int playlistId) {
+        return service.playlistCollaborators(playlistId);
+    }
+
+    @DeleteMapping("/active/{playlistId}/{appUserId}")
+    public ResponseEntity<Void> deleteCollaborator(@PathVariable int playlistId, @PathVariable int appUserId) {
+        if (service.deleteCollaborator(playlistId, appUserId)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 }
