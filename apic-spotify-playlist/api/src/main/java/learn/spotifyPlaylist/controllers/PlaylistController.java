@@ -135,4 +135,32 @@ public class PlaylistController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    //////////////////////////////////////////////////////////////////
+    //Invite requests
+    //////////////////////////////////////////////////////////////////
+
+    @PutMapping("invite/accept/{playlistId}/{appUserId}")
+    public ResponseEntity<Object> acceptInvite(@PathVariable int playlistId, @PathVariable int appUserId, @RequestBody Collaborator collaborator) {
+        if (appUserId != collaborator.getAppUserId()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        if (playlistId != collaborator.getPlaylistId()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        Result<Collaborator> result = service.acceptInvite(collaborator);
+        if(result.isSuccess()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return ErrorResponse.build(result);
+    }
+
+    @DeleteMapping("invite/deny/{playlistId}/{appUserId}")
+    public ResponseEntity<Void> denyInvite(@PathVariable int playlistId, @PathVariable int appUserId) {
+        if (service.denyInvite(playlistId, appUserId)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
