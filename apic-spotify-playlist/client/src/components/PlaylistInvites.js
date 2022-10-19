@@ -17,7 +17,7 @@ const auth = useContext(AuthContext);
     function acceptInvite(evt) {
         evt.preventDefault();
             //needs to update accepted bool on collab table to 1 where playlistid=? and userid=?
-        fetch(`http://localhost:8080/api/playlistinvite/accept/${playlistInvites.playlistData.playlistId}/${auth.user.userId}`, {
+        fetch(`http://localhost:8080/api/playlist/invite/accept/${playlistInvites.playlistData.playlistId}/${auth.user.userId}`, {
             method: "PUT", 
             headers: {
                 "Content-Type": "application/json",
@@ -26,34 +26,31 @@ const auth = useContext(AuthContext);
             body: JSON.stringify({
                 appUserId: `${auth.user.userId}`,
                 playlistId: `${playlistInvites.playlistData.playlistId}`,
-                accepted: '1',
+                accepted: true,
             })
         })
         .then(response => {
             if(response.status === 204) {
                 console.log("Invite Accepted")
-                history.push("/");
+                window.location.reload(false);
             } else {
-                return response.json();
+                console.log("Failure");
             }
         })
-        .then( data => {
-            setError(data);
-        })
-        .catch( err => {
-            console.log(err);
-        });
     }
 
     function deleteInvite(evt) {
         evt.preventDefault();
 
-        fetch(`http://localhost:8080/api/playlistinvite/deny/${playlistInvites.playlistData.playlistId}/${auth.user.userId}`, {
-            method: "DELETE"
+        fetch(`http://localhost:8080/api/playlist/invite/deny/${playlistInvites.playlistData.playlistId}/${auth.user.userId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${auth.user.token}`
+            },
         })
         .then( response => {
             if ( response.status === 204 ){
-                history.push("/");
+                window.location.reload(false);
             } else {
                 setError(response);
             }

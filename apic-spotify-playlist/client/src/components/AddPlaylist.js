@@ -16,6 +16,8 @@ function AddPlaylist() {
 
     const [newPlaylist, setNewPlaylist] = useState(DEFAULT_PLAYLIST);
 
+    
+
     const [error, setError] = useState([]);
 
     const history = useHistory();

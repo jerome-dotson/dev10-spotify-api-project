@@ -87,7 +87,7 @@ function SongSearch() {
                     {song.name} &nbsp; &nbsp; 
                     {song.artists[0].name} &nbsp; &nbsp; 
                     {msToMinSec(song.duration_ms)} &nbsp; &nbsp; 
-                    <button className="btn btn-info btn-sm" onClick={addSong(song.name, song.artist[0].name, song.duration_ms)}>Add Song</button>
+                    <button className="btn btn-info btn-sm" onClick={addSong}>Add Song</button>
                     </div>)}
             </div>
         </div >
