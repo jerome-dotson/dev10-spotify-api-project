@@ -237,8 +237,9 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     //////////////////////////////////////////////////////////////////
 
     @Override
-    public Track addTrackToDatabase(Track track) {
+    public Track addTrackToDatabase(Track track, int playlistId, int appUserId) {
 
+        //inserting track into track table
         final String sql = "insert into track (`name`, duration_ms, artist) values (?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -256,11 +257,23 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         }
 
         track.setTrackId(keyHolder.getKey().intValue());
+
+        //then we update the track_playlist table to associate it with a playlist
+        final String sqlTP = "insert into track_playlist (track_id, playlist_id, app_user_id) "
+                + "values (?, ?, ?);";
+
+        boolean updateTrackPlaylist = jdbcTemplate.update(sqlTP, track.getTrackId(), playlistId, appUserId) > 0;
+        if (!updateTrackPlaylist) {
+            return null;
+        }
+
         return track;
     }
 
     @Override
+    @Transactional
     public boolean deleteTrack(int trackId) {
+        jdbcTemplate.update("delete from track_playlist where track_id = ?;", trackId);
         return jdbcTemplate.update("delete from track where track_id = ?;", trackId) > 0;
     }
 

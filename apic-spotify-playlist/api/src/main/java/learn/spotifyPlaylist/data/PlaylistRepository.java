@@ -26,8 +26,9 @@ public interface PlaylistRepository {
 
 //    boolean deleteImage(int imageId);
 
-    Track addTrackToDatabase(Track track);
+    Track addTrackToDatabase(Track track, int playlistId, int appUserId);
 
+    @Transactional
     boolean deleteTrack(int trackId);
 
     List<AppUser> findCollaborators(int appUserId); //appUserId to filter out
