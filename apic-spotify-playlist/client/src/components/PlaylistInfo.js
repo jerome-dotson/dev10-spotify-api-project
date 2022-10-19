@@ -72,7 +72,7 @@ function PlaylistInfo() {
                 {track.artist} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 {msToMinSec(track.duration)} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 {auth.user.userId == playlist.appUserId ?
-                    <button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist}>-</button>
+                    <button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist}>remove track</button>
                     : null}
             </div>
         ));
@@ -117,10 +117,10 @@ function PlaylistInfo() {
 
                     <div>
                         {auth.user.userId == playlist.appUserId ?
-                            <DeleteConfirmButton playlistId={playlist.playlistId} />
+                            <AddCollaboratorsButton playlistId={playlist.playlistId} />
                             : null}
                         {auth.user.userId == playlist.appUserId ?
-                            <AddCollaboratorsButton playlistId={playlist.playlistId} />
+                            <DeleteConfirmButton playlistId={playlist.playlistId} />
                             : null}
                     </div>
 
