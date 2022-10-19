@@ -30,6 +30,8 @@ public interface PlaylistRepository {
 
     boolean deleteTrack(int trackId);
 
+    List<AppUser> findCollaborators();
+
     @Transactional
     boolean deleteById(int playlistId);
 

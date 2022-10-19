@@ -216,4 +216,11 @@ public class PlaylistService {
         return repository.denyInvite(playlistId, appUserId);
     }
 
+    //////////////////////////////////////////////////////////////////
+    //Collaborators
+    //////////////////////////////////////////////////////////////////
+
+    public List<AppUser> findCollaborators() {
+        return repository.findCollaborators();
+    }
 }

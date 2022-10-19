@@ -29,7 +29,7 @@ public class PlaylistController {
     //////////////////////////////////////////////////////////////////
     //Playlist requests
     //////////////////////////////////////////////////////////////////
-//TODO: fix URLs for any place with a path variable
+
     @GetMapping
     public List<Playlist> findAll() {
         return service.findAll();
@@ -122,7 +122,7 @@ public class PlaylistController {
 
 
     @PostMapping("/{playlistId}/track")
-    public ResponseEntity<Object> addTrack(@RequestBody Track track) {
+    public ResponseEntity<Object> addTrack(@PathVariable int playlistId, @RequestBody Track track) {
         Result<Track> result = service.addTrack(track);
         if(result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
@@ -137,6 +137,8 @@ public class PlaylistController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    //TODO: how are we going to delete tracks?
 
     //////////////////////////////////////////////////////////////////
     //Invite requests
@@ -165,5 +167,19 @@ public class PlaylistController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    //////////////////////////////////////////////////////////////////
+    //Collaborators requests
+    //////////////////////////////////////////////////////////////////
+
+    //@GetMapping
+    //    public List<Playlist> findAll() {
+    //        return service.findAll();
+    //    }
+
+    @GetMapping
+    public List<AppUser> findCollaborators() {
+        return service.findCollaborators();
     }
 }
