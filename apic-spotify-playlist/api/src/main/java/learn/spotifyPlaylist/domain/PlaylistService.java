@@ -220,7 +220,7 @@ public class PlaylistService {
     //Collaborators
     //////////////////////////////////////////////////////////////////
 
-    public List<AppUser> findCollaborators() {
-        return repository.findCollaborators();
+    public List<AppUser> findCollaborators(int appUserId) {
+        return repository.findCollaborators(appUserId);
     }
 }
