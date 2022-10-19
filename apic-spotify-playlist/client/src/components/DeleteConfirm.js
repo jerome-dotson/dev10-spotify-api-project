@@ -16,38 +16,41 @@ function DeleteConfirm() {
 
     const auth = useContext(AuthContext);
 
-    useEffect(() => {
-        fetch("http://localhost:8080/api/playlist/" + id, {
-            headers: {
-                Authorization: `Bearer ${auth.user.token}`
-            }
-        })
-            .then(
-                response => {
-                    if (response.status === 201) {
-                        return response.json();
-                    } else {
-                        return response.json();
-                    }
-                }
-            )
-            .then(data => {
-                if (data.playlistId == id) {
-                    setError([]);
-                    setPlaylist(data);
-                } else {
-                    setError(data)
-                }
-            })
-            .catch(err => console.log(err));
-    },
-        []);
+    // useEffect(() => {
+    //     fetch("http://localhost:8080/api/playlist/" + id, {
+    //         headers: {
+    //             Authorization: `Bearer ${auth.user.token}`
+    //         }
+    //     })
+    //         .then(
+    //             response => {
+    //                 if (response.status === 201) {
+    //                     return response.json();
+    //                 } else {
+    //                     return response.json();
+    //                 }
+    //             }
+    //         )
+    //         .then(data => {
+    //             if (data.playlistId == id) {
+    //                 setError([]);
+    //                 setPlaylist(data);
+    //             } else {
+    //                 setError(data)
+    //             }
+    //         })
+    //         .catch(err => console.log(err));
+    // },
+    //     []);
 
     function deleteClicked(evt) {
         evt.preventDefault();
 
         fetch("http://localhost:8080/api/playlist/" + id, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${auth.user.token}`,
+            },
         })
             .then(response => {
                 if (response.status === 204) {
@@ -66,10 +69,10 @@ function DeleteConfirm() {
 
     return (
         <div className="container text-center">
-            {auth.user.userId == playlist.appUserId ?
+            {/* {auth.user.userId == playlist.appUserId ? */}
             <div className="card">
                 <div className="card-header">
-                    <h5>Are you sure you want to delete {playlist.name}?</h5>
+                    <h5>Are you sure you want to delete?</h5>
                 </div>
                 <div className="card-body">
                     <button type="button" className="btn btn-danger m-1" onClick={deleteClicked}>Confirm</button>
@@ -77,7 +80,7 @@ function DeleteConfirm() {
                     
                 </div>
             </div>
-            : "You do not have permission to delete"}
+            {/* // : "You do not have permission to delete"} */}
         </div>
     );
 

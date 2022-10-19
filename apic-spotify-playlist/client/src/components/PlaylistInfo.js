@@ -5,6 +5,7 @@ import { useParams, Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import AddCollaboratorsButton from "./AddCollaboratorButton";
 import AddSongButton from "./AddSongButton";
+import DeleteConfirmButton from "./DeleteConfirmButton";
 import MessageDisplay from "./MessageDisplay";
 
 
@@ -117,7 +118,7 @@ function PlaylistInfo() {
 
                     <div>
                         {auth.user.userId == playlist.appUserId ?
-                            <Link className="btn btn-danger m-2" to={`/playlist/delete/${playlist.playlistId}`}>Delete Playlist</Link>
+                            <DeleteConfirmButton playlistId={playlist.playlistId}/>
                             : null}
                     </div>
 

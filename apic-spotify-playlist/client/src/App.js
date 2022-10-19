@@ -184,7 +184,7 @@ function App() {
     
                     </Route>
 
-                    <Route path="/playlist/delete/:id">
+                    <Route path="/delete/:id">
                         <DeleteConfirm />
                     </Route>
 
