@@ -131,10 +131,9 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     @Override
     @Transactional
     public boolean deleteById(int playlistId) {
-        jdbcTemplate.update("delete from user_playlist where playlist_id = ?;", playlistId);
-        jdbcTemplate.update("delete from tag where playlist_id = ?;", playlistId);
-        jdbcTemplate.update("delete from image where playlist_id = ?;", playlistId);
-        jdbcTemplate.update("delete from track where playlist_id = ?;", playlistId);
+        jdbcTemplate.update("delete from track_playlist where playlist_id = ?;", playlistId);
+        jdbcTemplate.update("delete from collaborator where playlist_id = ?;", playlistId);
+        jdbcTemplate.update("delete from tag_playlist where playlist_id = ?;", playlistId);
         return jdbcTemplate.update("delete from playlist where playlist_id = ?;", playlistId) > 0;
     }
 
@@ -282,6 +281,17 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     //adding owner and collaborators
     //////////////////////////////////////////////////////////////////
 
+    @Override
+    public List<AppUser> findCollaborators(int appUserId) {
+
+        List<String> placeHolder = new ArrayList<>(); //just to satisfy roles parameter
+
+        final String sql = "select * from app_user;";
+
+        return jdbcTemplate.query(sql, new AppUserMapper(placeHolder))
+                .stream().filter(u -> u.getAppUserId() != appUserId).toList();
+    }
+
     private void addCollaborators(Playlist playlist) {
 
         List<String> placeHolder = new ArrayList<>(); //just to satisfy roles parameter
@@ -295,10 +305,6 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         List<AppUser> collaborators = jdbcTemplate.query(sql, new AppUserMapper(placeHolder), playlist.getPlaylistId());
         //list of roles is set to null per user just to load appUser info, roles data prob not important per collaborator here
         playlist.setCollaborators(collaborators);
-
-        //TODO: figure out how to update user_playlist table when a user is sent an invite to a playlist
-        //the row data will always start with accepted = 0 (false)
-        //if the user declines the invite
     }
 
     private void addPlaylistCreator(Playlist playlist) {
@@ -325,7 +331,17 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     // playlist invites
     //////////////////////////////////////////////////////////////////
 
-    //TODO: add a new row to the collaborator table for when an invite is first sent out?
+    //TODO: figure out how to update user_playlist table when a user is sent an invite to a playlist
+    //the row data will always start with accepted = 0 (false) -> add method
+    //if the user declines the invite, then the invite will be deleted -> deleted method
+
+    @Override
+    public Collaborator sendInvite(int something) {
+
+//        final String sql =
+        return null;
+    }
+
 
     @Override
     public boolean acceptInvite(Collaborator collaborator) {
@@ -343,5 +359,6 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 
         return jdbcTemplate.update(sql, playlistId, appUserId) > 0;
     }
+
 
 }
