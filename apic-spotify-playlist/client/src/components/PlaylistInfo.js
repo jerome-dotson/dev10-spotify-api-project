@@ -89,10 +89,12 @@ function PlaylistInfo() {
             </div>
             {playlist ?
                 <div>
-                    <div style={{ display: 'inline' }}>
-                        <h1 className="">{playlist.name}</h1> <h4 className=""> Hosted by: &nbsp; {playlist.appUser.username}</h4>
+                    <div style={{ display: 'inline-block' }}>
+                        <h1 className="">{playlist.name}</h1> 
+                        <h4 className=""> Hosted by: &nbsp; {playlist.appUser.username}</h4>
+                        <p>{playlist.collaborators.length} Collaborators</p>
+                        <Link to={{pathname: "/songsearch", state: { from: `${playlist.playlistId}` },}} className="btn btn-info m-2">Add Songs</Link>
                     </div>
-                    {/* <h3>{playlist.collaborators.length} Collaborators</h3> */}
                     <div className="card" style={{ display: 'inline-block', width: '80%' }}>
                         <div className="card-header">
                             <h5><strong>Song Name &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;

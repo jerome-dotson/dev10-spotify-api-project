@@ -1,13 +1,18 @@
-
+import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 function SongSearch() {
 
     const [spotifyToken, setSpotifyToken] = useState("");
     const [searchKey, setSearchKey] = useState("");
     const [songs, setSongs] = useState([]);
+    const location = useLocation();
+    const from = location.state;
+    const history = useHistory();
+    const auth = useContext(AuthContext);
 
 
     const searchSongs = async (event) => {
@@ -29,6 +34,41 @@ function SongSearch() {
         setSongs(data.tracks.items);
     }
 
+    function addSong(evt) {
+        evt.preventDefault();
+
+        const init = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                Authorization: `Bearer ${auth.user.token}`
+            },
+            body: JSON.stringify(
+                
+
+
+            )
+        };
+
+        fetch("http://localhost:8080/api/track/add", init)
+        .then(response => {
+            if ( response.status === 201 ) {
+                history.push("/playlist/" + from)
+            }
+        })
+    }
+
+    function msToMinSec(millis) {
+        var minutes = Math.floor(millis / 60000);
+        var seconds = ((millis % 60000) / 1000).toFixed(0);
+        return (
+            seconds == 60 ?
+                (minutes + 1) + ":00" :
+                minutes + ":" + (seconds < 10 ? "0" : "") + seconds
+        );
+    }
+
     console.log(songs);
 
     return (
@@ -41,9 +81,14 @@ function SongSearch() {
                     className="form-control m-3"
                     style={{ width: '25rem' }}
                     onChange={event => setSearchKey(event.target.value)} />
-                    <button type={"submit"}>Search Songs</button>
+                    <button type={"submit"} className="btn btn-success m-1">Search Songs</button>
                 </form>
-                {songs.map(song => <div key={song.id}>{song.name}{song.artist[0].name}{song.duration_ms}</div>)}
+                {songs.map(song => <div key={song.id} className="card m-1" style={{ display: 'inline-block', width: '100%' }}>
+                    {song.name} &nbsp; &nbsp; 
+                    {song.artists[0].name} &nbsp; &nbsp; 
+                    {msToMinSec(song.duration_ms)} &nbsp; &nbsp; 
+                    <button className="btn btn-info btn-sm" onClick={addSong(song.name, song.artist[0].name, song.duration_ms)}>Add Song</button>
+                    </div>)}
             </div>
         </div >
     )
