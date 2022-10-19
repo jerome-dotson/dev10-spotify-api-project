@@ -57,6 +57,9 @@ public class PlaylistController {
 
     @PostMapping
     public ResponseEntity<Object> add( @RequestBody Playlist playlist ) {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
+        playlist.setAppUser(currentUser);
         Result<Playlist> result = service.add(playlist);
         if( result.isSuccess() ) {
             return new ResponseEntity<>( result.getPayload(), HttpStatus.CREATED );
@@ -139,8 +142,8 @@ public class PlaylistController {
     //Invite requests
     //////////////////////////////////////////////////////////////////
 
-    @PutMapping("invite/accept/{playlistId}/{appUserId}")
-    public ResponseEntity<Object> acceptInvite(@PathVariable int playlistId, @PathVariable int appUserId, @RequestBody Collaborator collaborator) {
+    @PutMapping("/invite/accept/{playlistId}/{appUserId}")
+    public ResponseEntity<Object> acceptInvite(@RequestBody Collaborator collaborator, @PathVariable int playlistId, @PathVariable int appUserId) {
         if (appUserId != collaborator.getAppUserId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -156,7 +159,7 @@ public class PlaylistController {
         return ErrorResponse.build(result);
     }
 
-    @DeleteMapping("invite/deny/{playlistId}/{appUserId}")
+    @DeleteMapping("/invite/deny/{playlistId}/{appUserId}")
     public ResponseEntity<Void> denyInvite(@PathVariable int playlistId, @PathVariable int appUserId) {
         if (service.denyInvite(playlistId, appUserId)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -9,7 +9,7 @@ const DEFAULT_PLAYLIST = {
     playlistId: "",
     name: "",
     description: "",
-    owner_Id: ""
+    appUserId: ""
 }
 
 function AddPlaylist() {
@@ -20,7 +20,7 @@ function AddPlaylist() {
 
     const history = useHistory();
 
-    const auth = useContext(AuthContext);
+    const auth = useContext(AuthContext)
 
     const handleChange = (evt) => {
         const propertyName = evt.target.name;
@@ -31,19 +31,26 @@ function AddPlaylist() {
         setNewPlaylist(toAdd);
     }
 
-    function assignOwner() {
+    // function assignOwner() {
+    //     const propertyName = "appUserId";
+    //     const newValue = auth.user.userId;
 
-        const toAdd = { ...newPlaylist };
-        toAdd[owner_Id] = auth.user.userId;
-        setNewPlaylist(toAdd);
-    }
+    //     const toAdd = { ...newPlaylist };
+    //     toAdd[propertyName] = newValue;
+    //     setNewPlaylist(toAdd);
+    // }
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         
-        assignOwner();
+        const propertyName = "appUserId";
+        const newValue = auth.user.userId;
 
-        const toAdd = { ...newPlaylist };
+        let toAdd = { ...newPlaylist };
+        toAdd[propertyName] = newValue;
+        setNewPlaylist(toAdd);
+
+        const toAddAssembled = { ...newPlaylist };
 
         fetch("http://localhost:8080/api/playlist", {
             method: "POST",
@@ -52,7 +59,7 @@ function AddPlaylist() {
                 "Accept": "application/json",
                 Authorization: `Bearer ${auth.user.token}`,
             },
-            body: JSON.stringify(toAdd)
+            body: JSON.stringify(toAddAssembled)
         })
             .then(response => {
                 if (response.status === 201) {
