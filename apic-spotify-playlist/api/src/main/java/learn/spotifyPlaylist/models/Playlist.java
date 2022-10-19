@@ -10,6 +10,7 @@ public class Playlist {
 
     private String description;
 
+    //get rid of app user id
     private int appUserId;
     private AppUser appUser;
 
