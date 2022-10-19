@@ -9,7 +9,7 @@ const DEFAULT_PLAYLIST = {
     playlistId: "",
     name: "",
     description: "",
-    owner_Id: ""
+    appUserId: ""
 }
 
 function AddPlaylist() {
@@ -20,7 +20,7 @@ function AddPlaylist() {
 
     const history = useHistory();
 
-    const auth = useContext(AuthContext);
+    const auth = useContext(AuthContext)
 
     const handleChange = (evt) => {
         const propertyName = evt.target.name;
@@ -32,9 +32,11 @@ function AddPlaylist() {
     }
 
     function assignOwner() {
+        const propertyName = "appUserId";
+        const newValue = auth.user.userId;
 
         const toAdd = { ...newPlaylist };
-        toAdd[owner_Id] = auth.user.userId;
+        toAdd[propertyName] = newValue;
         setNewPlaylist(toAdd);
     }
 

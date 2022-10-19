@@ -1,9 +1,6 @@
 package learn.spotifyPlaylist.data;
 
-import learn.spotifyPlaylist.models.Image;
-import learn.spotifyPlaylist.models.Playlist;
-import learn.spotifyPlaylist.models.Tag;
-import learn.spotifyPlaylist.models.Track;
+import learn.spotifyPlaylist.models.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -37,4 +34,8 @@ public interface PlaylistRepository {
     boolean deleteById(int playlistId);
 
     Tag findByContent(String tag);
+
+    boolean acceptInvite(Collaborator collaborator);
+
+    boolean denyInvite(int playlistId, int appUserId);
 }

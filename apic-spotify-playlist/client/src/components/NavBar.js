@@ -19,7 +19,7 @@ function NavBar() {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link to="/playlistsearch" className="nav-link active">Playlist Search</Link>
-              </li>
+              </li> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               {auth.user ? (
                 <>
                   <li className="nav-text mt-2 mb-2">
