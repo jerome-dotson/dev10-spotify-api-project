@@ -18,6 +18,7 @@ import { accessToken, logout as spotifyLogout } from "./spotify";
 import SpotifyLoginPage from "./components/SpotifyLoginPage";
 import AddPlaylist from "./components/AddPlaylist";
 import DeleteConfirm from "./components/DeleteConfirm";
+import AddCollaborators from "./components/AddCollaborators";
 import Test from "./components/Test";
 
 
@@ -162,9 +163,14 @@ function App() {
                         <UserPage onSpotifyTokenUpdated={setSpotifyToken} onLogout={logout} /> {/*changed to set spotifyToken */}
                     </Route>
 
-                    <Route path="/songsearch">
+                    <Route path="/songsearch/:id">
                         <SongSearch />
                     </Route>
+
+                    <Route path="/addcollab/:id">
+                        <AddCollaborators />
+                    </Route>
+
                     <Route exact path="/spotify/callback">
                         <SpotifyLoginPage />
                     </Route>

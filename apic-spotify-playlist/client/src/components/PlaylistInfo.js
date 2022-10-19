@@ -3,6 +3,8 @@ import { useState, useContext, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 // import Songs from "./Songs";
 import AuthContext from "../context/AuthContext";
+import AddCollaboratorsButton from "./AddCollaboratorButton";
+import AddSongButton from "./AddSongButton";
 import MessageDisplay from "./MessageDisplay";
 
 
@@ -93,7 +95,9 @@ function PlaylistInfo() {
                         <h1 className="">{playlist.name}</h1> 
                         <h4 className=""> Hosted by: &nbsp; {playlist.appUser.username}</h4>
                         <p>{playlist.collaborators.length} Collaborators</p>
-                        <Link to={{pathname: "/songsearch", state: { from: `${playlist.playlistId}` },}} className="btn btn-info m-2">Add Songs</Link>
+                        {/* <Link to={"/songsearch"`${playlist.playlistId}` },}} className="btn btn-info m-2">Add Songs</Link> */}
+                        <AddSongButton playlistId={playlist.playlistId} /> 
+                        <AddCollaboratorsButton playlistId={playlist.playlistId} />
                     </div>
                     <div className="card" style={{ display: 'inline-block', width: '80%' }}>
                         <div className="card-header">

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useLocation, Link, useHistory } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useLocation, Link, useHistory, useParams } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 function AddCollaborators() {
 
@@ -7,6 +8,10 @@ function AddCollaborators() {
     const location = useLocation();
     const from = location.state;
     const history = useHistory();
+    const auth = useContext(AuthContext);
+    const [searchKey, setSearchKey] = useState("");
+    const [playlist, setPlaylist] = useState([]);
+    const { id } = useParams();
 
 
     const searchUsers = async (evt) => {
@@ -45,16 +50,16 @@ function AddCollaborators() {
         };
 
         fetch(`http://localhost:8080/api/playlist/${from}/track`, init)
-        .then(response => {
-            if ( response.status === 201 ) {
-                history.push("/playlist/" + from)
-            }
-        })
+            .then(response => {
+                if (response.status === 201) {
+                    history.push("/playlist/" + from)
+                }
+            })
     }
 
 
     const renderUsers = () => {
-        return appUsers.map( (user, i) => (
+        return appUsers.map((user, i) => (
             <div key={user.appUserId}>
                 {user.firstName}
                 {user.lastName}
@@ -64,19 +69,26 @@ function AddCollaborators() {
 
         ));
     };
-    console.log(auth.spotifyToken);
 
     return (
-        <div>
-            <h1>Add Collaborators to {playlist.playlistData.playlistId}</h1>
-
-            <form onSubmit={searchTracks}>
-                <input type="text" onChange={e => setSearchKey(e.target.value)} />
-                <button type={"submit"}>Search</button>
-            </form>
-            {renderUsers()};
-            <div>
-                <Link className="btn btn-warning" to={`/playlist/${playlist.playlistData.playlistId}`}>Return to Playlist</Link>
+        <div className="container text-center">
+            <div className="card text-center p-2 m-5" style={{ width: '40rem' }}>
+                <h1 className="card-header">Add Collaborators</h1>
+                <form onSubmit={searchUsers}>
+                    <input type="text"
+                        className="form-control m-3"
+                        style={{ width: '37rem' }}
+                        onChange={e => setSearchKey(e.target.value)} />
+                    <button type={"submit"} className="btn btn-success m-1">Search</button>
+                    <Link className="btn btn-warning" to={"/playlist/" + id}>Return to Playlist</Link>
+                </form>
+                {appUsers.map((user, i) => 
+                    <div key={user.appUserId}>
+                        {user.firstName} &nbsp; &nbsp;
+                        {user.lastName} &nbsp; &nbsp;
+                        {user.email} &nbsp; &nbsp;
+                        <button className="btn btn-info btn sm ms-1 me-2" onClick={() => addUserAsCollaborator(i)}>+</button>
+                    </div>)}
             </div>
         </div>
     );
