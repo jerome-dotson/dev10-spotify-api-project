@@ -34,6 +34,8 @@ const LOCAL_STORAGE_TOKEN_KEY = "ourAppToken";
 
 //Need to add logic to refresh token and put in API calls. 
 
+//Need to figure out why you have to log out, log in, and reauthenticate
+
 //Need to add field for playlist owner current token in database and use it in collaborators' calls to edit playlists. 
 //Need to add security to make sure collaborators can only edit playlists they are members of
 
@@ -180,6 +182,10 @@ function App() {
 
                     <Route path="/playlist/delete/:id">
                         <DeleteConfirm />
+                    </Route>
+
+                    <Route path="test">
+                        <Test />
                     </Route>
 
                     <Route exact path="/">

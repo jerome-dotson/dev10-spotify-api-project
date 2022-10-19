@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { getCurrentUserPlaylists, getCurrentUserProfile } from "../SpotifyManager";
 
 function SongSearch() {
 

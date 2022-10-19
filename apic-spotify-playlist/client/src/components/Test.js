@@ -1,24 +1,14 @@
-// import { useEffect, useState } from 'react';
-// import {getCurrentUserProfile} from '../SpotifyManager';
+import { useEffect, useState } from 'react';
+import {createPlaylist, getCurrentUserProfile} from '../SpotifyManager';
 
-// function Test(){
+function Test(){
 
-//     const [profile, setProfile] = useState(null);
+    let data = getCurrentUserProfile();
+    
+    (console.log(data));
+    console.log("Hello");
 
-//     useEffect(() => {
-      
-  
-//       const fetchData = async () => {
-//         try {
-//           const { data } = await getCurrentUserProfile();
-//           setProfile(data);
-//         } catch(e) {
-//           console.error(e);
-//         }
-//       };
-  
-//       fetchData();
-//     }, []);
-// }
+    
+}
 
-// export default Test;
+export default Test;
