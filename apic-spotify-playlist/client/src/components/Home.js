@@ -114,7 +114,7 @@ function Home() {
             </div>
             <div className="container mt-3">
               <div className="text-center">
-                <div className="card specialCard m-1" style={{ width: "20rem", display: "inline-block" }}>
+                <div className="card specialCard m-1" style={{ width: "25rem", display: "inline-block" }}>
                   <h3>Collaborating Playlists</h3>
                 </div>
               </div>

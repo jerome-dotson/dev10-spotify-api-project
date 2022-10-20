@@ -53,7 +53,8 @@ public class PlaylistController {
 
     @GetMapping("/{playlistId}")
     public Playlist findById( @PathVariable int playlistId ){
-        return service.findById( playlistId );
+        Playlist toReturn = service.findById( playlistId );
+        return toReturn;
     }
 
     @GetMapping("/search/{playlistName}")
@@ -75,7 +76,7 @@ public class PlaylistController {
         return ErrorResponse.build(result);
     }
 
-    @PostMapping
+    @PostMapping("/clone")
     public ResponseEntity<Object> clonePlaylist(@RequestBody Playlist playlist) {
         playlist.setPlaylistId(0); //new playlist means id = 0
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

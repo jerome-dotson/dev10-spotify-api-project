@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 // import Songs from "./Songs";
 import AuthContext from "../context/AuthContext";
 import AddCollaboratorsButton from "./AddCollaboratorButton";
@@ -22,7 +22,7 @@ function PlaylistInfo() {
 
     const auth = useContext(AuthContext);
 
-    // const history = useHistory();
+    const history = useHistory();
 
     useEffect(() => {
         fetch("http://localhost:8080/api/playlist/" + id, {
@@ -48,33 +48,72 @@ function PlaylistInfo() {
                 }
             })
             .catch(err => console.log(err));
+
+
+        
     },
         []);
 
 
     // useEffect(() => {
-        function removeTrackFromPlaylist(i) {
+    function removeTrackFromPlaylist(i) {
 
+        const toDelete = playlist.tracks[i];
 
-            // const toDelete = playlist.tracks[i];
-
-            // const init = {
-            //     method: "DELETE",
-            //     headers: {
-            //         Authorization: `Bearer ${auth.user.token}`
-            //     }
-            // }
-            // fetch("http://localhost:8080/api/playlist/track/" + toDelete.trackId, init)
-            //     .then(response => {
-            //         if (response.status === 204) {
-            //             window.location.reload(false);
-            //         } else {
-            //             console.log(response.status);
-            //         }
-            //     });
+        const init = {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${auth.user.token}`
+            }
         }
+        fetch("http://localhost:8080/api/playlist/track/" + toDelete.trackId, init)
+            .then(response => {
+                if (response.status === 204) {
+                    window.location.reload(false);
+                } else {
+                    console.log(response.status);
+                }
+            });
+    }
     // }, []);
 
+    function clonePlaylist(evt) {
+        evt.preventDefault();
+
+        playlist.appUser = null;
+        playlist.collaborators = null;
+        playlist.appUserId = null;
+
+        fetch("http://localhost:8080/api/playlist/clone", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                Authorization: `Bearer ${auth.user.token}`,
+            },
+            body: JSON.stringify(playlist)
+        })
+            .then(response => {
+                if (response.status === 201) {
+                    console.log("Playlist Cloned");
+                    history.push("/");
+                    return response.json();
+                } else {
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                if (data.playlistId) {
+                    setError([]);
+                } else {
+                    setError(data);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                setError(["Unknown Error"]);
+            })
+    }
 
     function msToMinSec(millis) {
         var minutes = Math.floor(millis / 60000);
@@ -97,13 +136,13 @@ function PlaylistInfo() {
             //         <button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist(i)}>remove track</button>
             //         : null}
             // </div>
-            <tr key={track.id} className="specialCard" style={{borderRadius: "15px"}}>
+            <tr key={track.id} className="specialCard" style={{ borderRadius: "15px" }}>
                 <th scope="row">{i + 1}</th>
                 <td>{track.name}</td>
                 <td>{track.artist}</td>
                 <td>{msToMinSec(track.duration)}</td>
                 {auth.user.userId == playlist.appUserId ?
-                    <td><button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist(i)}>remove track</button></td>
+                    <td><button className="btn btn-danger btn-sm ms-1 me-2" onClick={() => removeTrackFromPlaylist(i)}>remove track</button></td>
                     : null}
             </tr>
         ));
@@ -117,16 +156,16 @@ function PlaylistInfo() {
     //<Add to favorites(clone) button> and <go to playlist on spotify button>
     return (
         <div className="container text-center">
-            
+
             <div className="card specialCard m-2" style={{ width: "20rem", display: "inline-block" }}>
-            <h2 className="m-4">Playlist Info</h2>
+                <h2 className="m-4">Playlist Info</h2>
             </div>
             <div>
                 {error.length > 0 ? <MessageDisplay error={error} /> : null}
             </div>
             {playlist ?
                 <div>
-                    <div className="card specialCard m-2" style={{width: "25rem", display: "inline-block"}}>
+                    <div className="card specialCard m-2" style={{ width: "25rem", display: "inline-block" }}>
                         <h1 className="">{playlist.name}</h1>
                         <h4 className=""> Hosted by: &nbsp; {playlist.appUser.username}</h4>
                         <p>{playlist.collaborators.length} Collaborators</p>
@@ -134,8 +173,8 @@ function PlaylistInfo() {
                         <AddSongButton playlistId={playlist.playlistId} />
                     </div>
 
-                    
-                    <table className="table table-striped table-hover specialCard" style={{borderRadius: "15px"}}>
+
+                    <table className="table table-striped table-hover specialCard" style={{ borderRadius: "15px" }}>
                         <thead>
                             <tr>
                                 <th scope="col"></th>
@@ -163,7 +202,7 @@ function PlaylistInfo() {
 
                     <div>
                         {auth.user.userId != playlist.appUserId ?
-                            <button className="btn btn-success m-2">Add to Favorites</button>
+                            <button className="btn btn-success m-2" onClick={clonePlaylist}>Add to Favorites</button>
                             : null}
                     </div>
 

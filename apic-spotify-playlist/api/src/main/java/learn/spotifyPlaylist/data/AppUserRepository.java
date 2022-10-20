@@ -81,7 +81,7 @@ public class AppUserRepository {
         // delete all roles, then re-add
         jdbcTemplate.update("delete from user_role where app_user_id = ?;", user.getAppUserId());
 
-        Collection<GrantedAuthority> authorities = user.getAuthorities();
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 
         if (authorities == null) {
             return;
