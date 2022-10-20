@@ -52,7 +52,7 @@ function PlaylistSearch() {
                     <button type={"submit"} className="btn btn-success">Search Playlists</button>
                 </form>
                 {playlists.map((playlist, i) =>
-                    <div key={playlist.playlistId} className="card">
+                    <div key={playlist.playlistId} className="card m-1">
                         {playlist.name} &nbsp; &nbsp;
                         {playlist.description} &nbsp; &nbsp;
                         <Link className="btn btn-info btn sm ms-1 me-2" to={`/playlist/${playlist.playlistId}`}>View Playlist</Link>
