@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -73,6 +74,21 @@ public class PlaylistController {
         }
         return ErrorResponse.build(result);
     }
+
+    @PostMapping
+    public ResponseEntity<Object> clonePlaylist(@RequestBody Playlist playlist) {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
+        playlist.setAppUser(currentUser);
+        playlist.setAppUserId(currentUser.getAppUserId());
+        playlist.setPlaylistId(0);
+        Result<Playlist> result = service.clonePlaylist(playlist);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
+    }
+
 
     @DeleteMapping("/{playlistId}")
     public ResponseEntity<Void> deleteById( @PathVariable int playlistId ) {
