@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Key;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -129,6 +130,28 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
     }
 
     @Override
+    public Playlist clonePlaylist(Playlist playlist) {
+
+        final String sql = "insert into playlist (`name`, `description`, owner_id) values (?, ?, ?);";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, playlist.getName());
+            ps.setString(2, playlist.getDescription());
+            ps.setInt(3, playlist.getAppUserId());
+            return ps;
+        }, keyHolder);
+
+        if (rowsAffected <= 0) {
+            return null;
+        }
+
+        playlist.setPlaylistId(keyHolder.getKey().intValue());
+        return playlist;
+    }
+
+    @Override
     @Transactional
     public boolean deleteById(int playlistId) {
         jdbcTemplate.update("delete from track_playlist where playlist_id = ?;", playlistId);
@@ -137,14 +160,14 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         return jdbcTemplate.update("delete from playlist where playlist_id = ?;", playlistId) > 0;
     }
 
+    //////////////////////////////////////////////////////////////////
+    //everything Tag related
+    //////////////////////////////////////////////////////////////////
+
     @Override
     public Tag findByContent(String tag) {
         return null;
     }
-
-    //////////////////////////////////////////////////////////////////
-    //everything Tag related
-    //////////////////////////////////////////////////////////////////
 
     @Override
     public Tag addTagToDatabase(String tag, int appUserId) {

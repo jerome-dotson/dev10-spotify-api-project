@@ -55,6 +55,22 @@ public class PlaylistService {
         return repository.deleteById(playlistId);
     }
 
+    public Result<Playlist> clonePlaylist(Playlist playlist) {
+        Result<Playlist> result = validatePlaylist(playlist);
+        if ( !result.isSuccess() ) {
+            return result;
+        }
+
+        if ( playlist.getPlaylistId() != 0 ) {
+            result.addMessage( "playlistId cannot be set for add operation", ResultType.INVALID );
+            return result;
+        }
+
+        playlist = repository.clonePlaylist(playlist);
+        result.setPayload(playlist);
+        return result;
+    }
+
     private Result<Playlist> validatePlaylist(Playlist playlist) {
         Result<Playlist> result = new Result<>();
         if ( playlist == null ) {
@@ -68,26 +84,6 @@ public class PlaylistService {
 
         return result;
     }
-
-
-//    public Result<Playlist> update(Playlist playlist) {
-//        Result<Playlist> result = validate(playlist);
-//        if ( !result.isSuccess() ) {
-//            return result;
-//        }
-//
-//        if ( playlist.getPlaylistId() <= 0 ) {
-//            result.addMessage( "playlistId must be set for update operation", ResultType.INVALID );
-//            return result;
-//        }
-//
-//        if ( !repository.update(playlist) ) {
-//            String message = String.format( "playlistId: %s not found", playlist.getPlaylistId() );
-//            result.addMessage( message, ResultType.NOT_FOUND );
-//        }
-//
-//        return result;
-//    }
 
     //////////////////////////////////////////////////////////////////
     //everything Tag related

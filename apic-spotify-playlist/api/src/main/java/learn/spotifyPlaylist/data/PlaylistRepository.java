@@ -18,6 +18,8 @@ public interface PlaylistRepository {
 
     Playlist add(Playlist playlist);
 
+    Playlist clonePlaylist(Playlist playlist);
+
     Tag addTagToDatabase(String tag, int appUserId);
 
     boolean deleteTag(int tagId);
