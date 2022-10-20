@@ -148,6 +148,20 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
         }
 
         playlist.setPlaylistId(keyHolder.getKey().intValue());
+
+        //now the cloned playlist is in the database,
+        //but now the tracks have to be copied over into the track_playlist table
+
+        //first we grab the list of tracks from the original playlist
+        //and insert new rows of the same tracks into the track table
+        //we do this because the new rows of the same tracks will still need their own Ids
+
+        playlist.getTracks().forEach(
+                t -> addTrackToDatabase(t, playlist.getPlaylistId(), playlist.getAppUserId()));
+
+        //now that track and track_playlist are updated, we set the tracks to the clone playlist
+        addTracks(playlist);
+
         return playlist;
     }
 

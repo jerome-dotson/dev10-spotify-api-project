@@ -77,11 +77,12 @@ public class PlaylistController {
 
     @PostMapping
     public ResponseEntity<Object> clonePlaylist(@RequestBody Playlist playlist) {
+        playlist.setPlaylistId(0); //new playlist means id = 0
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
         playlist.setAppUser(currentUser);
         playlist.setAppUserId(currentUser.getAppUserId());
-        playlist.setPlaylistId(0);
+
         Result<Playlist> result = service.clonePlaylist(playlist);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
