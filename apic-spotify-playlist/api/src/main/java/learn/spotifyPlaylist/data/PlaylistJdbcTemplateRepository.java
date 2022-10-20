@@ -390,9 +390,7 @@ public class PlaylistJdbcTemplateRepository implements PlaylistRepository {
 
     @Override
     public List<Playlist> searchPlaylistsByName(String playlistName) {
-            final String sql = "select first_name, last_name, email, app_user_id, username, password_hash, disabled "
-                    + "from app_user "
-                    + "where username like ?;";
+            final String sql = "select playlist_id, `name`, `description`, owner_id from playlist where `name` like ?;";
 
             return jdbcTemplate.query(sql, new PlaylistMapper(), "%" + playlistName + "%");
         }
