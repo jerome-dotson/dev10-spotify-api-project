@@ -145,6 +145,9 @@ return (
                         <DeleteConfirmButton playlistId={playlist.playlistId} />
                         : null}
                 </div>
+                <div className="card container m-3" style={{ display: 'inline-block', width: '60%' }}>
+                        <p>{playlist.description}</p>
+                </div>
 
             </div>
             : "Error loading"}
