@@ -1,13 +1,16 @@
 import React from "react";
-import { useState } from "react";
-// import { Link } from "react";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import Playlist from "./Playlist";
+import AuthContext from "../context/AuthContext";
 
 function PlaylistSearch() {
 
     const [searchKey, setSearchKey] = useState("");
     const [playlists, setPlaylists] = useState([]);
-    
+
+    const auth = useContext(AuthContext);
+
 
 
     //this is a question mark? are we setting up search correctly
@@ -27,14 +30,14 @@ function PlaylistSearch() {
     };
 
     //clicking on playlist name or creator will take user to Playlist page, all important playlist information
-    const renderPlaylists = () => {
-        return playlists.map((playlist, i) => 
-        <div key={playlist.playlistId}> 
-        {playlist.name} &nbsp; &nbsp; 
-        {playlist.description} &nbsp; &nbsp;
-        <button className="btn btn-info btn sm ms-1 me-2" onClick={() => addPlaylistClone(i)}>+</button>
-        </div>);
-    };
+    // const renderPlaylists = () => {
+    //     return playlists.map((playlist, i) =>
+    //         <div key={playlist.playlistId}>
+    //             {playlist.name} &nbsp; &nbsp;
+    //             {playlist.description} &nbsp; &nbsp;
+    //             <button className="btn btn-info btn sm ms-1 me-2" onClick={() => addPlaylistClone(i)}>+</button>
+    //         </div>);
+    // };
 
     return (
         <div className="container text-center">
@@ -48,7 +51,12 @@ function PlaylistSearch() {
                         onChange={e => setSearchKey(e.target.value)} />
                     <button type={"submit"} className="btn btn-success">Search Playlists</button>
                 </form>
-                {renderPlaylists()}
+                {playlists.map((playlist, i) =>
+                    <div key={playlist.playlistId}>
+                        {playlist.name} &nbsp; &nbsp;
+                        {playlist.description} &nbsp; &nbsp;
+                        <Link className="btn btn-info btn sm ms-1 me-2" to={`/playlist/${playlist.playlistId}`}>View Playlist</Link>
+                    </div>)};
             </div>
         </div>
     );
