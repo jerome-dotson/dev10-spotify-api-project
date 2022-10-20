@@ -56,7 +56,7 @@ public class PlaylistController {
     }
 
     @GetMapping("/search/{playlistName}")
-    List<Playlist> searchUsersByUsername(@PathVariable String playlistName) {
+    List<Playlist> searchPlaylistsByName(@PathVariable String playlistName) {
         List<Playlist> matchingPlaylists = service.searchPlaylistsByName(playlistName);
         return matchingPlaylists;
     }
