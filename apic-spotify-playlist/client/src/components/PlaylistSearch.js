@@ -41,13 +41,13 @@ function PlaylistSearch() {
 
     return (
         <div className="container text-center">
-            <div className="card text-center p-2 m-5" style={{ width: '50rem' }}>
+            <div className="card text-center p-2 m-5 specialCard" style={{ width: '50rem', display: "inline-block" }}>
                 <h1 className="card-header">Search Playlists</h1>
                 <form onSubmit={searchPlaylists}>
                     <input
                         type="text"
                         className="form-control m-3"
-                        style={{ width: '25rem' }}
+                        style={{ width: '25rem', display: "inline-block"}}
                         onChange={e => setSearchKey(e.target.value)} />
                     <button type={"submit"} className="btn btn-success">Search Playlists</button>
                 </form>

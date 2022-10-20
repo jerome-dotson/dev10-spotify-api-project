@@ -5,7 +5,7 @@ import './PlaylistCards.css';
 function UserPlaylists(userPlaylists) {
 
     return (
-        <div className="card text-center playlistCard">
+        <div className="card text-center playlistCard specialCard">
             <div className="card-header">
                 <h5>{userPlaylists.playlistData.name}</h5>
             </div>

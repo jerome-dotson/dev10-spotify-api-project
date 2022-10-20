@@ -75,7 +75,7 @@ function AddCollaborators() {
 
     return (
         <div className="container text-center">
-            <div className="card text-center p-2 m-5" style={{ width: '40rem' }}>
+            <div className="card text-center p-2 m-5 specialCard" style={{ width: '40rem', display: "inline-block" }}>
                 <h1 className="card-header">Add Collaborators</h1>
                 <form onSubmit={searchUsers}>
                     <input type="text"

@@ -40,7 +40,7 @@ function DeleteConfirm() {
 
     return (
         <div className="container text-center">
-            <div className="card">
+            <div className="card m-5 p-5 specialCard" style={{width: "40rem", display: "inline-block"}}>
                 <div className="card-header">
                     <h5>Are you sure you want to delete?</h5>
                 </div>

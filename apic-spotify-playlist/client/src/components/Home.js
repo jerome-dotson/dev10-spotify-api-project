@@ -91,32 +91,52 @@ function Home() {
 
 
   return (
-    <div className="container text-center mt-2">
-      <h1>Collaborative Playlist Creation Station</h1>
-      {auth.user ? <button className="btn btn-success mt-3" onClick={linkToAdd}>Add Playlist</button>
-      : null }
-      {auth.user ?
-        <div className="container">
-          <div className="container mt-4">
-            <h3>Your Playlists</h3>
-            {userPlaylists.length > 0 ? 
-              userPlaylists.map(u => <UserPlaylists key={u.playlistId} playlistData={u} />)
-              : "Added or saved playlists will appear here"}
-          </div>
-          <div className="container mt-3">
-          <h3>Collaborating Playlists</h3>
-            {collabPlaylists.length > 0 ?
-              collabPlaylists.map(c => <CollabPlaylists key={c.playlistId} playlistData={c} />)
-              : "Playlists you are collaborating on will appear here"}
-          </div>
-          <div className="container mt-5">
-          <h4>Playlist Invites</h4>
-            {playlistInvites.length > 0 ?
-              playlistInvites.map(i => <PlaylistInvites key={i.playlistId} playlistData={i} />)
-              : "No collaboration invites at the moment"}
-          </div>
+    <div >
+      <div className="container text-center mt-2">
+
+        <div className="card specialCard">
+          <h1 style={{ opacity: 1 }}>Collaborative Playlist Creation Station</h1>
         </div>
-        : "Register and Login to view your playlists!"}
+
+        {auth.user ? <button className="btn btn-success mt-3" onClick={linkToAdd}>Add Playlist</button>
+          : null}
+        {auth.user ?
+          <div className="container">
+            <div className="container mt-4 text center">
+              <div className="text-center">
+                <div className="card specialCard m-1" style={{ width: "20rem", display: "inline-block" }}>
+                  <h3>Your Playlists</h3>
+                </div>
+              </div>
+              {userPlaylists.length > 0 ?
+                userPlaylists.map(u => <UserPlaylists key={u.playlistId} playlistData={u} />)
+                : "Added or saved playlists will appear here"}
+            </div>
+            <div className="container mt-3">
+              <div className="text-center">
+                <div className="card specialCard m-1" style={{ width: "20rem", display: "inline-block" }}>
+                  <h3>Collaborating Playlists</h3>
+                </div>
+              </div>
+              {collabPlaylists.length > 0 ?
+                collabPlaylists.map(c => <CollabPlaylists key={c.playlistId} playlistData={c} />)
+                : "Playlists you are collaborating on will appear here"}
+            </div>
+            <div className="container mt-5">
+              <div className="text-center">
+              <div className="card specialCard m-1" style={{ width: "20rem", display: "inline-block" }}>
+                <h4>Playlist Invites</h4>
+              </div>
+              </div>
+              {playlistInvites.length > 0 ?
+                playlistInvites.map(i => <PlaylistInvites key={i.playlistId} playlistData={i} />)
+                : "No collaboration invites at the moment"}
+            </div>
+          </div>
+          : <div className="card m-2 p-2 specialCard" style={{width: "30rem", display: "inline-block"}}>
+              <p>Register and Login to view your playlists!</p>
+            </div>}
+      </div>
     </div>
   );
 }

@@ -13,3 +13,11 @@
     display: inline-block;
     width: 20%;
 }
+
+.specialCard{
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.fuzzy {
+    font-family: 'Fuzzy Bubbles', cursive;
+}

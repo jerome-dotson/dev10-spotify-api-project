@@ -91,8 +91,8 @@ function AddPlaylist() {
     //TODO: adjust the tag entry below to search for tags by partial string
 
     return (
-        <div>
-            <div className="card m-5" style={{ width: '18rem' }}>
+        <div className="text-center">
+            <div className="card m-5 specialCard" style={{ width: '18rem', display: "inline-block" }}>
                 <h2 className="card-header text-center">Create a Playlist</h2>
                 <div>
                     {error.length > 0 ? <MessageDisplay key={error} error={error} /> : null}
