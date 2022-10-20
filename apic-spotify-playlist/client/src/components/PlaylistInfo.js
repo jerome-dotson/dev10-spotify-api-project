@@ -89,14 +89,23 @@ function PlaylistInfo() {
     //need to add buttons that allow person who added or group admin to remove from list
     const renderTracks = () => {
         return playlist.tracks.map((track, i) => (
-            <div key={track.id} className="card" style={{ display: 'inline-block', width: '100%' }}>
-                {track.name} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                {track.artist} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                {msToMinSec(track.duration)} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            // <div key={track.id} className="card specialCard" style={{ display: 'inline-block', width: '100%' }}>
+            //     {track.name} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            //     {track.artist} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            //     {msToMinSec(track.duration)} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            //     {auth.user.userId == playlist.appUserId ?
+            //         <button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist(i)}>remove track</button>
+            //         : null}
+            // </div>
+            <tr key={track.id} className="specialCard" style={{borderRadius: "15px"}}>
+                <th scope="row">{i + 1}</th>
+                <td>{track.name}</td>
+                <td>{track.artist}</td>
+                <td>{msToMinSec(track.duration)}</td>
                 {auth.user.userId == playlist.appUserId ?
-                    <button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist(i)}>remove track</button>
+                    <td><button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist(i)}>remove track</button></td>
                     : null}
-            </div>
+            </tr>
         ));
     };
 
@@ -108,27 +117,48 @@ function PlaylistInfo() {
     //<Add to favorites(clone) button> and <go to playlist on spotify button>
     return (
         <div className="container text-center">
+            
+            <div className="card specialCard m-2" style={{ width: "20rem", display: "inline-block" }}>
             <h2 className="m-4">Playlist Info</h2>
+            </div>
             <div>
                 {error.length > 0 ? <MessageDisplay error={error} /> : null}
             </div>
             {playlist ?
                 <div>
-                    <div style={{ display: 'inline-block' }}>
+                    <div className="card specialCard m-2" style={{width: "25rem", display: "inline-block"}}>
                         <h1 className="">{playlist.name}</h1>
                         <h4 className=""> Hosted by: &nbsp; {playlist.appUser.username}</h4>
                         <p>{playlist.collaborators.length} Collaborators</p>
                         {/* <Link to={"/songsearch"`${playlist.playlistId}` },}} className="btn btn-info m-2">Add Songs</Link> */}
                         <AddSongButton playlistId={playlist.playlistId} />
                     </div>
-                    <div className="card" style={{ display: 'inline-block', width: '80%' }}>
+
+                    
+                    <table className="table table-striped table-hover specialCard" style={{borderRadius: "15px"}}>
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Song Name</th>
+                                <th scope="col">Artist</th>
+                                <th scope="col">Length</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {renderTracks()}
+                        </tbody>
+                    </table>
+
+
+                    {/* <div className="card specialCard" style={{ display: 'inline-block', width: '80%' }}>
                         <div className="card-header">
                             <h5><strong>Song Name &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                 Artist &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                 Length</strong></h5>
                         </div>
                         {renderTracks()}
-                    </div>
+                    </div> */}
                     <p>{playlist.tags}</p>
 
                     <div>
@@ -145,7 +175,7 @@ function PlaylistInfo() {
                             <DeleteConfirmButton playlistId={playlist.playlistId} />
                             : null}
                     </div>
-                    <div className="card container m-3" style={{ display: 'inline-block', width: '60%' }}>
+                    <div className="card container m-3 specialCard" style={{ display: 'inline-block', width: '60%' }}>
                         <p>{playlist.description}</p>
                     </div>
 

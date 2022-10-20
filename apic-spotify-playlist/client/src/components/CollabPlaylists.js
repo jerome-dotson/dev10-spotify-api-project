@@ -5,7 +5,7 @@ import './PlaylistCards.css';
 function CollabPlaylists(collabPlaylists) {
 
     return (
-        <div className="card text-center playlistCard">
+        <div className="card text-center playlistCard specialCard">
             <div className="card-header">
                 <h5>{collabPlaylists.playlistData.name}</h5>
             </div>

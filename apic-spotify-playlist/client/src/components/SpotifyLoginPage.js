@@ -1,4 +1,5 @@
 import { useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 function SpotifyLoginPage(){
@@ -6,6 +7,7 @@ function SpotifyLoginPage(){
 
     const code = (new URLSearchParams(window.location.search)).get("code");
     const auth = useContext(AuthContext);
+    const history = useHistory();
 
 
 
@@ -49,7 +51,7 @@ function SpotifyLoginPage(){
         );}
     }, []);
 
-    return "Logged in";
+    return history.push("/");
 }
 
 export default SpotifyLoginPage;

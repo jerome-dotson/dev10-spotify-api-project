@@ -6,7 +6,6 @@ import AuthContext from "../context/AuthContext";
 
 function SongSearch() {
 
-    const [spotifyToken, setSpotifyToken] = useState("");
     const [searchKey, setSearchKey] = useState("");
     const [songs, setSongs] = useState([]);
     const location = useLocation();
@@ -19,21 +18,28 @@ function SongSearch() {
 
     const searchSongs = async (event) => {
         event.preventDefault();
-        const init = {
-            headers: {
-                Authorization: `Bearer ${window.localStorage.getItem("current_spotify_access_token")}`
-            },
-            params: {
-                q: searchKey,
-                type: "track"
-            }
-        };
 
-        const { data } = await axios.get("https://api.spotify.com/v1/search", init
-        );
-        // console.log("Start here.");
-        // console.log(data.tracks.items);
-        setSongs(data.tracks.items);
+        const superSToken = window.localStorage.getItem("current_spotify_access_token");
+
+        if (superSToken) {
+            const init = {
+                headers: {
+                    Authorization: `Bearer ${superSToken}`
+                },
+                params: {
+                    q: searchKey,
+                    type: "track"
+                }
+            };
+
+            const { data } = await axios.get("https://api.spotify.com/v1/search", init
+            );
+            // console.log("Start here.");
+            // console.log(data.tracks.items);
+            setSongs(data.tracks.items);
+        } else {
+            history.push("/userpage");
+        }
     }
 
     function addSong(i) {
@@ -85,23 +91,23 @@ function SongSearch() {
     return (
 
         <div className="container text-center">
-            <div className="card text-center p-2 m-5" style={{ width: '30rem' }}>
+            <div className="card text-center p-2 m-5 specialCard" style={{ width: '50rem', display: "inline-block" }}>
                 <h1 className="card-header">Song Search</h1>
                 <form onSubmit={searchSongs}>
                     <input type="text"
                         className="form-control m-3"
-                        style={{ width: '25rem' }}
+                        style={{ width: '25rem', display: "inline-block" }}
                         onChange={event => setSearchKey(event.target.value)} />
                     <button type={"submit"} className="btn btn-success m-1">Search Songs</button>
                     <button className="btn btn-warning" onClick={returnToPlaylist}>Return to Playlist</button>
                 </form>
-                {songs.map((song, i) => 
-                <div key={song.id} className="card m-1" style={{ display: 'inline-block', width: '100%' }}>
-                    {song.name} &nbsp; &nbsp;
-                    {song.artists[0].name} &nbsp; &nbsp;
-                    {msToMinSec(song.duration_ms)} &nbsp; &nbsp;
-                    <button className="btn btn-info btn-sm" onClick={() => addSong(i)}>Add Song</button>
-                </div>)}
+                {songs.map((song, i) =>
+                    <div key={song.id} className="card m-1" style={{ display: 'inline-block', width: '100%' }}>
+                        {song.name} &nbsp; &nbsp;
+                        {song.artists[0].name} &nbsp; &nbsp;
+                        {msToMinSec(song.duration_ms)} &nbsp; &nbsp;
+                        <button className="btn btn-info btn-sm" onClick={() => addSong(i)}>Add Song</button>
+                    </div>)}
             </div>
         </div >
     )
