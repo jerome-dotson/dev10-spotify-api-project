@@ -13,19 +13,26 @@ function PlaylistSearch() {
     const searchPlaylists = async (evt) => {
         evt.preventDefault();
 
-        const { data } = await fetch("http://localhost:8080/api/playlists", {
+        const init = {
             method: "GET",
             headers: {
-                "Content-Type": "application/json",
-            },
-            params: searchKey
-        });
-        setPlaylists(data.playlists.items);
+                Authorization: `Bearer ${auth.user.token}`,
+            }
+        };
+
+        const response = await fetch("http://localhost:8080/api/playlists/search" + searchKey, init);
+        const data = await response.json();
+        setPlaylists(data);
     };
 
     //clicking on playlist name or creator will take user to Playlist page, all important playlist information
     const renderPlaylists = () => {
-        return playlists.map(playlist => <div key={playlist.playlistId}></div>);
+        return playlists.map((playlist, i) => 
+        <div key={playlist.playlistId}> 
+        {playlist.name} &nbsp; &nbsp; 
+        {playlist.description} &nbsp; &nbsp;
+        <button className="btn btn-info btn sm ms-1 me-2" onClick={() => addPlaylistClone(i)}>+</button>
+        </div>);
     };
 
     return (
