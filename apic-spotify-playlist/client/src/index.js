@@ -8,7 +8,7 @@ root.render(
   <div className='fuzzy' style={{ 
     backgroundImage: "url(/img/pour4.JPG)",
     backgroundSize: "cover",
-    height: 900
+    height: 1300
    }}>
     <React.StrictMode>
       <App />

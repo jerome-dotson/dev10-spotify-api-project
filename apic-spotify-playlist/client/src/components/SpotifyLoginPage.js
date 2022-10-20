@@ -51,7 +51,7 @@ function SpotifyLoginPage(){
         );}
     }, []);
 
-    return history.push("/");
+    return "Logged In";
 }
 
 export default SpotifyLoginPage;
