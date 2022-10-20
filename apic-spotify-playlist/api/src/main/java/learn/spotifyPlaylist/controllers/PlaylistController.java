@@ -55,6 +55,12 @@ public class PlaylistController {
         return service.findById( playlistId );
     }
 
+    @GetMapping("/search/{playlistName}")
+    List<Playlist> searchUsersByUsername(@PathVariable String playlistName) {
+        List<Playlist> matchingPlaylists = service.searchPlaylistsByName(playlistName);
+        return matchingPlaylists;
+    }
+
     @PostMapping
     public ResponseEntity<Object> add( @RequestBody Playlist playlist ) {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -185,6 +191,7 @@ public class PlaylistController {
         AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
         return service.findCollaborators(currentUser.getAppUserId());
     }
+
 
 
     @GetMapping("/{playlistId}/collaborators")

@@ -47,4 +47,6 @@ public interface PlaylistRepository {
     boolean acceptInvite(Collaborator collaborator);
 
     boolean denyInvite(int playlistId, int appUserId);
+
+    List<Playlist> searchPlaylistsByName(String playlistName);
 }

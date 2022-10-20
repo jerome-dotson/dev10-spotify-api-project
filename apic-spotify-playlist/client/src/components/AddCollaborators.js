@@ -50,9 +50,9 @@ function AddCollaborators() {
             })
         };
 
-        fetch("http://localhost:8080/api/playlist/invite/send/" + id + "/" + auth.user.appUserId, init)
+        fetch("http://localhost:8080/api/playlist/invite/send/" + id + "/" + toSave.appUserId, init)
             .then(response => {
-                if (response.status === 201) {
+                if (response.status === 204) {
                     history.push("/playlist/" + id)
                 } else {
                     console.log(response.status)

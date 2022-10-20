@@ -92,7 +92,7 @@ function Home() {
 
   return (
     <div className="container text-center mt-2">
-      <h1>Collaborative Spotify Playlist Creation</h1>
+      <h1>Collaborative Playlist Creation Station</h1>
       {auth.user ? <button className="btn btn-success mt-3" onClick={linkToAdd}>Add Playlist</button>
       : null }
       {auth.user ?
@@ -116,7 +116,7 @@ function Home() {
               : "No collaboration invites at the moment"}
           </div>
         </div>
-        : "Login to view your playlists!"}
+        : "Register and Login to view your playlists!"}
     </div>
   );
 }
