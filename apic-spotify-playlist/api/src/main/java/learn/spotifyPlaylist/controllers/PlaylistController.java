@@ -187,6 +187,7 @@ public class PlaylistController {
     }
 
 
+
     @GetMapping("/{playlistId}/collaborators")
     public List<AppUser> playlistCollaborators(@PathVariable int playlistId) {
         return service.playlistCollaborators(playlistId);
