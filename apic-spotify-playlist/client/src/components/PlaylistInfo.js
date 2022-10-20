@@ -51,113 +51,113 @@ function PlaylistInfo() {
     },
         []);
 
-    function removeTrackFromPlaylist(i) {
+
+    // useEffect(() => {
+        function removeTrackFromPlaylist(i) {
 
 
-        // const toDelete = playlist.tracks[i];
+            // const toDelete = playlist.tracks[i];
 
-        // const init = {
-        //     method: "DELETE",
-        //     headers: {
-        //         Authorization: `Bearer ${auth.user.token}`
-        //     }
-        // }
+            // const init = {
+            //     method: "DELETE",
+            //     headers: {
+            //         Authorization: `Bearer ${auth.user.token}`
+            //     }
+            // }
+            // fetch("http://localhost:8080/api/playlist/track/" + toDelete.trackId, init)
+            //     .then(response => {
+            //         if (response.status === 204) {
+            //             window.location.reload(false);
+            //         } else {
+            //             console.log(response.status);
+            //         }
+            //     });
+        }
+    // }, []);
 
-        //     if (window.confirm("Are you sure you want to delete?")) {
-        //         fetch("http://localhost:8080/api/playlist/track/" + toDelete.trackId, init)
-        //             .then(response => {
-        //                 if (response.status === 204) {
-        //                     window.location.reload(false);
-        //                 } else {
-        //                     console.log(response.status);
-        //                 }
-        //             });
-        //     }
+
+    function msToMinSec(millis) {
+        var minutes = Math.floor(millis / 60000);
+        var seconds = ((millis % 60000) / 1000).toFixed(0);
+        return (
+            seconds == 60 ?
+                (minutes + 1) + ":00" :
+                minutes + ":" + (seconds < 10 ? "0" : "") + seconds
+        );
     }
 
-
-function msToMinSec(millis) {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return (
-        seconds == 60 ?
-            (minutes + 1) + ":00" :
-            minutes + ":" + (seconds < 10 ? "0" : "") + seconds
-    );
-}
-
-//need to add buttons that allow person who added or group admin to remove from list
-const renderTracks = () => {
-    return playlist.tracks.map((track, i) => (
-        <div key={track.id} className="card" style={{ display: 'inline-block', width: '100%' }}>
-            {track.name} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            {track.artist} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            {msToMinSec(track.duration)} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            {auth.user.userId == playlist.appUserId ?
-                <button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist(i)}>remove track</button>
-                : null}
-        </div>
-    ));
-};
-
-
-//display image, playlist name, creator username, number of accepted collaborators
-//list of tracks on playlist (song name, artist name, length)
-//tags
-//conditional rendering:
-//<Add to favorites(clone) button> and <go to playlist on spotify button>
-return (
-    <div className="container text-center">
-        <h2 className="m-4">Playlist Info</h2>
-        <div>
-            {error.length > 0 ? <MessageDisplay error={error} /> : null}
-        </div>
-        {playlist ?
-            <div>
-                <div style={{ display: 'inline-block' }}>
-                    <h1 className="">{playlist.name}</h1>
-                    <h4 className=""> Hosted by: &nbsp; {playlist.appUser.username}</h4>
-                    <p>{playlist.collaborators.length} Collaborators</p>
-                    {/* <Link to={"/songsearch"`${playlist.playlistId}` },}} className="btn btn-info m-2">Add Songs</Link> */}
-                    <AddSongButton playlistId={playlist.playlistId} />
-                </div>
-                <div className="card" style={{ display: 'inline-block', width: '80%' }}>
-                    <div className="card-header">
-                        <h5><strong>Song Name &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                            Artist &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                            Length</strong></h5>
-                    </div>
-                    {renderTracks()}
-                </div>
-                <p>{playlist.tags}</p>
-
-                <div>
-                    {auth.user.userId != playlist.appUserId ?
-                        <button className="btn btn-success m-2">Add to Favorites</button>
-                        : null}
-                </div>
-
-                <div>
-                    {auth.user.userId == playlist.appUserId ?
-                        <AddCollaboratorsButton playlistId={playlist.playlistId} />
-                        : null}
-                    {auth.user.userId == playlist.appUserId ?
-                        <DeleteConfirmButton playlistId={playlist.playlistId} />
-                        : null}
-                </div>
-                <div className="card container m-3" style={{ display: 'inline-block', width: '60%' }}>
-                        <p>{playlist.description}</p>
-                </div>
-
+    //need to add buttons that allow person who added or group admin to remove from list
+    const renderTracks = () => {
+        return playlist.tracks.map((track, i) => (
+            <div key={track.id} className="card" style={{ display: 'inline-block', width: '100%' }}>
+                {track.name} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                {track.artist} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                {msToMinSec(track.duration)} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                {auth.user.userId == playlist.appUserId ?
+                    <button className="btn btn-danger btn-sm ms-1 me-2" onClick={removeTrackFromPlaylist(i)}>remove track</button>
+                    : null}
             </div>
-            : "Error loading"}
-        {/* <div>
+        ));
+    };
+
+
+    //display image, playlist name, creator username, number of accepted collaborators
+    //list of tracks on playlist (song name, artist name, length)
+    //tags
+    //conditional rendering:
+    //<Add to favorites(clone) button> and <go to playlist on spotify button>
+    return (
+        <div className="container text-center">
+            <h2 className="m-4">Playlist Info</h2>
+            <div>
+                {error.length > 0 ? <MessageDisplay error={error} /> : null}
+            </div>
+            {playlist ?
+                <div>
+                    <div style={{ display: 'inline-block' }}>
+                        <h1 className="">{playlist.name}</h1>
+                        <h4 className=""> Hosted by: &nbsp; {playlist.appUser.username}</h4>
+                        <p>{playlist.collaborators.length} Collaborators</p>
+                        {/* <Link to={"/songsearch"`${playlist.playlistId}` },}} className="btn btn-info m-2">Add Songs</Link> */}
+                        <AddSongButton playlistId={playlist.playlistId} />
+                    </div>
+                    <div className="card" style={{ display: 'inline-block', width: '80%' }}>
+                        <div className="card-header">
+                            <h5><strong>Song Name &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                Artist &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                Length</strong></h5>
+                        </div>
+                        {renderTracks()}
+                    </div>
+                    <p>{playlist.tags}</p>
+
+                    <div>
+                        {auth.user.userId != playlist.appUserId ?
+                            <button className="btn btn-success m-2">Add to Favorites</button>
+                            : null}
+                    </div>
+
+                    <div>
+                        {auth.user.userId == playlist.appUserId ?
+                            <AddCollaboratorsButton playlistId={playlist.playlistId} />
+                            : null}
+                        {auth.user.userId == playlist.appUserId ?
+                            <DeleteConfirmButton playlistId={playlist.playlistId} />
+                            : null}
+                    </div>
+                    <div className="card container m-3" style={{ display: 'inline-block', width: '60%' }}>
+                        <p>{playlist.description}</p>
+                    </div>
+
+                </div>
+                : "Error loading"}
+            {/* <div>
                 {auth.user ?
                     <button className="btn btn-primary m-2">Open Playlist in Spotify</button>
                     : null}
             </div> */}
-    </div>
-);
+        </div>
+    );
 }
 
 export default PlaylistInfo;
