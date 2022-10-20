@@ -235,4 +235,8 @@ public class PlaylistService {
     public boolean deleteCollaborator(int playlistId, int appUserId) {
         return repository.deleteCollaborator(playlistId, appUserId);
     }
+
+    public List<Playlist> searchPlaylistsByName(String playlistName) {
+        return repository.searchPlaylistsByName(playlistName);
+    }
 }
