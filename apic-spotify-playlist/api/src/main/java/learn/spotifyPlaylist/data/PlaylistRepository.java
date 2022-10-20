@@ -33,6 +33,10 @@ public interface PlaylistRepository {
 
     List<AppUser> findCollaborators(int appUserId); //appUserId to filter out
 
+    List<AppUser> playlistCollaborators(int playlistId);
+
+    boolean deleteCollaborator(int playlistId, int appUserId);
+
     @Transactional
     boolean deleteById(int playlistId);
 
