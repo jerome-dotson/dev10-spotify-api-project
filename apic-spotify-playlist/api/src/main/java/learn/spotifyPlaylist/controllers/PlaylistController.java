@@ -195,5 +195,5 @@ public class PlaylistController {
         AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
         return service.findCollaborators(currentUser.getAppUserId());
     }
-    
+
 }
