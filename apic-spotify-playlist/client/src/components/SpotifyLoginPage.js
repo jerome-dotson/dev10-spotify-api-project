@@ -49,7 +49,7 @@ function SpotifyLoginPage(){
         );}
     }, []);
 
-    return "Logged in page loading.";
+    return "Logged in";
 }
 
 export default SpotifyLoginPage;

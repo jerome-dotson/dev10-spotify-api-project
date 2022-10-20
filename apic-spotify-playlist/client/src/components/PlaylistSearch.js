@@ -24,7 +24,7 @@ function PlaylistSearch() {
             }
         };
 
-        const response = await fetch("http://localhost:8080/api/playlists/search" + searchKey, init);
+        const response = await fetch("http://localhost:8080/api/playlist/search/" + searchKey, init);
         const data = await response.json();
         setPlaylists(data);
     };
@@ -41,7 +41,7 @@ function PlaylistSearch() {
 
     return (
         <div className="container text-center">
-            <div className="card text-center p-2 m-5" style={{ width: '30rem' }}>
+            <div className="card text-center p-2 m-5" style={{ width: '50rem' }}>
                 <h1 className="card-header">Search Playlists</h1>
                 <form onSubmit={searchPlaylists}>
                     <input
@@ -52,11 +52,11 @@ function PlaylistSearch() {
                     <button type={"submit"} className="btn btn-success">Search Playlists</button>
                 </form>
                 {playlists.map((playlist, i) =>
-                    <div key={playlist.playlistId}>
+                    <div key={playlist.playlistId} className="card m-1">
                         {playlist.name} &nbsp; &nbsp;
                         {playlist.description} &nbsp; &nbsp;
                         <Link className="btn btn-info btn sm ms-1 me-2" to={`/playlist/${playlist.playlistId}`}>View Playlist</Link>
-                    </div>)};
+                    </div>)}
             </div>
         </div>
     );
