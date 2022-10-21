@@ -88,10 +88,10 @@ function UserPage({ onSpotifyTokenUpdated /* onLogout */ }) {
                     <div className='card container'>
                         <div className='card-body text-center'>
                             <header className="App-header">
-                                {!auth.spotifyToken ?
+                                {!window.localStorage.getItem("current_spotify_access_token") ?
                                     <a href="http://localhost:8080/api/spotify/login" className="btn btn-primary">Login
                                         to Spotify</a>
-                                    : null }
+                                    : "Logged In To Spotify" }
 
                                 {auth.spotifyToken ?
                                     <form onSubmit={searchArtists}>

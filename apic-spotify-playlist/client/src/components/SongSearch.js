@@ -21,7 +21,7 @@ function SongSearch() {
         event.preventDefault();
         const init = {
             headers: {
-                Authorization: `Bearer ${window.localStorage.getItem("current_spotify_access_token")}`
+                Authorization: `Bearer BQA7pgZFV94Obc6qJ38ztYBY4tGG7I3QkPu4FZ9VjNT_Llhra3Xrf2cFqAlPdFJweb_vGR_Vhdcb-XQ1l6aaVToLQGMX05rN8WcTs0FqliU6I7sOKE-DqLknob4ACMEG5T-VNLBiHw2nUis_dAt15MIfyKPFIIu2SJWs384b41Vr3HhoD-Qs0xEhtkZQSfY2_h5i0rIfjdA8EurfrcvsBgBtHAvdPq7Q8ywwoc-df645WpKOIPCdkzw9iRNaA5OIrJTPAfjesuizmtZ75Ek_UiTMG4pmzQ`
             },
             params: {
                 q: searchKey,
