@@ -75,7 +75,7 @@ function AddCollaborators() {
 
     return (
         <div className="container text-center">
-            <div className="card text-center p-2 m-5" style={{ width: '40rem' }}>
+            <div className="card text-center p-2 m-5 specialCard" style={{ width: '40rem', display: "inline-block" }}>
                 <h1 className="card-header">Add Collaborators</h1>
                 <form onSubmit={searchUsers}>
                     <input type="text"
@@ -86,11 +86,11 @@ function AddCollaborators() {
                     <Link className="btn btn-warning" to={"/playlist/" + id}>Return to Playlist</Link>
                 </form>
                 {appUsers.map((user, i) => 
-                    <div key={user.appUserId}>
+                    <div key={user.appUserId} className="card m-1">
                         {user.firstName} &nbsp; &nbsp;
                         {user.lastName} &nbsp; &nbsp;
                         {user.email} &nbsp; &nbsp;
-                        <button className="btn btn-info btn sm ms-1 me-2" onClick={() => addUserAsCollaborator(i)}>+</button>
+                        <button className="btn btn-info btn sm ms-1 me-2" onClick={() => addUserAsCollaborator(i)}>Add as Collaborator</button>
                     </div>)}
             </div>
         </div>

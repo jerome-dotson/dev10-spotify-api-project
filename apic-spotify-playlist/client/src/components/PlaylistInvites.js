@@ -59,7 +59,7 @@ const auth = useContext(AuthContext);
     }
 
     return (
-        <div className="card text-center playlistCards">
+        <div className="card text-center playlistCards specialCard">
             <div className="card-header">
                 <h5>{playlistInvites.playlistData.name}</h5>
             </div>

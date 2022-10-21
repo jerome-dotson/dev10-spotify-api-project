@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +53,14 @@ public class PlaylistController {
 
     @GetMapping("/{playlistId}")
     public Playlist findById( @PathVariable int playlistId ){
-        return service.findById( playlistId );
+        Playlist toReturn = service.findById( playlistId );
+        return toReturn;
+    }
+
+    @GetMapping("/search/{playlistName}")
+    List<Playlist> searchPlaylistsByName(@PathVariable String playlistName) {
+        List<Playlist> matchingPlaylists = service.searchPlaylistsByName(playlistName);
+        return matchingPlaylists;
     }
 
     @PostMapping
@@ -67,6 +75,22 @@ public class PlaylistController {
         }
         return ErrorResponse.build(result);
     }
+
+    @PostMapping("/clone")
+    public ResponseEntity<Object> clonePlaylist(@RequestBody Playlist playlist) {
+        playlist.setPlaylistId(0); //new playlist means id = 0
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser currentUser = (AppUser) userService.loadUserByUsername(username);
+        playlist.setAppUser(currentUser);
+        playlist.setAppUserId(currentUser.getAppUserId());
+
+        Result<Playlist> result = service.clonePlaylist(playlist);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
+    }
+
 
     @DeleteMapping("/{playlistId}")
     public ResponseEntity<Void> deleteById( @PathVariable int playlistId ) {

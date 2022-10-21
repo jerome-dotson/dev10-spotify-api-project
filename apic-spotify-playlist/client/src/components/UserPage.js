@@ -17,19 +17,19 @@ function UserPage({ onSpotifyTokenUpdated /* onLogout */ }) {
 
     const [searchKey, setSearchKey] = useState("");
     const [artists, setArtists] = useState([]);
-    
+
 
     useEffect(() => {
         onSpotifyTokenUpdated(accessToken);
 
-    
+
         // const fetchData = async () => {
         //   const { data } = await getCurrentUserProfile();
         //   setProfile(data);
         // };
-    
+
         // catchErrors(fetchData());
-      }, []);
+    }, []);
 
 
     const searchArtists = async (e) => {
@@ -58,22 +58,22 @@ function UserPage({ onSpotifyTokenUpdated /* onLogout */ }) {
             </div>
         ));
     };
-        //need to add buttons and functions to edit and delete account
+    //need to add buttons and functions to edit and delete account
     return (
-
-        <div className="card m-5 container">
-            <div className='card-header text-center mt-2 mb-3'>
-                <h1>Account Information</h1>
-            </div>
-            <div className='row mb-2'>
-                <div className='col-sm-6'>
-                    <div className='card container'>
-                        <div className='card-body'>
-                            <div>
-                                <h3>Username</h3>
-                                <p>{auth.user.username}</p>
-                            </div>
-                            {/* <div>
+        <div className="text-center">
+            <div className="card m-5 container specialCard" style={{width: "70rem", display: 'inline-block'}}>
+                <div className='card-header text-center mt-2 mb-3'>
+                    <h1>Account Information</h1>
+                </div>
+                <div className='row mb-2'>
+                    <div className='col-sm-6'>
+                        <div className='card container'>
+                            <div className='card-body'>
+                                <div>
+                                    <h3>Username</h3>
+                                    <p>{auth.user.username}</p>
+                                </div>
+                                {/* <div>
                                 <h3>Name</h3>
                                 <p>{auth.user.firstName} {auth.user.lastName}</p>
                             </div>
@@ -81,32 +81,33 @@ function UserPage({ onSpotifyTokenUpdated /* onLogout */ }) {
                                 <h3>Email</h3>
                                 <p>{auth.user.email}</p>
                             </div> */}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className='col-sm-6'>
-                    <div className='card container'>
-                        <div className='card-body text-center'>
-                            <header className="App-header">
-                                {!window.localStorage.getItem("current_spotify_access_token") ?
-                                    <a href="http://localhost:8080/api/spotify/login" className="btn btn-primary">Login
-                                        to Spotify</a>
-                                    : "Logged In To Spotify" }
+                    <div className='col-sm-6'>
+                        <div className='card container'>
+                            <div className='card-body text-center'>
+                                <header className="App-header">
+                                    {!auth.spotifyToken ?
+                                        <a href="http://localhost:8080/api/spotify/login" className="btn btn-primary">Login
+                                            to Spotify</a>
+                                        : null}
 
-                                {auth.spotifyToken ?
-                                    <form onSubmit={searchArtists}>
-                                        <input type="text" 
-                                        className="form-control"
-                                        onChange={e => setSearchKey(e.target.value)} />
-                                        <button type={"submit"} className="btn btn-success">Search</button>
-                                    </form>
+                                    {auth.spotifyToken ?
+                                        <form onSubmit={searchArtists}>
+                                            <input type="text"
+                                                className="form-control"
+                                                onChange={e => setSearchKey(e.target.value)} />
+                                            <button type={"submit"} className="btn btn-success">Search</button>
+                                        </form>
 
-                                    : null
-                                }
+                                        : null
+                                    }
 
-                                {renderArtists()}
+                                    {renderArtists()}
 
-                            </header>
+                                </header>
+                            </div>
                         </div>
                     </div>
                 </div>

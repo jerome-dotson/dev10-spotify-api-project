@@ -18,6 +18,8 @@ public interface PlaylistRepository {
 
     Playlist add(Playlist playlist);
 
+    Playlist clonePlaylist(Playlist playlist);
+
     Tag addTagToDatabase(String tag, int appUserId);
 
     boolean deleteTag(int tagId);
@@ -47,4 +49,6 @@ public interface PlaylistRepository {
     boolean acceptInvite(Collaborator collaborator);
 
     boolean denyInvite(int playlistId, int appUserId);
+
+    List<Playlist> searchPlaylistsByName(String playlistName);
 }
